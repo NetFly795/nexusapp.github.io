@@ -317,26 +317,11 @@
       mapLen: parameters.resourcesMap ? parameters.resourcesMap.length : 0,
     });
 
-    // Pass flashvars as a Ruffle parameters object. Do NOT put resourcesMap on the
-    // SWF URL — GitHub Pages / CDNs reject those multi‑kilobyte query strings.
+    // Keep the SWF URL clean. GitHub Pages rejects multi‑KB query strings, and if
+    // the URL already has short flashvars Ruffle may ignore the parameters object
+    // (so resourcesMap never arrives and the game dies after the King logo).
     var encodedParams = buildQuery(parameters);
-    var critical = buildQuery({
-      abTestCases: parameters.abTestCases || "",
-      sessionKey: parameters.sessionKey || "",
-      remoteRpcServiceUrl: parameters.remoteRpcServiceUrl || "",
-      CDN: parameters.CDN || "",
-      resourceBase: parameters.resourceBase || "",
-      serverHost: parameters.serverHost || "",
-      clientVersionUrl: parameters.clientVersionUrl || "",
-      firstSignInTime: parameters.firstSignInTime || "1",
-      forceSoftware: parameters.forceSoftware || "",
-      fName: parameters.fName || "",
-      fId: parameters.fId || ""
-    });
     log("flashvars bytes", encodedParams.length, "ab", !!(parameters && parameters.abTestCases), "map", !!(parameters && parameters.resourcesMap));
-    if (critical) {
-      swfUrl = swfUrl + (swfUrl.indexOf("?") >= 0 ? "&" : "?") + critical;
-    }
 
     // Leave traceObserver unset. The game traces a number every frame, and a
     // JS observer turns that into a host call on the same thread as rendering.
@@ -347,7 +332,8 @@
     var loadPromise = player.ruffle
       ? player.ruffle().load({
           url: swfUrl,
-          parameters: parameters,
+          // Encoded string form matches the working local PHP path.
+          parameters: encodedParams,
           allowScriptAccess: true,
           autoplay: "on",
           unmuteOverlay: "hidden",
