@@ -76,8 +76,11 @@
     }
     if (out.resourcesMap) {
       out.resourcesMap = rewriteToOrigin(out.resourcesMap).replace(/\?_v=[^,]*/g, "");
-    } else if (window.__SODA_RESOURCES_MAP__) {
+    } else if (out.resourcesMap == null && window.__SODA_RESOURCES_MAP__) {
+      // Only auto-fill when unset. An explicit "" means "use CDN path fallback".
       out.resourcesMap = rewriteToOrigin(String(window.__SODA_RESOURCES_MAP__));
+    } else if (!out.resourcesMap) {
+      out.resourcesMap = "";
     }
     if (!out.abTestCases) {
       out.abTestCases = "high_popular_goldbar_pkg;1,illegal_switch_enabled;1,hard_level_pin_enabled;1,illegal_switch_prices;0,booster_bundling_mode;2,new_goldbar_shop;1,striped_lollipop_enabled;1,goldbar_shop_special_offer;0,levels;0,hard_levels_labeling;3";
