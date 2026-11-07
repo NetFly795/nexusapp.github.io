@@ -17,12 +17,12 @@
   function buildQuery(flashvars) {
     if (!flashvars) return "";
     var parts = [];
-    // Put resourcesMap last — even with encoding, keep critical keys first.
+    // Put resourcesMap first so it survives if a host truncates long query strings.
     var keys = Object.keys(flashvars).filter(function (k) {
       return k !== "resourcesMap";
     });
     if (Object.prototype.hasOwnProperty.call(flashvars, "resourcesMap")) {
-      keys.push("resourcesMap");
+      keys.unshift("resourcesMap");
     }
     keys.forEach(function (key) {
       var val = flashvars[key];
@@ -65,13 +65,9 @@
     out.remoteRpcServiceUrl =
       rewriteToOrigin(out.remoteRpcServiceUrl) ||
       base + "/rpc/ClientApi.php";
-    out.resourceBase = out.resourceBase || (base.replace(window.location.origin, "") + "/resources/");
-    if (out.resourceBase.charAt(0) !== "/") {
-      try {
-        out.resourceBase = new URL(out.resourceBase, window.location.href).pathname;
-        if (out.resourceBase.slice(-1) !== "/") out.resourceBase += "/";
-      } catch (e) {}
-    }
+    // Keys in resourcesMap are always "/resources/...". Using a repo-prefixed
+    // resourceBase on GitHub project Pages made every lookup return null.
+    out.resourceBase = "/resources/";
     if (out.clientSwf) out.clientSwf = rewriteToOrigin(out.clientSwf);
     if (window.__SODA_FLASHVARS__) {
       Object.keys(window.__SODA_FLASHVARS__).forEach(function (k) {
@@ -332,8 +328,8 @@
     var loadPromise = player.ruffle
       ? player.ruffle().load({
           url: swfUrl,
-          // Encoded string form matches the working local PHP path.
-          parameters: encodedParams,
+          // Object form avoids stuffing a multi-KB query onto the SWF URL.
+          parameters: parameters,
           allowScriptAccess: true,
           autoplay: "on",
           unmuteOverlay: "hidden",
@@ -455,7 +451,7 @@
           sessionKey: "izWQJpv7IwenmdYyqSk1eA.2",
           serverHost: window.location.host,
           CDN: sodaBase(),
-          resourceBase: new URL("resources/", sodaBase() + "/").pathname,
+          resourceBase: "/resources/",
           clientVersionUrl: sodaBase() + "/version.txt",
           abTestCases: "high_popular_goldbar_pkg;1,illegal_switch_enabled;1,hard_level_pin_enabled;1,illegal_switch_prices;0,booster_bundling_mode;2,new_goldbar_shop;1,striped_lollipop_enabled;1,goldbar_shop_special_offer;0,levels;0,hard_levels_labeling;3",
           fName: "OldLoad",
