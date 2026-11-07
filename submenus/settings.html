@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Settings</title>
+  <script src="../theme-sync.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+    body,
+    input,
+    button,
+    select,
+    textarea,
+    div,
+    p,
+    span,
+    a,
+    table,
+    th,
+    td {
+      font-family: 'Avenir Next Regular', 'Avenir Next', 'Avenir', sans-serif;
+      font-weight: 400;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b,
+    th,
+    .bold,
+    .title,
+    .bento-title,
+    .settings-item-title,
+    .version-title,
+    .done-btn,
+    .color-pill,
+    .badge {
+      font-family: 'Avenir Next Medium', 'Avenir Next', 'Avenir', sans-serif !important;
+      font-weight: 500 !important;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--theme-bg, #f2f5f9);
+      color: var(--theme-text-primary, #1a1a2e);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .blur-balls-bg {
+      position: fixed;
+      z-index: 0;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .blur-ball {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(72px);
+      opacity: 0;
+      pointer-events: none;
+      mix-blend-mode: lighten;
+      animation: float-balls 16s ease-in-out infinite alternate, ball-fade-in 1.1s cubic-bezier(.4, 0, .2, 1) forwards;
+      transition: filter 0.2s;
+    }
+
+    .blur-ball.ball1 {
+      width: 340px;
+      height: 340px;
+      background: var(--theme-ball-1);
+      left: 2vw;
+      top: 2vh;
+      animation-delay: 0s, 0.1s;
+    }
+
+    .blur-ball.ball2 {
+      width: 270px;
+      height: 270px;
+      background: var(--theme-ball-2);
+      right: 4vw;
+      top: 12vh;
+      animation-delay: 2s, 0.3s;
+    }
+
+    .blur-ball.ball3 {
+      width: 240px;
+      height: 240px;
+      background: var(--theme-ball-3);
+      left: 14vw;
+      bottom: 6vh;
+      animation-delay: 4s, 0.5s;
+    }
+
+    .blur-ball.ball4 {
+      width: 210px;
+      height: 210px;
+      background: var(--theme-ball-4);
+      right: 10vw;
+      bottom: 4vh;
+      animation-delay: 1s, 0.7s;
+    }
+
+    @keyframes float-balls {
+      0% {
+        transform: translateY(0) scale(1);
+      }
+
+      100% {
+        transform: translateY(-30px) scale(1.08);
+      }
+    }
+
+    @keyframes ball-fade-in {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 0.65;
+      }
+    }
+
+    .glass-container {
+      background: var(--theme-glass-tint, rgba(255, 255, 255, 0.45));
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border-radius: 28px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      border: 1px solid var(--theme-glass-border, rgba(255, 255, 255, 0.6));
+      max-width: 750px;
+      margin: 20px auto 0 auto;
+      padding: 30px;
+      position: relative;
+      z-index: 1;
+      min-height: calc(100vh - 120px);
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      overflow: hidden;
+    }
+
+    .glass-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bento-grid {
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-container.slide-left .bento-grid {
+      transform: translateX(-120%);
+    }
+
+    .settings-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 30px;
+      box-sizing: border-box;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      background: var(--theme-glass-tint, rgba(255, 255, 255, 0.25));
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--theme-glass-border, rgba(255, 255, 255, 0.4));
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    }
+
+    .settings-content.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .settings-content h3 {
+      font-size: 1.5em;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--theme-text-primary, #1a1a2e);
+    }
+
+    .back-button {
+      background: var(--theme-glass-tint, rgba(255, 255, 255, 0.3));
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      color: var(--theme-text-primary, #1a1a2e);
+      border: 1px solid var(--theme-glass-border, rgba(255, 255, 255, 0.4));
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9em;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      margin-bottom: 20px;
+    }
+
+    .back-button:hover {
+      transform: translateY(-2px);
+      background: var(--theme-glass-tint, rgba(255, 255, 255, 0.45));
+      border-color: var(--theme-glass-border, rgba(255, 255, 255, 0.6));
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .back-button:active {
+      transform: translateY(0);
+    }
+
+    .settings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .settings-item {
+      background: var(--theme-glass-tint, rgba(255, 255, 255, 0.5));
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--theme-glass-border, rgba(255, 255, 255, 0.5));
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+
+    .settings-item:hover {
+      background: var(--theme-glass-tint, rgba(255, 255, 255, 0.7));
+      filter: brightness(0.95);
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      border-color: var(--theme-glass-border, rgba(255, 255, 255, 0.8));
+    }
+
+    .settings-item-info {
+      flex: 1;
+    }
+
+    .settings-item-title {
+      font-size: 1.1em;
+      font-weight: 700;
+      color: var(--theme-text-primary, #1a1a2e);
+      margin-bottom: 4px;
+    }
+
+    .settings-item-desc {
+      font-size: 0.9em;
+      color: var(--theme-text-secondary, #4a4a6a);
+      line-height: 1.4;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 60px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .toggle-switch.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 26px;
+      height: 26px;
+      background: white;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .toggle-switch.active::after {
+      transform: translateX(28px);
+    }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .color-option {
+      aspect-ratio: 1;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 3px solid transparent;
+      position: relative;
+    }
+
+    .color-option:hover {
+      transform: scale(1.05);
+    }
+
+    .settings-list.grayed-out {
+      opacity: 0.45;
+      pointer-events: none;
+      filter: grayscale(1);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .about-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .logo-container {
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .nexus-logo {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      z-index: 2;
+      position: relative;
+    }
+
+    .blur-balls {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .blur-ball {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(72px);
+      opacity: 0.6;
+      pointer-events: none;
+      mix-blend-mode: lighten;
+      animation: float-balls 16s ease-in-out infinite alternate;
+    }
+
+    .blur-ball.ball1 {
+      width: 120px;
+      height: 120px;
+      background: var(--theme-ball-1);
+      top: 20px;
+      left: 20px;
+      animation-delay: 0s;
+    }
+
+    .blur-ball.ball2 {
+      width: 80px;
+      height: 80px;
+      background: var(--theme-ball-2);
+      top: 60px;
+      right: 30px;
+      animation-delay: 2s;
+    }
+
+    .blur-ball.ball3 {
+      width: 100px;
+      height: 100px;
+      background: var(--theme-ball-3);
+      bottom: 20px;
+      left: 50px;
+      animation-delay: 4s;
+    }
+
+    .version-info {
+      margin-top: 20px;
+    }
+
+    .version-title {
+      font-size: 2.5em;
+      font-weight: 800;
+      color: #1a1a2e;
+      margin: 0 0 20px 0;
+    }
+
+    .version-description {
+      font-size: 1.25em;
+      font-weight: 500;
+      color: #33334d;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    @keyframes float-balls {
+      0% {
+        transform: translateY(0px) rotate(0deg);
+      }
+
+      100% {
+        transform: translateY(-20px) rotate(360deg);
+      }
+    }
+
+    .color-option.selected {
+      border-color: #4CAF50;
+    }
+
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 24px;
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .bento-tile {
+      background: var(--theme-glass-tint, rgba(255, 255, 255, 0.4)) !important;
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      border: 1px solid var(--theme-glass-border, rgba(255, 255, 255, 0.6)) !important;
+      padding: 32px 24px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1) !important;
+      cursor: pointer;
+      min-height: 120px;
+      opacity: 0;
+      transform: translateY(50px);
+      animation: slideInUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bento-tile::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+      transition: left 0.5s;
+    }
+
+    .bento-tile:hover::before {
+      left: 100%;
+    }
+
+    .bento-tile:active {
+      transform: scale(0.96);
+    }
+
+    .bento-tile:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+      border-color: var(--theme-glass-border, rgba(255, 255, 255, 0.8)) !important;
+      background: var(--theme-glass-tint, rgba(255, 255, 255, 0.55)) !important;
+      filter: brightness(0.95);
+    }
+
+    .bento-tile:nth-child(1) {
+      animation-delay: 0.3s;
+    }
+
+    .bento-tile:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+
+    .bento-tile:nth-child(3) {
+      animation-delay: 0.5s;
+    }
+
+    .bento-tile:nth-child(4) {
+      animation-delay: 0.6s;
+    }
+
+    .bento-tile:nth-child(5) {
+      animation-delay: 0.7s;
+    }
+
+    .bento-tile-connected {
+      grid-column: 1 / -1;
+      min-height: 132px;
+      padding: 28px 28px 24px;
+      background: linear-gradient(135deg, rgba(33, 150, 243, 0.14) 0%, rgba(156, 39, 176, 0.1) 100%) !important;
+      border: 1px solid rgba(33, 150, 243, 0.28) !important;
+    }
+
+    .bento-tile-connected .bento-title {
+      font-size: 1.45em;
+    }
+
+    .bento-tile-connected .bento-desc {
+      font-size: 1.02em;
+      max-width: 520px;
+    }
+
+    .connected-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.82em;
+      font-weight: 600;
+      background: rgba(33, 150, 243, 0.12);
+      color: var(--theme-accent, #1976d2);
+    }
+
+    .connected-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 520px;
+    }
+
+    .connected-avatar-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 4px;
+    }
+
+    .connected-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2196f3, #9c27b0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.6em;
+      font-weight: 700;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 6px 18px rgba(33, 150, 243, 0.25);
+    }
+
+    .connected-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .connected-field label {
+      display: block;
+      font-size: 0.78em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--theme-text-secondary, #666);
+      margin-bottom: 6px;
+    }
+
+    .connected-field input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--theme-glass-border, rgba(0, 0, 0, 0.12));
+      background: rgba(255, 255, 255, 0.55);
+      font-family: inherit;
+      font-size: 0.95em;
+      color: var(--theme-text-primary, #1a1a2e);
+      outline: none;
+    }
+
+    .connected-field input:focus {
+      border-color: var(--theme-accent, #2196f3);
+      box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.12);
+    }
+
+    .connected-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .connected-btn {
+      border: none;
+      border-radius: 14px;
+      padding: 11px 20px;
+      font-family: inherit;
+      font-size: 0.92em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: filter 0.15s, transform 0.1s;
+    }
+
+    .connected-btn:active { transform: scale(0.98); }
+
+    .connected-btn-primary {
+      background: var(--theme-accent, #2196f3);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(33, 150, 243, 0.28);
+    }
+
+    .connected-btn-secondary {
+      background: rgba(255, 255, 255, 0.55);
+      color: var(--theme-text-primary, #1a1a2e);
+      border: 1px solid var(--theme-glass-border, rgba(0, 0, 0, 0.12));
+    }
+
+    .connected-btn-danger {
+      background: rgba(229, 57, 53, 0.12);
+      color: #c62828;
+      border: 1px solid rgba(229, 57, 53, 0.2);
+    }
+
+    .connected-status {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.45);
+      border: 1px solid var(--theme-glass-border, rgba(0, 0, 0, 0.08));
+      font-size: 0.92em;
+      color: var(--theme-text-secondary, #555);
+      line-height: 1.5;
+    }
+
+    .connected-msg {
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.88em;
+    }
+
+    .connected-msg.ok { background: rgba(76, 175, 80, 0.12); color: #2e7d32; }
+    .connected-msg.err { background: rgba(229, 57, 53, 0.12); color: #c62828; }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .bento-title {
+      font-size: 1.18em;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--theme-text-primary, #1a1a2e);
+      position: relative;
+      z-index: 2;
+    }
+
+    .bento-desc {
+      font-size: 1em;
+      color: var(--theme-text-secondary, #4a4a6a);
+      margin-bottom: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 600px) {
+      .glass-container {
+        margin: 20px 16px 0 16px;
+        padding: 20px;
+        max-width: calc(100vw - 32px);
+      }
+
+      .bento-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .bento-tile {
+        padding: 24px 14px 18px 14px;
+      }
+    }
+
+    #aboutPopup {
+      display: none;
+      position: fixed;
+      z-index: 10002;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.96) perspective(900px) rotateX(8deg);
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border-radius: 28px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      min-width: 260px;
+      max-width: 90vw;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Avenir', 'Segoe UI', 'Arial', sans-serif;
+      opacity: 0;
+      transition: none;
+      /* Animation will be handled by JS */
+    }
+
+    #aboutPopup.popup-animate-in {
+      animation: popup-win10-in 0.38s cubic-bezier(.42, 0, .2, 1) forwards;
+    }
+
+    #aboutPopup.popup-animate-out {
+      animation: popup-win10-out 0.22s cubic-bezier(.42, 0, .2, 1) forwards;
+    }
+
+    @keyframes popup-win10-in {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.96) perspective(900px) rotateX(8deg);
+        filter: blur(8px);
+      }
+
+      60% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.03) perspective(900px) rotateX(0deg);
+        filter: blur(0.5px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) perspective(900px) rotateX(0deg);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes popup-win10-out {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) perspective(900px) rotateX(0deg);
+        filter: blur(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.96) perspective(900px) rotateX(8deg);
+        filter: blur(8px);
+      }
+    }
+
+    .settings-popup-title {
+      padding: 22px 22px 10px 22px;
+      text-align: center;
+      font-size: 19px;
+      font-weight: 700;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+      background: transparent;
+      color: #1a1a2e;
+    }
+
+    #accountPopup {
+      display: none;
+      position: fixed;
+      z-index: 10002;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.96) perspective(900px) rotateX(8deg);
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border-radius: 28px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      min-width: 280px;
+      max-width: 92vw;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Avenir', 'Segoe UI', 'Arial', sans-serif;
+      opacity: 0;
+      transition: none;
+    }
+
+    #accountPopup.popup-animate-in {
+      animation: popup-win10-in 0.38s cubic-bezier(.42, 0, .2, 1) forwards;
+    }
+
+    #accountPopup.popup-animate-out {
+      animation: popup-win10-out 0.22s cubic-bezier(.42, 0, .2, 1) forwards;
+    }
+
+    #accountPopup input[type="file"] {
+      display: none;
+    }
+
+    #connectedAuthBackdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 10001;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    #connectedAuthBackdrop.show { display: block; }
+
+    #connectedAuthPopup {
+      display: none;
+      position: fixed;
+      z-index: 10003;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.96);
+      width: min(460px, 94vw);
+      height: min(620px, 88vh);
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border-radius: 24px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      overflow: hidden;
+      flex-direction: column;
+    }
+    #connectedAuthPopup.show {
+      display: flex;
+      animation: popup-win10-in 0.38s cubic-bezier(.42, 0, .2, 1) forwards;
+    }
+    #connectedAuthPopup .auth-popup-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      font-weight: 700;
+      color: var(--theme-text-primary, #1a1a2e);
+    }
+    #connectedAuthPopup .auth-popup-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      color: var(--theme-text-secondary, #666);
+      padding: 0 4px;
+    }
+    #connectedAuthFrame {
+      flex: 1;
+      width: 100%;
+      border: none;
+      background: transparent;
+    }
+
+    .custom-file-label {
+      display: inline-block;
+      padding: 9px 18px;
+      background: #f5f7fa;
+      color: #1976d2;
+      border-radius: 8px;
+      border: 1px solid #d0d8e0;
+      font-size: 15px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.16s, color 0.16s, border 0.16s;
+      margin-bottom: 8px;
+      margin-top: 2px;
+    }
+
+    .custom-file-label:hover {
+      background: #e3eafc;
+      color: #1565c0;
+      border: 1px solid #b0c4de;
+    }
+
+    #themePopup {
+      display: none;
+      position: fixed;
+      z-index: 10002;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.96) perspective(900px) rotateX(8deg);
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border-radius: 28px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      min-width: 440px;
+      max-width: 98vw;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Avenir', 'Segoe UI', 'Arial', sans-serif;
+      opacity: 0;
+      transition: none;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    #themePopup.popup-animate-in {
+      animation: popup-win10-in 0.38s cubic-bezier(.42, 0, .2, 1) forwards;
+    }
+
+    #themePopup.popup-animate-out {
+      animation: popup-win10-out 0.22s cubic-bezier(.42, 0, .2, 1) forwards;
+    }
+
+    .theme-popup-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 18px;
+      padding: 22px 22px 10px 22px;
+      max-height: 260px;
+      overflow-y: auto;
+      margin-bottom: 8px;
+    }
+
+    .theme-square-btn {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      border: none;
+      border-radius: 18px;
+      background: #f5f7fa;
+      color: #1976d2;
+      font-size: 16px;
+      font-family: inherit;
+      font-weight: 500;
+      padding: 18px 18px 18px 18px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px 0 rgba(60, 60, 60, 0.06);
+      transition: background 0.16s, color 0.16s, box-shadow 0.16s;
+      outline: none;
+      min-width: 0;
+      min-height: 80px;
+      user-select: none;
+      width: 100%;
+      text-align: left;
+      gap: 16px;
+      position: relative;
+    }
+
+    .theme-square-btn .theme-btn-img {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin-right: 10px;
+      background: #e3eafc;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .theme-square-btn .theme-btn-label {
+      flex: 1 1 auto;
+      text-align: left;
+      font-size: 16px;
+      font-weight: 500;
+      color: inherit;
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    .theme-square-btn.selected {
+      background: #f5f7fa;
+      color: #1565c0;
+      font-weight: 700;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 2px 8px 0 rgba(60, 60, 60, 0.06);
+      border: 2px solid #86abc5;
+    }
+
+    .theme-square-btn.selected::after,
+    .theme-square-btn.selected::before {
+      display: none !important;
+    }
+
+    .theme-square-btn.selected .theme-selected-caption {
+      display: block;
+      font-size: 13px;
+      color: #ff9800;
+      font-weight: 600;
+      margin-top: 6px;
+      letter-spacing: 0.02em;
+      text-shadow: 0 1px 8px #fff8;
+      text-align: left;
+      z-index: 2;
+      position: relative;
+    }
+
+    .theme-cancel {
+      width: auto;
+      min-width: 120px;
+      max-width: 180px;
+      color: #e53935;
+      background: #f5f5f7;
+      font-weight: 500;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 0;
+      font-size: 17px;
+      margin: 0 auto 18px auto;
+      margin-top: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+      display: block;
+    }
+
+    .theme-cancel:active {
+      background: #f0f0f0;
+    }
+
+    #notificationsPopup {
+      display: none;
+      position: fixed;
+      z-index: 10002;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.96) perspective(900px) rotateX(8deg);
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border-radius: 28px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      min-width: 280px;
+      max-width: 92vw;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Avenir', 'Segoe UI', 'Arial', sans-serif;
+      opacity: 0;
+      transition: none;
+    }
+
+    #notificationsPopup.popup-animate-in {
+      animation: popup-win10-in 0.38s cubic-bezier(.42, 0, .2, 1) forwards;
+    }
+
+    #notificationsPopup.popup-animate-out {
+      animation: popup-win10-out 0.22s cubic-bezier(.42, 0, .2, 1) forwards;
+    }
+
+    #privacyPopup {
+      display: none;
+      position: fixed;
+      z-index: 10002;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.96) perspective(900px) rotateX(8deg);
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border-radius: 28px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      min-width: 280px;
+      max-width: 92vw;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Avenir', 'Segoe UI', 'Arial', sans-serif;
+      opacity: 0;
+      transition: none;
+    }
+
+    #privacyPopup.popup-animate-in {
+      animation: popup-win10-in 0.38s cubic-bezier(.42, 0, .2, 1) forwards;
+    }
+
+    #privacyPopup.popup-animate-out {
+      animation: popup-win10-out 0.22s cubic-bezier(.42, 0, .2, 1) forwards;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="blur-balls-bg">
+    <div class="blur-ball ball1"></div>
+    <div class="blur-ball ball2"></div>
+    <div class="blur-ball ball3"></div>
+    <div class="blur-ball ball4"></div>
+  </div>
+  <h2 style="text-align:center; font-weight:600; margin-top:32px; color:#222; position:relative; z-index:1;">Settings
+  </h2>
+  <div class="glass-container" id="glassContainer">
+    <div class="bento-grid" id="mainGrid">
+      <div class="bento-tile bento-tile-connected" onclick="showSettingsPage('connected')">
+        <div class="bento-title">Connected Account</div>
+        <div class="bento-desc">Your Connected Center profile, avatar, email, and password for invites and messaging.</div>
+        <div class="connected-badge" id="connectedHomeBadge">Checking status...</div>
+      </div>
+      <div class="bento-tile" onclick="showSettingsPage('colors')">
+        <div class="bento-title">Colors</div>
+        <div class="bento-desc">Pick colors and themes that feel like you.</div>
+      </div>
+      <div class="bento-tile" onclick="showSettingsPage('notifications')">
+        <div class="bento-title">Notifications</div>
+        <div class="bento-desc">Decide how Nexus keeps you in the loop.</div>
+      </div>
+      <div class="bento-tile" onclick="showSettingsPage('privacy')">
+        <div class="bento-title">Privacy</div>
+        <div class="bento-desc">Your privacy and security settings.</div>
+      </div>
+      <div class="bento-tile" onclick="showSettingsPage('luna')">
+        <div class="bento-title">Luna and Nexus AI</div>
+        <div class="bento-desc">Toggle Luna recommendations, Copilot, and chat.</div>
+      </div>
+      <div class="bento-tile" onclick="showSettingsPage('about')">
+        <div class="bento-title">About</div>
+        <div class="bento-desc">About Nexus and what version you're on.</div>
+      </div>
+    </div>
+
+    <!-- Connected Account -->
+    <div class="settings-content" id="connectedContent">
+      <h3>🔗 Connected Account</h3>
+      <button class="back-button" onclick="goBack()">← Back</button>
+
+      <div id="connectedSignedOut" style="display:none;">
+        <div class="connected-status">
+          Sign in to Connected Center to invite friends, send messages, and join servers.
+        </div>
+        <div class="connected-actions" style="margin-top:16px;">
+          <button class="connected-btn connected-btn-primary" onclick="openConnectedAuthPopup('login')">Log In</button>
+          <button class="connected-btn connected-btn-secondary" onclick="openConnectedAuthPopup('signup')">Create Account</button>
+          <button class="connected-btn connected-btn-secondary" onclick="loadConnectedAccount()">Refresh</button>
+        </div>
+      </div>
+
+      <div id="connectedSignedIn" style="display:none;">
+        <div id="connectedMsg" class="connected-msg" style="display:none;"></div>
+        <div class="connected-avatar-row">
+          <div class="connected-avatar" id="connectedAvPreview">?</div>
+          <div>
+            <div style="font-weight:700;font-size:1.05em;" id="connectedDisplayName">...</div>
+            <div style="color:var(--theme-text-secondary,#666);font-size:0.9em;" id="connectedUsername">@...</div>
+            <input type="file" id="connectedAvatarFile" accept="image/jpeg,image/png,image/gif,image/webp" style="display:none" />
+            <button class="connected-btn connected-btn-secondary" style="margin-top:10px;padding:8px 14px;font-size:0.85em;" onclick="document.getElementById('connectedAvatarFile').click()">Choose Photo</button>
+            <div style="font-size:0.78em;color:var(--theme-text-secondary,#888);margin-top:4px;" id="connectedAvHint">Compressed to 256×256 · JPG</div>
+          </div>
+        </div>
+        <canvas id="connectedCompressCanvas" width="256" height="256" style="display:none"></canvas>
+        <input type="hidden" id="connectedAvatarData" />
+
+        <div class="connected-form">
+          <div class="connected-field">
+            <label>Display Name</label>
+            <input type="text" id="connectedDisplayInput" maxlength="100" placeholder="How others see you" />
+          </div>
+          <div class="connected-field">
+            <label>Email</label>
+            <input type="email" id="connectedEmailInput" required />
+          </div>
+          <div class="connected-field">
+            <label>New Password <span style="text-transform:none;font-weight:400;">(optional)</span></label>
+            <input type="password" id="connectedPwInput" placeholder="Min. 8 characters" />
+          </div>
+          <div class="connected-field">
+            <label>Confirm Password</label>
+            <input type="password" id="connectedPwConfirmInput" placeholder="Repeat new password" />
+          </div>
+        </div>
+
+        <div class="connected-actions">
+          <button class="connected-btn connected-btn-primary" onclick="saveConnectedAccount()">Save Changes</button>
+          <button class="connected-btn connected-btn-danger" onclick="logoutConnectedAccount()">Log Out</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colors Settings -->
+    <div class="settings-content" id="colorsContent">
+      <h3 id="colorsHeading">🎨 Themes</h3>
+      <button class="back-button" onclick="goBack()">← Back</button>
+
+
+
+      <!-- Dark Mode toggle -->
+      <div class="settings-list" id="darkModeRow" style="margin-bottom: 18px;">
+        <div class="settings-item">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Dark Mode</div>
+            <div class="settings-item-desc">Switch between light and dark appearance across Nexus</div>
+          </div>
+          <div class="toggle-switch" id="darkModeToggle" onclick="toggleDarkMode()"></div>
+        </div>
+      </div>
+
+      <!-- Light Mode Themes (shown when dark mode is OFF) -->
+      <div class="settings-list" id="lightThemeList">
+        <div class="settings-item" onclick="selectTheme('default')">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Nexus Default</div>
+            <div class="settings-item-desc">Clean and modern blue gradient theme</div>
+          </div>
+          <div class="color-option" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+        </div>
+
+        <div class="settings-item" onclick="selectTheme('deepblue')">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Deep Blue</div>
+            <div class="settings-item-desc">Rich navy and ocean blue tones</div>
+          </div>
+          <div class="color-option" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);"></div>
+        </div>
+
+        <div class="settings-item" onclick="selectTheme('cherryred')">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Cherry Red</div>
+            <div class="settings-item-desc">Bold red and crimson gradient</div>
+          </div>
+          <div class="color-option" style="background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);"></div>
+        </div>
+
+        <div class="settings-item" onclick="selectTheme('gold')">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Luxurious Gold</div>
+            <div class="settings-item-desc">Elegant gold and amber tones</div>
+          </div>
+          <div class="color-option" style="background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);"></div>
+        </div>
+
+        <div class="settings-item" onclick="selectTheme('purple')">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Lavish Purple</div>
+            <div class="settings-item-desc">Royal purple and violet gradient</div>
+          </div>
+          <div class="color-option" style="background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);"></div>
+        </div>
+      </div>
+
+      <!-- Dark Mode Themes (shown when dark mode is ON) -->
+      <div class="settings-list" id="darkThemeList" style="display: none;">
+        <div class="settings-item dark-theme-item" onclick="selectDarkTheme('nord')" data-dark-theme="nord">
+          <div class="settings-item-info">
+            <div class="settings-item-title">🧊 Nord Frost</div>
+            <div class="settings-item-desc">Crisp arctic cyber aesthetic with icy cyan and mint</div>
+          </div>
+          <div class="color-option"
+            style="background: linear-gradient(135deg, #2dd4bf 0%, #0d9488 50%, #0ea5e9 100%); box-shadow: 0 0 12px rgba(45,212,191,0.4);">
+          </div>
+        </div>
+
+        <div class="settings-item dark-theme-item" onclick="selectDarkTheme('amber')" data-dark-theme="amber">
+          <div class="settings-item-info">
+            <div class="settings-item-title">🔥 Obsidian Amber</div>
+            <div class="settings-item-desc">Luxurious OLED dark with amber gold and deep crimson</div>
+          </div>
+          <div class="color-option"
+            style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #ef4444 100%); box-shadow: 0 0 12px rgba(245,158,11,0.4);">
+          </div>
+        </div>
+
+        <div class="settings-item dark-theme-item" onclick="selectDarkTheme('synthwave')" data-dark-theme="synthwave">
+          <div class="settings-item-info">
+            <div class="settings-item-title">🌆 Synthwave</div>
+            <div class="settings-item-desc">Retro-futuristic neon dusk with hot pink and electric purple</div>
+          </div>
+          <div class="color-option"
+            style="background: linear-gradient(135deg, #ec4899 0%, #a855f7 50%, #06b6d4 100%); box-shadow: 0 0 12px rgba(236,72,153,0.4);">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notifications Settings -->
+    <div class="settings-content" id="notificationsContent">
+      <h3>🔔 Notifications</h3>
+      <button class="back-button" onclick="goBack()">← Back</button>
+
+      <div class="settings-list">
+        <div class="settings-item">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Push Notifications</div>
+            <div class="settings-item-desc">Receive notifications for important updates</div>
+          </div>
+          <div class="toggle-switch" onclick="toggleSetting(this, 'pushNotifications')"></div>
+        </div>
+
+        <div class="settings-item">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Email Notifications</div>
+            <div class="settings-item-desc">Get updates delivered to your inbox</div>
+          </div>
+          <div class="toggle-switch" onclick="toggleSetting(this, 'emailNotifications')"></div>
+        </div>
+
+        <div class="settings-item">
+          <div class="settings-item-info">
+            <div class="settings-item-title">SMS Notifications</div>
+            <div class="settings-item-desc">Receive text message alerts</div>
+          </div>
+          <div class="toggle-switch" onclick="toggleSetting(this, 'smsNotifications')"></div>
+        </div>
+
+        <div class="settings-item">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Marketing Updates</div>
+            <div class="settings-item-desc">Receive promotional content and offers</div>
+          </div>
+          <div class="toggle-switch" onclick="toggleSetting(this, 'marketingNotifications')"></div>
+        </div>
+
+        <div class="settings-item">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Security Alerts</div>
+            <div class="settings-item-desc">Get notified about account security events</div>
+          </div>
+          <div class="toggle-switch" onclick="toggleSetting(this, 'securityNotifications')"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Luna and Nexus AI -->
+    <div class="settings-content" id="lunaContent">
+      <h3>✨ Luna and Nexus AI</h3>
+      <button class="back-button" onclick="goBack()">← Back</button>
+      <p style="color:var(--theme-text-secondary,#666);font-size:0.92em;margin:0 0 16px;line-height:1.5;">
+        These features use Luna and a bit of smart matching. Turn off anything you don't want.
+      </p>
+      <div class="settings-list">
+        <div class="settings-item">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Luna Game Recommendations</div>
+            <div class="settings-item-desc">Show &ldquo;Recommended by Luna&rdquo; picks on the Games page based on what you play.</div>
+          </div>
+          <div class="toggle-switch" id="toggleLunaGameRecs" onclick="toggleAiSetting(this, 'lunaGameRecommendations')"></div>
+        </div>
+        <div class="settings-item">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Luna Copilot</div>
+            <div class="settings-item-desc">In-game assistant popup and dock Luna button while playing a game.</div>
+          </div>
+          <div class="toggle-switch" id="toggleLunaCopilot" onclick="toggleAiSetting(this, 'lunaCopilot')"></div>
+        </div>
+        <div class="settings-item">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Luna Chat (Dock)</div>
+            <div class="settings-item-desc">Full Luna chat panel that expands from the dock.</div>
+          </div>
+          <div class="toggle-switch" id="toggleLunaDockChat" onclick="toggleAiSetting(this, 'lunaDockChat')"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Privacy Settings -->
+    <div class="settings-content" id="privacyContent">
+      <h3>🔒 Privacy</h3>
+      <button class="back-button" onclick="goBack()">← Back</button>
+
+      <div class="settings-list">
+        <div class="settings-item">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Personalized Advertising</div>
+            <div class="settings-item-desc">Allow us to show you relevant ads based on your interests</div>
+          </div>
+          <div class="toggle-switch" onclick="toggleSetting(this, 'personalizedAds')"></div>
+        </div>
+
+        <div class="settings-item">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Data Sharing</div>
+            <div class="settings-item-desc">Allow us to share your non-personal data with trusted partners</div>
+          </div>
+          <div class="toggle-switch" onclick="toggleSetting(this, 'dataSharing')"></div>
+        </div>
+
+        <div class="settings-item">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Third-Party Cookies</div>
+            <div class="settings-item-desc">Allow third-party services to store cookies on your device</div>
+          </div>
+          <div class="toggle-switch" onclick="toggleSetting(this, 'thirdPartyCookies')"></div>
+        </div>
+
+        <div class="settings-item">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Analytics Tracking</div>
+            <div class="settings-item-desc">Help us improve the app by sharing anonymous usage data</div>
+          </div>
+          <div class="toggle-switch" onclick="toggleSetting(this, 'analyticsTracking')"></div>
+        </div>
+
+        <div class="settings-item">
+          <div class="settings-item-info">
+            <div class="settings-item-title">Location Services</div>
+            <div class="settings-item-desc">Allow the app to access your location for enhanced features</div>
+          </div>
+          <div class="toggle-switch" onclick="toggleSetting(this, 'locationServices')"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Settings -->
+    <div class="settings-content" id="aboutContent">
+      <h3>ℹ️ About</h3>
+      <button class="back-button" onclick="goBack()">← Back</button>
+
+      <div class="about-container">
+        <div class="logo-container">
+          <div class="blur-balls">
+            <div class="blur-ball ball1"></div>
+            <div class="blur-ball ball2"></div>
+            <div class="blur-ball ball3"></div>
+          </div>
+          <img src="nexuslogo.png" alt="Nexus Logo" class="nexus-logo" loading="lazy" decoding="async">
+        </div>
+
+        <div class="version-info">
+          <h2 class="version-title">Nexus 9</h2>
+          <p class="version-description">The fastest, most personal Nexus yet. Built for how you actually use it.</p>
+          <p class="version-description" style="color: rgb(163, 163, 163); font-size: 85%; font-weight: lighter;">
+            Version 9S</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="connectedAuthBackdrop" onclick="closeConnectedAuthPopup()"></div>
+  <div id="connectedAuthPopup" role="dialog" aria-modal="true" aria-label="Connected Center sign in">
+    <div class="auth-popup-head">
+      <span id="connectedAuthTitle">Connected Center</span>
+      <button type="button" class="auth-popup-close" onclick="closeConnectedAuthPopup()" aria-label="Close">&times;</button>
+    </div>
+    <iframe id="connectedAuthFrame" title="Connected Center authentication"></iframe>
+  </div>
+
+  <script>
+    let currentPage = 'main';
+
+    function showSettingsPage(page) {
+      const glassContainer = document.getElementById('glassContainer');
+      const allContent = document.querySelectorAll('.settings-content');
+
+      // hide all settings pages. out of sight out of mind
+      allContent.forEach(content => {
+        content.classList.remove('active');
+      });
+
+      // show the one you picked. spotlight moment
+      const targetContent = document.getElementById(page + 'Content');
+      if (targetContent) {
+        targetContent.classList.add('active');
+      }
+
+      // slide glass left. cinematic settings transition
+      glassContainer.classList.add('slide-left');
+      currentPage = page;
+
+      // load page-specific toggles. localStorage archaeology
+      loadPageSettings(page);
+    }
+
+    function goBack() {
+      const glassContainer = document.getElementById('glassContainer');
+      const allContent = document.querySelectorAll('.settings-content');
+
+      // hide all settings pages. out of sight out of mind
+      allContent.forEach(content => {
+        content.classList.remove('active');
+      });
+
+      // slide back to bento grid. home sweet home
+      glassContainer.classList.remove('slide-left');
+      currentPage = 'main';
+    }
+
+    function loadPageSettings(page) {
+      switch (page) {
+        case 'colors':
+          // Load saved theme selection
+          const savedTheme = localStorage.getItem('nexus_theme') || 'default';
+          const savedDarkTheme = localStorage.getItem('nexus_dark_theme') || 'nord';
+
+          // Load dark mode toggle state
+          const savedDarkMode = localStorage.getItem('nexus_dark_mode') === 'true';
+          const darkToggle = document.getElementById('darkModeToggle');
+          if (darkToggle) {
+            darkToggle.classList.toggle('active', savedDarkMode);
+          }
+
+          // Show the correct list
+          refreshThemeLists(savedDarkMode);
+
+          // Mark selected light theme
+          document.querySelectorAll('#lightThemeList .settings-item').forEach(item => {
+            const selectedText = item.querySelector('.selected-indicator');
+            if (selectedText) selectedText.remove();
+            if (item.onclick && item.onclick.toString().includes("'" + savedTheme + "'")) {
+              const indicator = document.createElement('div');
+              indicator.className = 'selected-indicator';
+              indicator.textContent = 'Selected';
+              indicator.style.cssText = 'color: #1565c0; font-size: 0.85em; font-weight: 700; margin-top: 4px; display: inline-block; background: #e3eafc; padding: 2px 8px; border-radius: 6px;';
+              item.querySelector('.settings-item-title').parentNode.insertBefore(indicator, item.querySelector('.settings-item-title').nextSibling);
+            }
+          });
+
+          // Mark selected dark theme
+          document.querySelectorAll('#darkThemeList .settings-item').forEach(item => {
+            const selectedText = item.querySelector('.selected-indicator');
+            if (selectedText) selectedText.remove();
+            if (item.dataset.darkTheme === savedDarkTheme) {
+              const indicator = document.createElement('div');
+              indicator.className = 'selected-indicator';
+              indicator.textContent = 'Selected';
+              indicator.style.cssText = 'font-size: 0.85em; font-weight: 700; margin-top: 4px; display: inline-block; padding: 2px 8px; border-radius: 6px; color: var(--theme-text-accent, #FFD700); background: var(--theme-text-accent-bg, rgba(255,215,0,0.1));';
+              item.querySelector('.settings-item-title').parentNode.insertBefore(indicator, item.querySelector('.settings-item-title').nextSibling);
+            }
+          });
+          break;
+        case 'notifications':
+          // Load saved notification settings (default to on)
+          document.querySelectorAll('.toggle-switch').forEach(toggle => {
+            const settingName = toggle.getAttribute('onclick').match(/'([^']+)'/)[1];
+            const savedValue = localStorage.getItem(settingName);
+            const isActive = savedValue === null || savedValue === 'true';
+            toggle.classList.toggle('active', isActive);
+          });
+          break;
+        case 'privacy':
+          // Load saved privacy settings (default to on)
+          document.querySelectorAll('.toggle-switch').forEach(toggle => {
+            const settingName = toggle.getAttribute('onclick').match(/'([^']+)'/)[1];
+            const savedValue = localStorage.getItem(settingName);
+            const isActive = savedValue === null || savedValue === 'true';
+            toggle.classList.toggle('active', isActive);
+          });
+          break;
+        case 'connected':
+          loadConnectedAccount();
+          break;
+        case 'luna':
+          loadLunaAiSettings();
+          break;
+      }
+    }
+
+    function loadLunaAiSettings() {
+      var panel = document.getElementById('lunaContent');
+      if (!panel) return;
+      var defaults = { lunaGameRecommendations: true, lunaCopilot: true, lunaDockChat: true };
+      var settings = defaults;
+      try {
+        var parentWin = window.parent && window.parent.NexusAI ? window.parent.NexusAI.getSettings() : null;
+        if (parentWin) settings = parentWin;
+        else {
+          var raw = localStorage.getItem('nexus_ai_settings');
+          if (raw) settings = Object.assign({}, defaults, JSON.parse(raw));
+        }
+      } catch (e) {}
+      panel.querySelectorAll('.toggle-switch[onclick*="toggleAiSetting"]').forEach(function (toggle) {
+        var m = toggle.getAttribute('onclick').match(/'([^']+)'/);
+        var key = m ? m[1] : '';
+        toggle.classList.toggle('active', settings[key] !== false);
+      });
+    }
+
+    function toggleAiSetting(toggleElement, settingKey) {
+      toggleElement.classList.toggle('active');
+      var isActive = toggleElement.classList.contains('active');
+      if (window.parent && window.parent.NexusAI) {
+        window.parent.NexusAI.setSetting(settingKey, isActive);
+      } else {
+        try {
+          var defaults = { lunaGameRecommendations: true, lunaCopilot: true, lunaDockChat: true };
+          var raw = localStorage.getItem('nexus_ai_settings');
+          var settings = raw ? Object.assign({}, defaults, JSON.parse(raw)) : Object.assign({}, defaults);
+          settings[settingKey] = isActive;
+          localStorage.setItem('nexus_ai_settings', JSON.stringify(settings));
+          window.dispatchEvent(new CustomEvent('nexus-ai-settings-changed', { detail: settings }));
+        } catch (e) {}
+      }
+    }
+
+    var CC_API = '../connectedcenternew/api/';
+
+    function ccAssetUrl(path) {
+      if (!path) return '';
+      if (/^https?:\/\//.test(path) || path.indexOf('data:') === 0) return path;
+      return '../connectedcenternew/' + path.replace(/^\//, '');
+    }
+
+    function setConnectedMsg(text, ok) {
+      var el = document.getElementById('connectedMsg');
+      if (!el) return;
+      if (!text) { el.style.display = 'none'; return; }
+      el.textContent = text;
+      el.className = 'connected-msg ' + (ok ? 'ok' : 'err');
+      el.style.display = 'block';
+    }
+
+    function updateConnectedHomeBadge(user) {
+      var badge = document.getElementById('connectedHomeBadge');
+      if (!badge) return;
+      if (user) {
+        var name = user.display_name || user.username;
+        badge.textContent = 'Signed in as ' + name;
+      } else {
+        badge.textContent = 'Not signed in · Tap to set up';
+      }
+    }
+
+    function renderConnectedProfile(user) {
+      document.getElementById('connectedSignedOut').style.display = 'none';
+      document.getElementById('connectedSignedIn').style.display = 'block';
+      var name = user.display_name || user.username;
+      document.getElementById('connectedDisplayName').textContent = name;
+      document.getElementById('connectedUsername').textContent = '@' + user.username;
+      document.getElementById('connectedDisplayInput').value = user.display_name || '';
+      document.getElementById('connectedEmailInput').value = user.email || '';
+      document.getElementById('connectedPwInput').value = '';
+      document.getElementById('connectedPwConfirmInput').value = '';
+      document.getElementById('connectedAvatarData').value = '';
+      var av = document.getElementById('connectedAvPreview');
+      var pic = ccAssetUrl(user.profile_picture);
+      if (pic) {
+        av.innerHTML = '<img src="' + pic + '" alt="" />';
+      } else {
+        av.textContent = (name.charAt(0) || '?').toUpperCase();
+      }
+      updateConnectedHomeBadge(user);
+    }
+
+    function loadConnectedAccount() {
+      setConnectedMsg('', true);
+      fetch(CC_API + 'get_profile.php', { credentials: 'include' })
+        .then(function(r) {
+          if (r.status === 401) throw new Error('not_auth');
+          return r.json();
+        })
+        .then(function(user) {
+          if (currentPage === 'connected') renderConnectedProfile(user);
+          updateConnectedHomeBadge(user);
+        })
+        .catch(function() {
+          if (currentPage === 'connected') {
+            document.getElementById('connectedSignedIn').style.display = 'none';
+            document.getElementById('connectedSignedOut').style.display = 'block';
+          }
+          updateConnectedHomeBadge(null);
+        });
+    }
+
+    function connectedCompressAvatar(input) {
+      var file = input.files[0];
+      if (!file) return;
+      var hint = document.getElementById('connectedAvHint');
+      hint.textContent = 'Compressing…';
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.getElementById('connectedCompressCanvas');
+          var ctx = canvas.getContext('2d');
+          var size = Math.min(img.width, img.height);
+          var sx = (img.width - size) / 2;
+          var sy = (img.height - size) / 2;
+          ctx.clearRect(0, 0, 256, 256);
+          ctx.drawImage(img, sx, sy, size, size, 0, 0, 256, 256);
+          var dataUrl = canvas.toDataURL('image/jpeg', 0.88);
+          document.getElementById('connectedAvatarData').value = dataUrl;
+          document.getElementById('connectedAvPreview').innerHTML = '<img src="' + dataUrl + '" alt="" />';
+          var kb = Math.round(dataUrl.length * 0.75 / 1024);
+          hint.textContent = 'Ready · 256×256 · ~' + kb + ' KB';
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function saveConnectedAccount() {
+      setConnectedMsg('', true);
+      var payload = {
+        display_name: document.getElementById('connectedDisplayInput').value.trim(),
+        email: document.getElementById('connectedEmailInput').value.trim(),
+        new_password: document.getElementById('connectedPwInput').value,
+        confirm_password: document.getElementById('connectedPwConfirmInput').value,
+        avatar_data: document.getElementById('connectedAvatarData').value
+      };
+      fetch(CC_API + 'update_profile.php', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, d: d }; }); })
+        .then(function(res) {
+          if (!res.ok || res.d.error) {
+            setConnectedMsg(res.d.error || 'Could not save profile.', false);
+            return;
+          }
+          setConnectedMsg('Profile saved!', true);
+          renderConnectedProfile(res.d.user);
+        })
+        .catch(function() {
+          setConnectedMsg('Could not reach Connected Center.', false);
+        });
+    }
+
+    function logoutConnectedAccount() {
+      fetch(CC_API + 'logout.php', { credentials: 'include', method: 'POST' })
+        .finally(function() {
+          document.getElementById('connectedSignedIn').style.display = 'none';
+          document.getElementById('connectedSignedOut').style.display = 'block';
+          updateConnectedHomeBadge(null);
+          setConnectedMsg('Logged out of Connected Center.', true);
+        });
+    }
+
+    function openConnectedAuthPopup(mode) {
+      var popup = document.getElementById('connectedAuthPopup');
+      var backdrop = document.getElementById('connectedAuthBackdrop');
+      var frame = document.getElementById('connectedAuthFrame');
+      var title = document.getElementById('connectedAuthTitle');
+      if (!popup || !frame) return;
+      var page = mode === 'signup' ? 'signup.php' : 'index.php';
+      if (title) title.textContent = mode === 'signup' ? 'Create Connected Account' : 'Sign in to Connected Center';
+      frame.src = '../connectedcenternew/' + page + '?embed=1';
+      backdrop.classList.add('show');
+      popup.classList.add('show');
+    }
+
+    function closeConnectedAuthPopup() {
+      var popup = document.getElementById('connectedAuthPopup');
+      var backdrop = document.getElementById('connectedAuthBackdrop');
+      var frame = document.getElementById('connectedAuthFrame');
+      if (popup) popup.classList.remove('show');
+      if (backdrop) backdrop.classList.remove('show');
+      if (frame) frame.src = 'about:blank';
+    }
+
+    function selectTheme(theme) {
+      localStorage.setItem('nexus_theme', theme);
+      if (window.NexusApplyTheme) {
+        window.NexusApplyTheme(theme);
+      }
+
+      // Remove selected class from all color options
+      document.querySelectorAll('.color-option').forEach(option => {
+        option.classList.remove('selected');
+      });
+
+      // Remove "Selected" text from all items
+      document.querySelectorAll('.settings-item').forEach(item => {
+        const selectedText = item.querySelector('.selected-indicator');
+        if (selectedText) {
+          selectedText.remove();
+        }
+      });
+
+      // Add "Selected" text to the clicked item
+      const clickedItem = event.currentTarget;
+      const titleElement = clickedItem.querySelector('.settings-item-title');
+      const selectedIndicator = document.createElement('div');
+      selectedIndicator.className = 'selected-indicator';
+      selectedIndicator.textContent = 'Selected';
+      selectedIndicator.style.cssText = 'color: #1565c0; font-size: 0.85em; font-weight: 700; margin-top: 4px; display: inline-block; background: #e3eafc; padding: 2px 8px; border-radius: 6px;';
+      titleElement.parentNode.insertBefore(selectedIndicator, titleElement.nextSibling);
+    }
+
+    function saveNotificationSetting(checkbox) {
+      localStorage.setItem('nexus_notif_' + checkbox.id.replace('notif', '').toLowerCase(), checkbox.checked);
+    }
+
+    function savePrivacySetting(checkbox) {
+      localStorage.setItem('nexus_privacy_' + checkbox.id.replace('privacy', '').toLowerCase(), checkbox.checked);
+    }
+
+    function toggleSetting(toggleElement, settingName) {
+      toggleElement.classList.toggle('active');
+      const isActive = toggleElement.classList.contains('active');
+      localStorage.setItem(settingName, isActive);
+    }
+
+    function refreshThemeLists(isDark) {
+      const lightList = document.getElementById('lightThemeList');
+      const darkList = document.getElementById('darkThemeList');
+      const heading = document.getElementById('colorsHeading');
+      if (lightList) lightList.style.display = isDark ? 'none' : 'flex';
+      if (darkList) darkList.style.display = isDark ? 'flex' : 'none';
+      if (heading) heading.textContent = isDark ? '🌙 Dark Themes' : '🎨 Themes';
+    }
+
+    function selectDarkTheme(key) {
+      localStorage.setItem('nexus_dark_theme', key);
+      if (window.NexusApplyTheme) {
+        window.NexusApplyTheme(localStorage.getItem('nexus_theme') || 'default');
+      }
+      // Update indicators
+      document.querySelectorAll('#darkThemeList .settings-item').forEach(item => {
+        const old = item.querySelector('.selected-indicator');
+        if (old) old.remove();
+        if (item.dataset.darkTheme === key) {
+          const indicator = document.createElement('div');
+          indicator.className = 'selected-indicator';
+          indicator.textContent = 'Selected';
+          indicator.style.cssText = 'font-size: 0.85em; font-weight: 700; margin-top: 4px; display: inline-block; padding: 2px 8px; border-radius: 6px; color: var(--theme-text-accent, #FFD700); background: var(--theme-text-accent-bg, rgba(255,215,0,0.1));';
+          item.querySelector('.settings-item-title').parentNode.insertBefore(indicator, item.querySelector('.settings-item-title').nextSibling);
+        }
+      });
+    }
+
+    function toggleDarkMode() {
+      const toggle = document.getElementById('darkModeToggle');
+      if (!toggle) return;
+      toggle.classList.toggle('active');
+      const isDark = toggle.classList.contains('active');
+      localStorage.setItem('nexus_dark_mode', isDark ? 'true' : 'false');
+
+      // Switch theme list display
+      refreshThemeLists(isDark);
+
+      // Apply theme updates instantly
+      if (window.NexusApplyTheme) {
+        const activeTheme = localStorage.getItem('nexus_theme') || 'default';
+        window.NexusApplyTheme(activeTheme);
+      }
+    }
+
+    // init on load. settings page wakes up screaming
+    document.addEventListener('DOMContentLoaded', function () {
+      loadConnectedAccount();
+      var avFile = document.getElementById('connectedAvatarFile');
+      if (avFile) avFile.addEventListener('change', function() { connectedCompressAvatar(avFile); });
+    });
+
+    window.addEventListener('message', function(e) {
+      if (e.data && e.data.type === 'open-connected-account') {
+        showSettingsPage('connected');
+        if (e.data.auth) {
+          setTimeout(function() { openConnectedAuthPopup(e.data.auth); }, 200);
+        }
+      }
+      if (e.data && e.data.type === 'open-connected-auth') {
+        showSettingsPage('connected');
+        setTimeout(function() { openConnectedAuthPopup(e.data.mode || 'login'); }, 200);
+      }
+      if (e.data && e.data.type === 'cc-auth-success') {
+        closeConnectedAuthPopup();
+        loadConnectedAccount();
+        setConnectedMsg('Signed in successfully!', true);
+      }
+    });
+  </script>
+</body>
+
+</html>

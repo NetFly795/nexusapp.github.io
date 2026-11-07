@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Luna AI · Nexus</title>
+  <script src="../theme-sync.js"></script>
+  <link rel="stylesheet" href="luna.css">
+</head>
+<body>
+  <div class="luna-ambient" aria-hidden="true">
+    <div class="luna-ambient-orb luna-ambient-orb-1"></div>
+    <div class="luna-ambient-orb luna-ambient-orb-2"></div>
+    <div class="luna-ambient-orb luna-ambient-orb-3"></div>
+    <div class="luna-ambient-orb luna-ambient-orb-4"></div>
+  </div>
+
+  <div id="lunaPage" class="signed-out">
+    <aside class="luna-rail glass-panel rise" aria-label="Luna navigation">
+      <div class="luna-rail-logo" aria-hidden="true"><img src="lunaicon.png" alt="" class="luna-icon" decoding="async"></div>
+      <button class="luna-rail-btn" id="lunaNewChat" type="button" title="New chat">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+      <button class="luna-rail-btn" id="lunaHistoryBtn" type="button" title="Past chats">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </button>
+    </aside>
+
+    <div id="lunaAiSignin">
+      <img src="lunaicon.png" alt="" class="luna-icon luna-icon-lg rise" decoding="async">
+      <h3 class="rise">Sign in to Connected Center</h3>
+      <p class="rise">Luna uses your Connected account. Sign in to chat and generate up to 10 images per day.</p>
+      <button id="lunaAiSigninBtn" class="rise" type="button">Sign In</button>
+    </div>
+
+    <div id="lunaAiChat">
+      <div class="luna-main">
+        <div class="luna-conv-backdrop" id="lunaConvBackdrop"></div>
+        <aside class="luna-conv-drawer glass-panel" id="lunaConvDrawer" aria-label="Past chats">
+          <div class="luna-conv-drawer-header">
+            <span>Chats</span>
+            <button id="lunaConvDrawerClose" type="button" title="Close">&times;</button>
+          </div>
+          <div id="lunaConvList"></div>
+        </aside>
+
+        <div class="luna-aurora" id="lunaAurora" aria-hidden="true">
+          <span class="luna-aurora-blob"></span>
+          <span class="luna-aurora-blob"></span>
+          <span class="luna-aurora-blob"></span>
+          <span class="luna-aurora-blob"></span>
+        </div>
+
+        <div class="luna-main-scroll rise">
+          <div class="luna-empty" id="lunaEmptyState">
+            <div class="luna-empty-inner">
+              <img src="lunaicon.png" alt="" class="luna-icon luna-icon-hero" aria-hidden="true" decoding="async">
+              <div class="luna-empty-head">
+                <h1 class="luna-empty-title">What's next?</h1>
+                <p class="luna-empty-caption">Ask Luna about Nexus, your projects, or anything you're working on.</p>
+              </div>
+            </div>
+          </div>
+          <div id="lunaAiMessages"></div>
+        </div>
+
+        <div class="luna-status-line" id="lunaAiStatus"></div>
+
+        <div class="luna-composer-wrap rise">
+          <div class="luna-composer glass-panel" id="lunaComposer">
+            <button class="luna-composer-plus" type="button" title="New chat" id="lunaNewChatAlt">+</button>
+            <textarea id="lunaAiInput" rows="1" placeholder="Ask Luna" autocomplete="off"></textarea>
+            <div class="luna-composer-actions">
+              <span class="luna-model-badge">Gemini</span>
+              <button id="lunaAiSend" type="button" title="Send">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+              </button>
+            </div>
+          </div>
+          <div id="lunaAiQuota" class="rise">Sign in for image generation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked@11.2.0/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
+  <script src="luna-markdown.js"></script>
+  <script src="luna.js"></script>
+</body>
+</html>

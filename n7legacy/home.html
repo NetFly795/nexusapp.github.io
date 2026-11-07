@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home — Nexus 7</title>
+  <script src="js/theme.js"></script>
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+  <div class="main">
+    <div class="content">
+      <div class="content-left">
+        <img src="../nexuslogoapple.png" alt="Nexus Logo">
+        <h1>Home:</h1>
+      </div>
+      <p class="quote" id="quoteText"></p>
+    </div>
+
+    <div class="welcome-section">
+      <img src="../icons/user.png" alt="Profile" class="profile-picture" id="profilePic">
+      <h2 class="welcome-text" id="welcomeText">Welcome!</h2>
+    </div>
+
+    <div class="tiles-container">
+      <table>
+        <tr>
+          <th>
+            <div class="tile">
+              <a href="../submenus/doge.html"><img src="../submenus/images/dogenexustile.png" alt="Doge"></a>
+            </div>
+          </th>
+          <th>
+            <div class="tile">
+              <a href="../tour/index.html"><img src="../submenus/images/nexustips.png" alt="Nexus Tips"></a>
+            </div>
+          </th>
+          <th>
+            <div class="tile tile-click" onclick="showPopup()">
+              <img src="../submenus/images/betatile.png" alt="Beta">
+            </div>
+          </th>
+        </tr>
+      </table>
+    </div>
+
+    <div class="tiles-container">
+      <table>
+        <tr>
+          <td>
+            <div class="tile">
+              <img src="../submenus/images/featuredtile.png" alt="Featured">
+            </div>
+          </td>
+          <td>
+            <div class="tile">
+              <img src="../submenus/images/nexachat.png" alt="Nexa Chat">
+            </div>
+          </td>
+          <td>
+            <div class="tile">
+              <img src="../submenus/images/announcements.png" alt="Announcements">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="tile">
+              <img src="../submenus/images/addfeaturetile.png" alt="Suggest feature">
+            </div>
+          </td>
+          <td>
+            <div class="tile tile-click" onclick="openGames()">
+              <img src="../submenus/images/addgametile.png" alt="Games">
+            </div>
+          </td>
+          <td>
+            <div class="tile">
+              <img src="../submenus/images/reporttile.png" alt="Report">
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="popup-overlay" id="popupOverlay" onclick="closePopup()"></div>
+  <div class="popup" id="popup">
+    <p>No new beta versions available!</p>
+    <p>Check back later.</p>
+    <button type="button" onclick="closePopup()">Close</button>
+  </div>
+
+  <script src="js/home.js"></script>
+</body>
+</html>

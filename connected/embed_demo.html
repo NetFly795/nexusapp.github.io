@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Pay Embed Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .demo-item {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .demo-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .demo-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .demo-code {
+            background: #f8f9fa;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        
+        .demo-preview {
+            border: 2px dashed #e1e5e9;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .demo-preview iframe {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .theme-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .theme-btn {
+            padding: 8px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 12px;
+        }
+        
+        .theme-btn:hover {
+            border-color: #1e3c72;
+            background: #f8f9fa;
+        }
+        
+        .theme-btn.active {
+            border-color: #1e3c72;
+            background: #1e3c72;
+            color: white;
+        }
+        
+        .features {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        
+        .features h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .feature-icon {
+            font-size: 24px;
+            color: #1e3c72;
+        }
+        
+        .feature-text {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏦 Nexus Pay Embed Demo</h1>
+            <p>Explore different ways to integrate the Connected Account Sign In/Sign Up page</p>
+        </div>
+        
+        <div class="demo-grid">
+            <!-- Basic Embed -->
+            <div class="demo-item">
+                <div class="demo-title">📱 Basic Embed</div>
+                <div class="demo-description">
+                    Simple integration with default settings. Perfect for quick implementation.
+                </div>
+                <div class="demo-code">
+&lt;iframe src="embed.php" width="400" height="600" frameborder="0"&gt;&lt;/iframe&gt;
+                </div>
+                <div class="demo-preview">
+                    <iframe src="embed.php" width="350" height="500" frameborder="0"></iframe>
+                </div>
+            </div>
+            
+            <!-- Custom Theme -->
+            <div class="demo-item">
+                <div class="demo-title">🎨 Custom Theme</div>
+                <div class="demo-description">
+                    Choose from multiple color themes to match your brand.
+                </div>
+                <div class="theme-selector">
+                    <button class="theme-btn active" onclick="changeTheme('default')">Default</button>
+                    <button class="theme-btn" onclick="changeTheme('blue')">Blue</button>
+                    <button class="theme-btn" onclick="changeTheme('green')">Green</button>
+                    <button class="theme-btn" onclick="changeTheme('purple')">Purple</button>
+                    <button class="theme-btn" onclick="changeTheme('dark')">Dark</button>
+                </div>
+                <div class="demo-code" id="themeCode">
+&lt;iframe src="embed.php?theme=default" width="400" height="600" frameborder="0"&gt;&lt;/iframe&gt;
+                </div>
+                <div class="demo-preview">
+                    <iframe id="themeIframe" src="embed.php?theme=default" width="350" height="500" frameborder="0"></iframe>
+                </div>
+            </div>
+            
+            <!-- Custom Branding -->
+            <div class="demo-item">
+                <div class="demo-title">🏷️ Custom Branding</div>
+                <div class="demo-description">
+                    Customize title, subtitle, and hide the logo for white-label solutions.
+                </div>
+                <div class="demo-code">
+&lt;iframe src="embed.php?title=My%20App&subtitle=Welcome%20Back&logo=false&theme=blue" width="400" height="600" frameborder="0"&gt;&lt;/iframe&gt;
+                </div>
+                <div class="demo-preview">
+                    <iframe src="embed.php?title=My%20App&subtitle=Welcome%20Back&logo=false&theme=blue" width="350" height="500" frameborder="0"></iframe>
+                </div>
+            </div>
+            
+            <!-- Redirect After Login -->
+            <div class="demo-item">
+                <div class="demo-title">🔄 Redirect After Login</div>
+                <div class="demo-description">
+                    Automatically redirect users to your dashboard after successful authentication.
+                </div>
+                <div class="demo-code">
+&lt;iframe src="embed.php?redirect=https://yourapp.com/dashboard&title=Sign%20In" width="400" height="600" frameborder="0"&gt;&lt;/iframe&gt;
+                </div>
+                <div class="demo-preview">
+                    <iframe src="embed.php?redirect=https://example.com/dashboard&title=Sign%20In" width="350" height="500" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <h2>✨ Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">🔐</div>
+                    <div class="feature-text">Secure Authentication</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📱</div>
+                    <div class="feature-text">Responsive Design</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🎨</div>
+                    <div class="feature-text">Customizable Themes</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔄</div>
+                    <div class="feature-text">Auto Account Creation</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <div class="feature-text">Security Questions</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📧</div>
+                    <div class="feature-text">Password Recovery</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-text">Fast Integration</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🛡️</div>
+                    <div class="feature-text">XSS Protection</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Ready to integrate? Check out the <a href="EMBED_README.md" style="color: white;">documentation</a> for detailed instructions.</p>
+        </div>
+    </div>
+    
+    <script>
+        function changeTheme(theme) {
+            // Update active button
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update iframe
+            const iframe = document.getElementById('themeIframe');
+            iframe.src = `embed.php?theme=${theme}`;
+            
+            // Update code example
+            const codeElement = document.getElementById('themeCode');
+            codeElement.textContent = `<iframe src="embed.php?theme=${theme}" width="400" height="600" frameborder="0"></iframe>`;
+        }
+        
+        // Auto-resize iframes
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'resize') {
+                // Find the iframe that sent the message
+                const iframes = document.querySelectorAll('iframe');
+                iframes.forEach(iframe => {
+                    if (iframe.contentWindow === event.source) {
+                        iframe.style.height = event.data.height + 'px';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

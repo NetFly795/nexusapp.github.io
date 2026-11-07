@@ -1,0 +1,72 @@
+/* glass quality knob. 0 = flat. 1 = frosty boi. you know the drill */
+
+#nexus-home-frost,
+.nexus-glass-frost:not(.nexus-frost-plate) {
+  opacity: var(--nexus-glass-frost-opacity, 1);
+  transition: opacity 0.2s ease;
+}
+
+html.nexus-glass-quality-flat #nexus-home-frost,
+html.nexus-glass-quality-flat .nexus-glass-frost:not(.nexus-frost-plate) {
+  visibility: hidden;
+  opacity: 0;
+}
+
+html.nexus-games-scroll-root.nexus-webgl-active #nexus-webgl-bg,
+html.nexus-games-scroll-root.nexus-video-bg-active #nexus-video-bg {
+  filter: blur(var(--nexus-glass-bg-blur, 0px)) saturate(var(--nexus-glass-bg-saturate, 100%));
+  -webkit-filter: blur(var(--nexus-glass-bg-blur, 0px)) saturate(var(--nexus-glass-bg-saturate, 100%));
+  transition: filter 0.2s ease, -webkit-filter 0.2s ease;
+}
+
+html.nexus-glass-quality-flat.nexus-games-scroll-root.nexus-webgl-active #nexus-webgl-bg,
+html.nexus-glass-quality-flat.nexus-games-scroll-root.nexus-video-bg-active #nexus-video-bg {
+  filter: none !important;
+  -webkit-filter: none !important;
+  transform: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  left: 0 !important;
+  top: 0 !important;
+}
+
+/* Panel fills — interpolate to flat logical color at quality 0 */
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="home"] .glass-card,
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="home"] .glass,
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="home"] .clock-pill {
+  background: var(--nexus-glass-panel-fill, var(--theme-glass-tint, rgba(255, 255, 255, 0.4))) !important;
+}
+
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="home"] .glass-card:hover,
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="home"] .recent-played-card:hover {
+  background: var(--nexus-glass-panel-fill-hover, var(--nexus-glass-panel-fill)) !important;
+}
+
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="home"] .qp-tile {
+  background: var(--nexus-glass-panel-fill, rgba(255, 255, 255, 0.42)) !important;
+}
+
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="home"] .qp-tile-btn:hover .qp-tile {
+  background: var(--nexus-glass-panel-fill-hover, rgba(255, 255, 255, 0.58)) !important;
+}
+
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="games"] .game-tile,
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="games"] .category-filters,
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="games"] .search-dropdown,
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="games"] .user-menu,
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="games"] .games-section-box,
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="games"] .luna-rec-box,
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="games"] .qp-tile,
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="games"] .qp-pin-btn {
+  background: var(--nexus-glass-panel-fill, var(--theme-glass-tint, rgba(255, 255, 255, 0.42))) !important;
+}
+
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="games"] .game-tile:hover,
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="games"] .qp-tile-btn:hover .qp-tile {
+  background: var(--nexus-glass-panel-fill-hover, var(--nexus-glass-panel-fill)) !important;
+}
+
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="games"] .quick-play-strip .games-section-box,
+html.nexus-glass-quality-active.nexus-webgl-glass-active[data-nexus-glass-page="games"] .luna-rec-box {
+  background: var(--nexus-glass-panel-fill, var(--theme-glass-tint)) !important;
+}

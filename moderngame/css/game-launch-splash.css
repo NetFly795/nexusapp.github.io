@@ -1,0 +1,141 @@
+.game-launch-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 13000;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+.game-launch-splash.active {
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+}
+
+.game-launch-splash-bg {
+  position: absolute;
+  inset: -20%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(48px) saturate(1.35) brightness(0.55);
+  transform: scale(2.2);
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.game-launch-splash.active .game-launch-splash-bg {
+  opacity: 1;
+}
+
+.game-launch-splash-bg.placeholder {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #1a1a2e 100%);
+  filter: blur(32px) brightness(0.6);
+}
+
+.game-launch-splash-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 10, 20, 0.35);
+}
+
+.game-launch-splash-shine {
+  position: absolute;
+  inset: -50%;
+  background: linear-gradient(
+    115deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.06) 44%,
+    rgba(255, 255, 255, 0.28) 50%,
+    rgba(255, 255, 255, 0.06) 56%,
+    transparent 62%
+  );
+  transform: translateX(-120%) rotate(8deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.game-launch-splash.active.shining .game-launch-splash-shine {
+  opacity: 1;
+  animation: gameLaunchShine 1.1s ease-in-out infinite;
+}
+
+@keyframes gameLaunchShine {
+  0% { transform: translateX(-120%) rotate(8deg); }
+  100% { transform: translateX(120%) rotate(8deg); }
+}
+
+.game-launch-splash-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  z-index: 2;
+}
+
+.game-launch-splash-icon {
+  position: fixed;
+  margin: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  transition:
+    top 0.52s cubic-bezier(0.22, 1, 0.36, 1),
+    left 0.52s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.52s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.52s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.52s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: top, left, width, height, transform;
+}
+
+.game-launch-splash-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.game-launch-splash-icon .splash-letter {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+.game-launch-splash-title {
+  position: fixed;
+  left: 50%;
+  font-size: clamp(1.2rem, 3vw, 1.65rem);
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
+  letter-spacing: -0.02em;
+  opacity: 0;
+  transform: translate(-50%, 12px);
+  transition: opacity 0.38s ease 0.12s, transform 0.38s ease 0.12s;
+  max-width: min(90vw, 420px);
+  padding: 0 16px;
+  z-index: 3;
+}
+
+.game-launch-splash.active.expanded .game-launch-splash-title {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.game-launch-splash.exit {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html class="nexus-games-scroll-root">
+  <head>
+    <script src="../js/nexus-perf.js"></script>
+    <link rel="stylesheet" href="../css/nexus-perf-lite.css" />
+    <script src="../theme-sync.js"></script>
+
+    <link rel="stylesheet" href="css/games-page.css" />
+    <link rel="stylesheet" href="css/games-effects.css" />
+    <script src="js/games-loader.js"></script>
+
+    <title>Nexus</title>
+    <meta name="keywords" content="front-end web developer, unblocked, games, glom, google sites, unblocked games mom, ublocked, code, coding, programmer, development, javascript, jquery, bootstrap, sass, less, git" />
+    
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="favicon.ico" />
+    <link rel="shortcut-icon" href="favicon.ico" />
+    <link rel="stylesheet" href="css/projects.css" />
+    <link rel="stylesheet" href="css/luna-recommendations.css" />
+    <link rel="stylesheet" href="css/game-tile-intro.css" />
+    <link rel="stylesheet" href="css/games-sections.css" />
+    <link rel="stylesheet" href="css/quick-play.css" />
+    <link rel="stylesheet" href="css/game-launch-sheet.css" />
+    <link rel="stylesheet" href="css/game-launch-splash.css" />
+    <link rel="stylesheet" href="../css/nexus-video-bg.css" />
+    <link rel="stylesheet" href="../css/nexus-webgl-bg.css" />
+    <link rel="stylesheet" href="../css/nexus-webgl-glass.css" />
+    <link rel="stylesheet" href="../css/nexus-glass-quality.css" />
+    <link rel="stylesheet" href="../css/nexus-debug-rainbow-bg.css" />
+    <script src="../js/nexus-video-bg.js" defer></script>
+    <script src="../js/nexus-webgl-bg.js" defer></script>
+    <script src="../js/nexus-webgl-glass.js" defer></script>
+    <script src="../js/nexus-glass-quality.js" defer></script>
+    <script src="../js/nexus-debug-rainbow-bg.js" defer></script>
+    <script src="../js/nexus-ai.js"></script>
+    <script defer src="js/games-catalog.js"></script>
+    <script defer src="js/luna-recommendations.js"></script>
+    <script defer src="js/game-tile-intro.js"></script>
+    <script defer src="js/quick-play.js"></script>
+    <script defer src="js/game-launch-splash.js"></script>
+    <script defer src="js/game-launch-sheet.js"></script>
+    <script defer src="js/main.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+</head>
+  <body>
+    <div class="blurred-blue-ball"></div>
+    <div class="blurred-red-ball"></div>
+    <div class="blurred-purple-ball"></div>
+<!-- top of page -->
+
+
+      
+
+    <!-- Sticky Header Wrapper -->
+    <div class="sticky-header">
+      <!-- search bar and user account -->
+      <div class="top-bar">
+        <div class="search-container">
+          <input type="text" id="mySearch" onclick="openSpotlight()" placeholder="Search for games..." title="Search" readonly style="cursor: pointer;" />
+          <div id="searchResults" class="search-dropdown"></div>
+        </div>
+        
+        <div class="user-account" onclick="openConnectedAccount(event)">
+          <button class="account-pill" aria-label="Account" type="button">
+            <i class="fa-solid fa-user"></i>
+            <span>Account</span>
+          </button>
+          <div class="user-menu" id="userMenu" style="display: none;">
+            <div class="user-info">
+              <img src="https://via.placeholder.com/60x60/007bff/ffffff?text=U" alt="Profile" class="profile-picture-large" />
+              <div class="user-details">
+                <h3>Connected Center</h3>
+                <p>Online Multiplayer Gamer</p>
+              </div>
+            </div>
+            <div class="recent-games">
+              <h4>Last 3 Online Multiplayer Games</h4>
+              <div class="game-list">
+                <div class="recent-game">
+                  <img src="projects/among-us/index.jpg" alt="Among Us" class="game-thumbnail" />
+                  <div class="game-info">
+                    <span class="game-name">Among Us</span>
+                    <span class="play-time">2 hours ago</span>
+                  </div>
+                </div>
+                <div class="recent-game">
+                  <img src="projects/fall-guys/index.jpg" alt="Fall Guys" class="game-thumbnail" />
+                  <div class="game-info">
+                    <span class="game-name">Fall Guys</span>
+                    <span class="play-time">1 day ago</span>
+                  </div>
+                </div>
+                <div class="recent-game">
+                  <img src="projects/agar-io/index.jpg" alt="Agar.io" class="game-thumbnail" />
+                  <div class="game-info">
+                    <span class="game-name">Agar.io</span>
+                    <span class="play-time">3 days ago</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- category filter buttons -->
+      <div class="category-filters">
+        <button class="category-btn active" data-category="all" onclick="filterByCategory('all')">All</button>
+        <button class="category-btn" data-category="Casual" onclick="filterByCategory('Casual')">Casual</button>
+        <button class="category-btn" data-category="Arcade" onclick="filterByCategory('Arcade')">Arcade</button>
+        <button class="category-btn" data-category="PVP" onclick="filterByCategory('PVP')">PVP</button>
+        <button class="category-btn" data-category="Offline Multiplayer" onclick="filterByCategory('Offline Multiplayer')">Offline Multiplayer</button>
+        <button class="category-btn" data-category="Online Multiplayer" onclick="filterByCategory('Online Multiplayer')">Online Multiplayer</button>
+        <button class="category-btn" data-category="FPS" onclick="filterByCategory('FPS')">FPS</button>
+        <button class="category-btn" data-category="Action" onclick="filterByCategory('Action')">Action</button>
+      </div>
+    </div>
+    <script defer src="js/search.js"></script>
+
+    <script defer src="js/games-header-merge.js"></script>
+    <!-- Badges
+      Hot: <span class="badge"><i class="fa-solid fa-fire"></i> Hot</span>
+    -->
+
+
+
+    <div class="games-page-main">
+    <section id="quickPlaySection" class="games-section-strip quick-play-strip" aria-label="Quick Play">
+      <div class="games-section-cluster">
+        <div class="games-section-head">
+          <span class="games-section-label">Quick Play</span>
+          <span class="games-section-sub">Tap ★ on a game to pin it here</span>
+        </div>
+        <div class="games-section-box">
+          <div class="games-section-row" id="quickPlayStrip"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- here's the games and stuff. (legacy grid, hidden after bootstrap) -->
+    <div id="search" class="flex-container" data-intro-pending="1">
+    </div>
+    </div>
+
+    <!-- Full-screen game overlay -->
+    <div id="gameOverlay" aria-hidden="true">
+      <!-- Glassmorphic HUD Game Controls Bar -->
+      <div class="game-controls-bar" id="gameControlsBar">
+        <button id="leaveGameButton" class="game-control-btn btn-leave" type="button" title="Leave Game" aria-label="Leave game">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+        <button id="inviteButton" class="game-control-btn btn-invite" type="button" title="Add Player" aria-label="Add Player">
+          <i class="fa-solid fa-user-plus"></i>
+        </button>
+        <button id="settingsButton" class="game-control-btn btn-settings" type="button" title="Game Settings" aria-label="Game Settings">
+          <i class="fa-solid fa-gear"></i>
+        </button>
+        <button id="lunaCopilotButton" class="game-control-btn btn-luna" type="button" title="Luna Copilot" aria-label="Luna Copilot">
+          <img src="../luna/lunaicon.png" alt="" decoding="async">
+        </button>
+      </div>
+
+      <!-- Hidden Title holder (to maintain legacy scripts compatibility) -->
+      <div id="gameTitle" style="display: none;">Loading…</div>
+
+      <!-- Glassmorphic Settings Pop-up -->
+      <div id="gameSettingsPopup" class="glass-popup">
+        <div class="glass-popup-header">
+          <div class="game-info-compact">
+            <img id="settingsGameIcon" src="" alt="Icon" class="compact-game-icon" style="display: none;" />
+            <h2 id="settingsGameName" class="compact-game-name">Loading…</h2>
+          </div>
+          <button type="button" class="close-glass-popup" id="closeSettingsBtn" aria-label="Close settings">&times;</button>
+        </div>
+        <div class="glass-popup-body">
+          <!-- FPS Limiter Slider -->
+          <div class="setting-item">
+            <div class="setting-label-row">
+              <span class="setting-label"><i class="fa-solid fa-gauge-high"></i> FPS Limiter</span>
+              <span id="fpsLimitValue" class="setting-value">60 FPS</span>
+            </div>
+            <input type="range" id="fpsLimiter" min="30" max="240" step="10" value="60" class="glass-slider" />
+            <div class="slider-marks">
+              <span>30</span>
+              <span>60</span>
+              <span>120</span>
+              <span>144</span>
+              <span>240</span>
+            </div>
+          </div>
+
+          <!-- Zoom Slider -->
+          <div class="setting-item">
+            <div class="setting-label-row">
+              <span class="setting-label"><i class="fa-solid fa-magnifying-glass-plus"></i> Screen Zoom</span>
+              <span id="zoomValue" class="setting-value">100%</span>
+            </div>
+            <input type="range" id="zoomSlider" min="50" max="150" step="5" value="100" class="glass-slider" />
+            <div class="slider-marks">
+              <span>50%</span>
+              <span>100%</span>
+              <span>150%</span>
+            </div>
+          </div>
+
+          <!-- Invited Players List -->
+          <div class="setting-item">
+            <span class="setting-label"><i class="fa-solid fa-users"></i> Invited Players</span>
+            <div class="invited-players-list" id="settingsInvitedList">
+              <div class="no-players-msg">No players invited yet. Tap Add to invite friends!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Glassmorphic Invite Modal -->
+      <div id="gameInviteModal" class="glass-popup">
+        <div class="glass-popup-header">
+          <h2><i class="fa-solid fa-user-plus"></i> Invite to <span id="inviteModalGameName">Game</span></h2>
+          <button type="button" class="close-glass-popup" id="closeInviteBtn" aria-label="Close invite panel">&times;</button>
+        </div>
+        <div class="glass-popup-body">
+          <p class="invite-subtitle">Search for a Connected Center user to invite.</p>
+          <div style="margin-bottom:10px;">
+            <input type="text" id="inviteUserSearchInput"
+              placeholder="Search by username..."
+              class="glass-input"
+              style="width:100%;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.1);color:inherit;font-size:14px;outline:none;"
+              oninput="searchInviteUsers()" />
+          </div>
+          <div id="inviteUserResults" class="friends-list" style="min-height:48px;max-height:220px;overflow-y:auto;">
+            <div class="no-players-msg" style="color:rgba(255,255,255,0.5);font-size:13px;padding:8px 0;">Type a username to search.</div>
+          </div>
+          <div class="setting-label" style="margin-top:14px;font-size:12px;opacity:0.85;"><i class="fa-solid fa-users"></i> Invited this session</div>
+          <div id="inviteModalPlayersList" class="invited-players-list" style="margin-top:6px;">
+            <div class="no-players-msg" style="color:rgba(255,255,255,0.45);font-size:12px;">No invites sent yet.</div>
+          </div>
+          <div id="inviteNotLoggedIn" style="display:none;padding:10px;background:rgba(255,100,100,0.15);border-radius:10px;font-size:13px;margin-top:8px;">
+            <i class="fa-solid fa-circle-exclamation"></i> Sign in to Connected Center to invite players.
+            <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+              <a href="#" onclick="event.preventDefault();openConnectedSignIn('login');" style="color:#93c5fd;text-decoration:underline;">Log In</a>
+              <span style="opacity:0.5;">·</span>
+              <a href="#" onclick="event.preventDefault();openConnectedSignIn('account');" style="color:#93c5fd;text-decoration:underline;">Settings → Connected Account</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Glassmorphic Notifications system container -->
+      <div id="glassAlert" class="glass-alert">Notification placeholder</div>
+      <iframe id="gameFrame" title="Game" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock allow-popups"></iframe>
+    </div>
+
+    <!-- game launch sheet. tile morph popup. very ios. very unhinged to implement -->
+    <div id="gameLaunchBackdrop" class="game-launch-backdrop" aria-hidden="true"></div>
+    <div id="gameLaunchSheet" class="game-launch-sheet" aria-hidden="true">
+      <div id="gameLaunchMorph" class="game-launch-morph">
+        <div class="game-launch-icon-stage">
+          <div id="gameLaunchIconWrap" class="game-launch-icon-wrap">
+            <img id="gameLaunchIcon" alt="" />
+            <span id="gameLaunchIconLetter" class="game-launch-icon-letter" style="display:none"></span>
+          </div>
+        </div>
+        <div class="game-launch-body">
+          <h2 id="gameLaunchTitle" class="game-launch-title">Game</h2>
+          <div class="game-launch-actions">
+            <button type="button" id="gameLaunchPlay" class="game-launch-btn game-launch-btn-primary">Play</button>
+            <button type="button" id="gameLaunchPin" class="game-launch-btn game-launch-btn-secondary">Pin to Quick Play</button>
+            <button type="button" id="gameLaunchFriends" class="game-launch-btn game-launch-btn-friends">Play with friends (Connected Center)</button>
+          </div>
+        </div>
+      </div>
+      <button type="button" id="gameLaunchClose" class="game-launch-close" aria-label="Close">&times;</button>
+    </div>
+
+    <!-- launch splash. icon goes WHOOSH -->
+    <div id="gameLaunchSplash" class="game-launch-splash" aria-hidden="true">
+      <div id="gameLaunchSplashBg" class="game-launch-splash-bg"></div>
+      <div class="game-launch-splash-scrim"></div>
+      <div id="gameLaunchSplashShine" class="game-launch-splash-shine"></div>
+      <div id="gameLaunchSplashIcon" class="game-launch-splash-icon">
+        <img id="gameLaunchSplashIconImg" alt="" />
+        <span id="gameLaunchSplashIconLetter" class="splash-letter" style="display:none"></span>
+      </div>
+      <h2 id="gameLaunchSplashTitle" class="game-launch-splash-title"></h2>
+    </div>
+
+    <script defer src="js/games-overlay.js"></script>
+
+    <!-- Spotlight Search Backdrop -->
+    <div id="spotlightBackdrop" class="spotlight-backdrop" onclick="closeSpotlight()"></div>
+
+    <!-- Spotlight Search Modal -->
+    <div id="spotlightCard" class="spotlight-card" style="display: none;">
+      <div class="spotlight-input-container">
+        <i class="fa-solid fa-magnifying-glass spotlight-search-icon" style="color: #4a4a6a; font-size: 18px; margin-right: 4px;"></i>
+        <input type="text" id="spotlightSearchInput" class="spotlight-input" onkeyup="startSpotlightSearch()" placeholder="Search games, categories..." autocomplete="off" spellcheck="false" />
+        <span class="close" onclick="closeSpotlight()" style="position: static; font-size: 24px; color: #4a4a6a; cursor: pointer; font-weight: bold; line-height: 1; margin-left: 8px;">&times;</span>
+      </div>
+      <div id="spotlightResults" class="spotlight-results">
+        <!-- Spotlight results will load here -->
+      </div>
+    </div>
+
+    <!-- popup backdrop -->
+    <div id="popupBackdrop" class="popup-backdrop" onclick="closeConnectedPopup()"></div>
+
+    <!-- Connected Center Popup -->
+    <div id="connectedPopup" class="connected-popup" style="display: none;">
+      <span class="close" onclick="closeConnectedPopup()">&times;</span>
+      <div id="connectedContent" style="height: 100%;">
+        <!-- Content will be loaded here -->
+      </div>
+    </div>
+
+  </body>
+</html>

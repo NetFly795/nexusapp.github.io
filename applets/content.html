@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Applets Store</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Nexus Navigation Bar Replica: Initially full, then fade to "Back to Nexus" -->
+   
+    <div class="container" id="mainContainer">
+        <aside class="sidebar">
+            <h2>Applets</h2>
+            <input type="text" id="addon-search" placeholder="Search applets..." />
+            <ul id="addon-list"></ul>
+            <div id="pinned-section">
+                <h3>Pinned</h3>
+                <ul id="pinned-list"></ul>
+            </div>
+        </aside>
+        <main class="content">
+            <div id="addon-details">
+                <p class="placeholder">Select an applet to view details</p>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+    <script>
+    // Fade out only navBtnGroup and show only "Back to Nexus" after a delay
+    window.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+            // Fade out navBtnGroup only
+            const navBtnGroup = document.getElementById('navBtnGroup');
+            navBtnGroup.style.transition = 'opacity 0.5s';
+            navBtnGroup.style.opacity = '0';
+
+            setTimeout(() => {
+                // Replace navBtnGroup with "Back to Nexus" button
+                navBtnGroup.innerHTML = `
+                    <button class="nav-btn active" style="
+                        min-width:120px;
+                        padding-left:28px;
+                        padding-right:28px;
+                        border-radius:24px;
+                        font-size:17px;
+                        background: white;
+                        color: #222;
+                        font-family: 'Avenir','Segoe UI','Arial',sans-serif;
+                        font-weight: 500;
+                        box-shadow: 0 2px 8px rgba(60,60,60,0.10);
+                        border: none;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+                        cursor: pointer;
+                    "
+                    onmouseover="this.style.background='#f5f7fa';this.style.color='#1976d2';this.style.boxShadow='0 6px 16px -8px #2196f3';this.style.transform='scale(1.08)';"
+                    onmouseout="this.style.background='white';this.style.color='#222';this.style.boxShadow='0 2px 8px rgba(60,60,60,0.10)';this.style.transform='none';"
+                    onclick="window.open('../app.html','_top')">
+                        <span class="nav-btn-content" style="display:flex;align-items:center;">
+                            <img src="../nexuslogoapple.png" alt="Nexus Logo" class="nav-btn-icon" style="width:22px;height:22px;margin-right:10px;vertical-align:middle;object-fit:contain;" />
+                            Back to Nexus
+                        </span>
+                    </button>
+                `;
+                navBtnGroup.style.opacity = '1';
+            }, 600);
+        }, 600);
+    });
+    </script>
+</body>
+</html>
+</body>
+</html>
+

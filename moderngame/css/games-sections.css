@@ -1,0 +1,87 @@
+/* Shared strip layout (Quick Play on Games page) */
+.games-section-strip {
+  width: 100%;
+  margin: 0 0 18px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+
+.games-section-cluster {
+  display: flex;
+  flex-direction: column;
+  width: calc(var(--game-tile-width, 300px) * 3 + var(--game-grid-gap, 20px) * 2);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.games-section-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin: 0 0 8px;
+  padding: 0;
+  width: 100%;
+}
+
+.games-section-label {
+  font-size: 0.9rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  color: var(--theme-text-accent, #1a3a7a);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.games-section-sub {
+  font-size: 0.78rem;
+  color: var(--theme-text-secondary, #4a4a6a);
+  opacity: 0.85;
+}
+
+[data-dark-mode="true"] .games-section-label {
+  color: var(--theme-text-primary, #f1f5f9);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+}
+
+.games-section-box {
+  padding: 12px;
+  border-radius: 20px;
+  background: var(--theme-glass-tint, rgba(255, 255, 255, 0.42));
+  border: 1px solid var(--theme-glass-border, rgba(255, 255, 255, 0.6));
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.quick-play-strip .games-section-box {
+  background: linear-gradient(135deg, rgba(255, 200, 87, 0.12) 0%, rgba(255, 255, 255, 0.38) 100%);
+  border-color: rgba(255, 210, 120, 0.35);
+}
+
+[data-dark-mode="true"] .games-section-box,
+[data-dark-mode="true"] .quick-play-strip .games-section-box {
+  background: var(--theme-glass-tint, rgba(14, 22, 32, 0.75));
+  border-color: var(--theme-glass-border, rgba(255, 255, 255, 0.08));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.games-section-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: flex-start;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+}
+
+.games-section-row .qp-empty {
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 8px 4px;
+}

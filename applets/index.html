@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nexus</title>
+  <link rel="manifest" href="./manifest.json">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Avenir', 'Segoe UI', 'Arial', sans-serif;
+    }
+    body {
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      position: relative;
+      font-family: inherit;
+    }
+    #content-frame {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      margin: 0;
+      padding: 0;
+      display: block;
+      transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1),
+                  opacity 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+    
+    #content-frame.page-transition-out {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    
+    #content-frame.page-transition-in {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    :root {
+      --theme-tint: rgba(255, 255, 255, 0.85);
+      --theme-shadow: rgba(60,60,60,0.18);
+      --theme-hover: #f5f7fa;
+      --theme-accent: #2196f3;
+      --mouse-x: 50%;
+      --mouse-y: 50%;
+    }
+    
+    [data-theme="deepblue"] {
+      --theme-tint: rgba(152, 195, 255, 0.92);
+      --theme-shadow: rgba(26, 35, 126, 0.25);
+      --theme-hover: rgba(255, 255, 255, 0.92);
+      --theme-accent: #3f51b5;
+    }
+    
+    [data-theme="cherryred"] {
+      --theme-tint: rgba(255, 209, 209, 0.92);
+      --theme-shadow: rgba(211, 47, 47, 0.25);
+      --theme-hover: rgba(255, 255, 255, 0.92);
+      --theme-accent: #d32f2f;
+    }
+    
+    [data-theme="gold"] {
+      --theme-tint: rgba(255, 241, 206, 0.92);
+      --theme-shadow: rgba(251, 192, 45, 0.25);
+      --theme-hover: rgba(255, 255, 255, 0.92);
+      --theme-accent: #ffa000;
+    }
+    
+    [data-theme="purple"] {
+      --theme-tint: rgba(233, 213, 255, 0.92);
+      --theme-shadow: rgba(241, 228, 255, 0.25);
+      --theme-hover: rgba(255, 255, 255, 0.92);
+      --theme-accent: #7b1fa2;
+    }
+
+    .bottom-nav {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translate(-50%, 0); /* Change to translate for both X and Y */
+      width: calc(100vw - 16px); /* was 100vw - 32px */
+      max-width: 660px; /* was 600px */
+      height: 56px;
+      display: flex;
+      background: linear-gradient(
+          135deg,
+          var(--theme-tint) 0%,
+          rgba(255, 255, 255, 0.95) calc(((var(--mouse-x) + var(--mouse-y)) / 2) * 0.4),
+          var(--theme-tint) 100%
+      );
+      border: 1px solid rgba(200, 200, 200, 0.25);
+      border-radius: 28px;
+      box-shadow: 0 4px 24px var(--theme-shadow);
+      z-index: 100;
+      padding: 0 8px;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      @supports not (backdrop-filter: blur(16px)) {
+        background: rgba(255, 255, 255, 0.95);
+      }
+      transform: translateY(0);
+      transition: opacity 0.25s cubic-bezier(.4,0,.2,1), 
+                 transform 0.25s cubic-bezier(.4,0,.2,1),
+                 height 0.3s cubic-bezier(.4,0,.2,1),
+                 border-radius 0.3s cubic-bezier(.4,0,.2,1);
+    }
+
+    .bottom-nav.compact {
+      height: 48px;
+    }
+
+    .bottom-nav.popup-mode {
+      width: 240px;
+      height: auto;
+      bottom: 24px;
+      border-radius: 20px;
+      padding: 16px;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .edit-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.3);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 99;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .edit-overlay.show {
+        display: block;
+        opacity: 1;
+    }
+
+    .customize-section {
+      display: none;
+      position: absolute;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(83% * (min(100vw - 32px, 600px)));
+      min-width: 240px;
+      max-width: 450px;
+      background: var(--theme-tint);
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 0 4px 24px var(--theme-shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 101;  /* Above overlay */
+      max-height: calc(100vh - 180px);
+      overflow-y: auto;
+    }
+
+    .customize-section.show {
+      display: block;
+      animation: popIn 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    }
+
+    .done-button {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        margin-top: 16px;
+        background: #1976d2;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .done-button:hover {
+        background: #1565c0;
+    }
+
+    @keyframes popIn {
+      0% { transform: translate(-50%, 10px); opacity: 0; }
+      100% { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    .nav-preview {
+        width: calc(100% - 16px);
+        margin: 0 auto 16px auto;
+        height: auto;
+        min-height: 0;
+        background: var(--theme-tint);
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+        gap: 4px;
+    }
+
+    .nav-preview.drag-over {
+      border-color: #1976d2;
+    }
+
+    .button-preview {
+        padding: 8px 12px;
+        background: white;
+        border-radius: 10px;
+        margin: 0;
+        cursor: move;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 13px;
+    }
+
+    .button-preview.dragging {
+      transform: scale(1.05);
+      opacity: 0.5;
+    }
+
+    .button-preview img {
+      width: 16px;
+      height: 16px;
+      -webkit-transform: translateY(0);  /* Fix WebKit alignment */
+    }
+
+    .option-choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .option-choice {
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: white;
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .option-choice.selected {
+      background: #e3eafc;
+      border-color: #1976d2;
+      color: #1976d2;
+      font-weight: 500;
+    }
+
+    .nav-preview-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      height: 36px;
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      font-size: 13px;
+      color: #666;
+      padding: 0 16px;
+      margin: 0 4px;
+    }
+
+    .compact .nav-preview-button {
+      flex: 0;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border-radius: 50%;
+      margin: 0 6px;
+    }
+
+    #customizeBtn,
+    #closeCustomizeBtn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    #closeCustomizeBtn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .popup-mode #customizeBtn {
+      display: none;
+    }
+
+    .popup-mode #closeCustomizeBtn {
+      display: flex;
+      opacity: 0.7;
+      pointer-events: auto;
+    }
+    
+    .preview-label {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 8px;
+      display: block;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .popup-mode .preview-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #customizeBtn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.7;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #customizeBtn svg {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .popup-mode #customizeBtn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      transform: rotate(45deg);
+    }
+
+    .compact .nav-preview {
+      height: 48px;
+    }
+
+    .nav-preview-button {
+      width: 36px;
+      height: 36px;
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .compact .nav-preview-button {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+
+    .bottom-nav.popup-mode > *:not(.customize-section) {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .nav-btn {
+      flex: 1 1 0;
+      padding: 12px 0;
+      margin: 0 10px;
+      color: #222;
+      background: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 24px;
+      transition: all 0.3s cubic-bezier(.4,0,.2,1);
+      backdrop-filter: blur(8px) saturate(140%);
+      -webkit-backdrop-filter: blur(8px) saturate(140%);
+      @supports not (backdrop-filter: blur(8px)) {
+        background: rgba(255, 255, 255, 0.98);
+      }
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-btn:hover, .nav-btn.active {
+      background: var(--theme-hover);
+      color: #000; /* Change from #fff to #000 */
+    }
+    .nav-btn.active,
+    .nav-btn:hover:not(.active):not([data-glow]) {
+      box-shadow: 0 6px 16px -8px #2196f3;
+    }
+    .nav-btn.active[data-glow="orange"],
+    .nav-btn:hover[data-glow="orange"]:not(.active) {
+      box-shadow: 0 6px 16px -8px #ff9800;
+    }
+    .nav-btn.active[data-glow="purple"],
+    .nav-btn:hover[data-glow="purple"]:not(.active) {
+      box-shadow: 0 6px 16px -8px #a259f7;
+    }
+    .nav-btn.active[data-glow="red"],
+    .nav-btn:hover[data-glow="red"]:not(.active) {
+      box-shadow: 0 6px 16px -8px #ff6b81;
+    }
+    .nav-btn:hover {
+      transform: scale(1.12);
+      z-index: 1;
+      /* color: #ffffff; -- removed to allow black text */
+    }
+    .nav-btn:active {
+      transform: scale(0.96);
+      box-shadow: 0 2px 8px -2px #bac6d2;
+      background: #e9eef3;
+      border: none;
+      transition: transform 0.08s, box-shadow 0.08s, background 0.08s, border 0.08s;
+    }
+    .tray-arrow {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      vertical-align: middle;
+    }
+    .tray-arrow path {
+      fill: #555;
+      transition: fill 0.2s;
+    }
+    #hideNavBtn:hover .tray-arrow path,
+    #showNavBtn:hover .tray-arrow path {
+      fill: #1976d2;
+    }
+    .nav-btn-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      font: inherit;
+      font-size: inherit;
+      line-height: 1;
+      font-family: 'Avenir', 'Segoe UI', 'Arial', sans-serif;
+    }
+    .nav-btn-icon {
+      width: 18px;
+      height: 18px;
+      margin-right: 6px;
+      display: inline-block;
+      vertical-align: middle;
+      object-fit: contain;
+    }
+    #gamesBackBtn {
+      display: none;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 200;
+      background: var(--theme-tint);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      @supports not (backdrop-filter: blur(8px)) {
+        background: rgba(255, 255, 255, 0.95);
+      }
+      border: 1px solid rgba(200,200,200,0.3);
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #1976d2;
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+      transition: opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+                  transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+
+    #gamesBackBtn.button-enter {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #gamesBackBtn.button-exit {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    #setupOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.85);
+      z-index: 10000;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      @supports not (backdrop-filter: blur(10px)) {
+        background: rgba(0, 0, 0, 0.92);
+      }
+    }
+
+    #setupPopup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border-radius: 24px;
+      padding: 32px;
+      width: 90%;
+      max-width: 480px;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.3);
+      z-index: 10001;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .setup-step {
+      display: none;
+      text-align: center;
+    }
+
+    .setup-step.active {
+      display: block;
+      animation: fadeIn 0.4s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .theme-preview {
+      width: 100px;
+      height: 100px;
+      border-radius: 16px;
+      margin: 8px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      border: 2px solid transparent;
+    }
+
+    .theme-preview:hover {
+      transform: scale(1.05);
+    }
+
+    .theme-preview.selected {
+      border-color: #1976d2;
+      transform: scale(1.05);
+    }
+
+    #loadingBar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: #2196f3;
+      z-index: 10000;
+      transition: width 0.2s ease-out;
+      transform-origin: left;
+      box-shadow: 0 1px 8px rgba(33,150,243,0.3);
+      opacity: 0;
+    }
+
+    #loadingBar.loading {
+      opacity: 1;
+      animation: progressBar 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    #loadingBar.complete {
+      width: 100%;
+      opacity: 0;
+      transition: width 0.3s ease-out, opacity 0.3s 0.3s;
+    }
+
+    @keyframes progressBar {
+      0% { width: 0%; }
+      20% { width: 40%; }
+      50% { width: 60%; }
+      80% { width: 80%; }
+      90% { width: 85%; }
+      100% { width: 90%; }
+    }
+
+    #customizeBtn {
+      background: none;
+      border: none;
+      padding: 8px;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      margin-left: 4px;
+    }
+
+    #customizeBtn:hover {
+      opacity: 1;
+    }
+
+    .customize-section {
+      display: none;
+      position: absolute;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(83% * (min(100vw - 32px, 600px)));
+      min-width: 240px;
+      max-width: 450px;
+      background: var(--theme-tint);
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 0 4px 24px var(--theme-shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 101;  /* Above overlay */
+      max-height: calc(100vh - 180px);
+      overflow-y: auto;
+    }
+
+    .customize-section.show {
+      display: block;
+      animation: popIn 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    }
+
+    @keyframes popIn {
+      0% { transform: translate(-50%, 10px); opacity: 0; }
+      100% { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    .option-label {
+      display: block;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .option-choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .option-choice {
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: white;
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .option-choice.selected {
+      background: #e3eafc;
+      border-color: #1976d2;
+      color: #1976d2;
+      font-weight: 500;
+    }
+
+    /* Compact mode styles */
+    .compact .nav-btn {
+      width: 42px;
+      min-width: 42px;
+      height: 42px;
+      padding: 0;
+      border-radius: 50%;
+      margin: 0 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .compact .nav-btn-content {
+      justify-content: center;
+    }
+
+    .compact .nav-btn-content span {
+      display: none;
+    }
+
+    .compact .nav-btn-icon {
+      margin: 0;
+    }
+
+    .nav-preview-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      height: 36px;
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      font-size: 13px;
+      color: #666;
+      padding: 0 16px;
+      margin: 0 4px;
+    }
+
+    .compact .nav-preview-button {
+      flex: 0;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border-radius: 50%;
+      margin: 0 6px;
+    }
+
+    #closeCustomizeBtn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .popup-mode #closeCustomizeBtn {
+      opacity: 0.7;
+      pointer-events: auto;
+    }
+
+    .popup-mode #closeCustomizeBtn:hover {
+      opacity: 1;
+    }
+
+    .show-anim {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    .hide-anim {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+
+    #showNavBtn {
+        transition: opacity 0.25s cubic-bezier(.4,0,.2,1),
+                   transform 0.25s cubic-bezier(.4,0,.2,1);
+    }
+
+    .drift-in {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .drift-out {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+
+    #loadingBar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: #2196f3;
+      z-index: 10000;
+      transition: width 0.2s ease-out;
+      transform-origin: left;
+      box-shadow: 0 1px 8px rgba(33,150,243,0.3);
+      opacity: 0;
+    }
+
+    #loadingBar.loading {
+      opacity: 1;
+      animation: progressBar 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    #loadingBar.complete {
+      width: 100%;
+      opacity: 0;
+      transition: width 0.3s ease-out, opacity 0.3s 0.3s;
+    }
+
+    @keyframes progressBar {
+      0% { width: 0%; }
+      20% { width: 40%; }
+      50% { width: 60%; }
+      80% { width: 80%; }
+      90% { width: 85%; }
+      100% { width: 90%; }
+    }
+
+    /* Cookie popup styles */
+    #cookiePopup {
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        background: var(--theme-tint);
+        padding: 16px;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px var(--theme-shadow);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(200, 200, 200, 0.25);
+        max-width: 300px;
+        z-index: 1000;
+        font-size: 13px;
+        transform: translateY(20px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: none;
+    }
+
+    #cookiePopup.show {
+        transform: translateY(0);
+        opacity: 1;
+        display: block;
+    }
+
+    #cookiePopup p {
+        margin: 0 0 12px 0;
+        line-height: 1.5;
+    }
+
+    .cookie-buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .cookie-btn {
+        flex: 1;
+        padding: 8px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+
+    .cookie-btn.accept {
+        background: var(--theme-accent);
+        color: white;
+    }
+
+    .cookie-btn.decline {
+        background: #f5f5f5;
+        color: #666;
+    }
+
+    .nav-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at calc(var(--mouse-x) * 100%) calc(var(--mouse-y) * 100%),
+            rgba(255, 255, 255, 0.8) 0%,
+            transparent 50%
+        );
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+    }
+
+    .nav-btn:hover::before {
+        opacity: 1;
+    }
+
+    #fullscreenBtn {
+        position: fixed;
+        left: -50px; /* Changed from right to left */
+        top: 50%;
+        transform: translateY(-50%) scale(0.8);
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: linear-gradient(
+            135deg,
+            var(--theme-tint) 0%,
+            rgba(255, 255, 255, 0.95) calc(((var(--mouse-x) + var(--mouse-y)) / 2) * 0.4),
+            var(--theme-tint) 100%
+        );
+        border: 1px solid rgba(200, 200, 200, 0.25);
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        box-shadow: 0 4px 24px var(--theme-shadow);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000; /* Increase z-index */
+        isolation: isolate; /* Create stacking context */
+    }
+
+    #fullscreenBtn.active {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+        left: -60px; /* Changed from right to left */
+    }
+
+    .bottom-nav {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .bottom-nav.shift-left {
+        transform: translate(calc(-50% + 30px), 0); /* Changed from minus to plus */
+    }
+
+    .applets-btn {
+      flex: 0 0 auto !important;
+      width: 42px !important;
+      min-width: 42px !important;
+      height: 42px !important;
+      padding: 0 !important;
+      border-radius: 50% !important;
+      margin-left: 10px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .applets-btn .nav-btn-content {
+      display: none !important;
+    }
+    .applets-btn .nav-btn-icon {
+      margin: 0 !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="loadingBar"></div>
+  <button id="backBtn" style="display:none;position:absolute;top:18px;left:18px;z-index:200;background:#fff;border-radius:16px;border:1px solid #ddd;box-shadow:0 2px 8px rgba(60,60,60,0.10);padding:8px 18px;font-size:16px;font-family:'Avenir','Segoe UI','Arial',sans-serif;cursor:pointer;">
+    &#8592; Back
+  </button>
+  <button id="gamesBackBtn">Back to Games</button>
+  <iframe id="content-frame" src="content.html"></iframe>
+  <nav class="bottom-nav show-anim" id="bottomNav">
+    <img src="../nexuslogoapple.png" alt="Nexus Logo" style="height:32px; width:auto; margin-right:16px; margin-left:4px; display:block;" id="navLogo" />
+    <div id="navBtnGroup" style="display:flex;align-items:center;transition:opacity 0.5s;">
+      <button class="nav-btn active" type="button" tabindex="-1">
+        <span class="nav-btn-content">
+          <img src="../icons/home.png" alt="Home" class="nav-btn-icon" />
+          Home
+        </span>
+      </button>
+      <button class="nav-btn" data-glow="orange" type="button" tabindex="-1">
+        <span class="nav-btn-content">
+          <img src="../icons/games.png" alt="Games" class="nav-btn-icon" />
+          Games
+        </span>
+      </button>
+      <button class="nav-btn" data-glow="purple" type="button" tabindex="-1">
+        <span class="nav-btn-content">
+          <img src="../icons/social.png" alt="Social" class="nav-btn-icon" />
+          Social
+        </span>
+      </button>
+      <button class="nav-btn" data-glow="red" id="settingsBtn" type="button" tabindex="-1">
+        <span class="nav-btn-content">
+          <img src="../icons/preferences.png" alt="Profile" class="nav-btn-icon" />
+          Settings
+        </span>
+      </button>
+      <!-- Applets button: rightmost, icon only, circular -->
+      <button class="nav-btn applets-btn" data-glow="green" type="button" tabindex="-1" style="flex:0 0 auto;width:42px;min-width:42px;height:42px;padding:0;border-radius:50%;margin-left:10px;display:flex;align-items:center;justify-content:center;">
+        <img src="../icons/applets.png" alt="Applets" class="nav-btn-icon" style="margin:0;" />
+      </button>
+    </div>
+  </nav>
+  <button id="showNavBtn" style="display:none;position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:#fff;border-radius:20px;border:1px solid #eee;box-shadow:0 2px 8px rgba(60,60,60,0.12);padding:6px 16px;z-index:101;align-items:center;justify-content:center;opacity:0;">
+    <svg class="tray-arrow" viewBox="0 0 24 24">
+      <path d="M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+    </svg>
+  </button>
+  <!-- iOS-style settings popup -->
+  <div id="setupOverlay"></div>
+  <div id="setupPopup">
+    <div class="setup-step" id="step1">
+      <h2>Welcome to Nexus</h2>
+      <p>Let's get you set up! First, tell us your name.</p>
+      <input type="text" id="setupUsername" placeholder="Username" required style="width:100%;padding:12px;margin:16px 0;border-radius:8px;border:1px solid #ddd;">
+    </div>
+    <div class="setup-step" id="step2">
+      <h2>Add a Profile Picture</h2>
+      <p>Optional, but recommended!</p>
+      <input type="file" id="setupProfilePic" accept="image/*" style="display:none">
+      <label for="setupProfilePic" style="display:inline-block;padding:12px 24px;background:#f0f4f8;border-radius:8px;cursor:pointer;margin:16px 0;">Choose Image</label>
+      <img id="setupProfilePreview" style="width:120px;height:120px;border-radius:60px;display:none;margin:16px auto;object-fit:cover">
+    </div>
+    <div class="setup-step" id="step3">
+      <h2>Add a Bio</h2>
+      <p>Tell us about yourself (optional)</p>
+      <textarea id="setupBio" placeholder="Your bio here..." style="width:100%;padding:12px;margin:16px 0;border-radius:8px;border:1px solid #ddd;height:100px;resize:none"></textarea>
+    </div>
+    <div class="setup-step" id="step4">
+      <h2>Choose Your Theme</h2>
+      <p>Pick a color scheme that suits you</p>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;margin:16px 0;">
+        <div class="theme-preview" onclick="selectSetupTheme('default')" style="background:linear-gradient(135deg, #fff 0%, #f0f4f8 100%)"></div>
+        <div class="theme-preview" onclick="selectSetupTheme('deepblue')" style="background:linear-gradient(135deg, #7986cb 0%, #3f51b5 100%)"></div>
+        <div class="theme-preview" onclick="selectSetupTheme('cherryred')" style="background:linear-gradient(135deg, #ef5350 0%, #d32f2f 100%)"></div>
+        <div class="theme-preview" onclick="selectSetupTheme('purple')" style="background:linear-gradient(135deg, #ab47bc 0%, #7b1fa2 100%)"></div>
+      </div>
+    </div>
+    <div class="setup-step" id="step5">
+      <h2>Welcome to Nexus! 🎉</h2>
+      <p>Here's what you can do:</p>
+      <ul style="text-align:left;margin:16px 0;line-height:1.6">
+        <li>Access games and educational content</li>
+        <li>Connect with classmates</li>
+        <li>Stay updated with school news</li>
+        <li>Customize your experience</li>
+      </ul>
+    </div>
+    <button onclick="nextSetupStep()" style="width:100%;padding:12px;background:#1976d2;color:white;border:none;border-radius:8px;margin-top:16px;cursor:pointer;">Next</button>
+  </div>
+  <div class="edit-overlay"></div>
+  <div id="cookiePopup">
+        <p>We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
+        <div class="cookie-buttons">
+            <button class="cookie-btn accept" onclick="acceptCookies()">Accept</button>
+            <button class="cookie-btn decline" onclick="declineCookies()">Decline</button>
+        </div>
+    </div>
+  <script>
+    // Hide/show nav logic
+    const bottomNav = document.getElementById('bottomNav');
+    const hideNavBtn = document.getElementById('hideNavBtn');
+    const showNavBtn = document.getElementById('showNavBtn');
+    const contentFrame = document.getElementById('content-frame');
+    const backBtn = document.getElementById('backBtn');
+    const gamesBtn = document.querySelector('.nav-btn[data-glow="orange"]');
+    
+    function changePage(page, btn) {
+        const frame = document.getElementById('content-frame');
+        const loadingBar = document.getElementById('loadingBar');
+        const nav = document.getElementById('bottomNav');
+        
+        loadingBar.classList.add('loading');
+        loadingBar.classList.remove('complete');
+        
+        frame.classList.add('page-transition-out');
+        frame.classList.remove('page-transition-in');
+        
+        setTimeout(() => {
+            frame.src = page;
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            backBtn.style.display = 'none';
+            
+            // Show/hide fullscreen button based on games tab
+            const isGamesTab = btn.querySelector('.nav-btn-content').textContent.trim().toLowerCase() === 'games';
+            document.getElementById('fullscreenBtn').classList.toggle('active', isGamesTab);
+            nav.classList.toggle('shift-left', isGamesTab);
+            
+            frame.onload = () => {
+                frame.classList.remove('page-transition-out');
+                frame.classList.add('page-transition-in');
+                loadingBar.classList.remove('loading');
+                loadingBar.classList.add('complete');
+                setTimeout(() => {
+                    loadingBar.classList.remove('complete');
+                    loadingBar.style.width = '0%';
+                }, 700);
+            };
+        }, 350);
+    }
+
+    hideNavBtn.addEventListener('click', function() {
+      bottomNav.classList.remove('show-anim');
+      bottomNav.classList.add('hide-anim');
+      setTimeout(() => {
+        bottomNav.style.display = 'none';
+        showNavBtn.style.display = 'flex';
+        // Animate drift in
+        showNavBtn.classList.remove('drift-out');
+        // Force reflow to restart animation
+        void showNavBtn.offsetWidth;
+        showNavBtn.classList.add('drift-in');
+        showNavBtn.style.visibility = 'visible';
+        showNavBtn.style.opacity = '1';
+        showNavBtn.style.pointerEvents = 'auto';
+      }, 250);
+    });
+
+    showNavBtn.addEventListener('click', function() {
+      // Animate drift out
+      showNavBtn.classList.remove('drift-in');
+      showNavBtn.classList.add('drift-out');
+      showNavBtn.style.pointerEvents = 'none';
+      setTimeout(() => {
+        bottomNav.style.display = 'flex';
+        // Force reflow to restart animation
+        void bottomNav.offsetWidth;
+        bottomNav.classList.remove('hide-anim');
+        bottomNav.classList.add('show-anim');
+        showNavBtn.style.display = 'none';
+        showNavBtn.style.visibility = 'hidden';
+        showNavBtn.classList.remove('drift-out');
+        showNavBtn.style.opacity = '0';
+      }, 320);
+    });
+
+    // Show/hide back button when iframe loads
+    contentFrame.addEventListener('load', function() {
+      const src = contentFrame.getAttribute('src');
+    });
+
+    backBtn.addEventListener('click', function() {
+      contentFrame.src = lastGamesUrl;
+      backBtn.style.display = 'none';
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      gamesBtn.classList.add('active');
+    });
+
+    document.getElementById('gamesBackBtn').addEventListener('click', function() {
+      const frame = document.getElementById('content-frame');
+      
+      // Start transition out
+      frame.classList.add('page-transition-out');
+      frame.classList.remove('page-transition-in');
+      
+      // Hide back button with animation
+      this.classList.remove('button-enter');
+      this.classList.add('button-exit');
+      
+      // After animation out completes
+      setTimeout(() => {
+        frame.src = lastGamesUrl;
+        
+        // Start transition in when page loads
+        frame.onload = () => {
+          frame.classList.remove('page-transition-out');
+          frame.classList.add('page-transition-in');
+          
+          // Hide back button after animation
+          setTimeout(() => {
+            this.style.display = 'none';
+          }, 300);
+        };
+      }, 350);
+    });
+
+    // Theme handling
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      const logo = document.querySelector('.bottom-nav img[alt="Nexus Logo"]');
+      
+      if (theme === 'default' || !theme) {
+        logo.src = 'nexuslogoapple.png';
+      } else {
+        logo.src = `submenus/images/${theme}.png`;
+      }
+    }
+
+    // Listen for theme changes
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'nexus_theme') {
+        applyTheme(e.newValue);
+      }
+    });
+
+    // Apply theme on load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Apply theme
+      const currentTheme = localStorage.getItem('nexus_theme') || 'default';
+      applyTheme(currentTheme);
+
+      // Load default page if saved
+      const defaultPage = localStorage.getItem('nexus_default_page');
+      if (defaultPage) {
+        const navBtn = Array.from(document.querySelectorAll('.nav-btn')).find(btn => 
+            btn.querySelector('.nav-btn-content').textContent.trim().toLowerCase() === defaultPage
+        );
+        if (navBtn) {
+          const url = navBtn.getAttribute('onclick').match(/'([^']+)'/)[1];
+          changePage(url, navBtn);
+        }
+      }
+
+      // Apply saved button order
+      const savedOrder = JSON.parse(localStorage.getItem('nexus_button_order') || '[]');
+      if (savedOrder.length) {
+          const nav = document.getElementById('bottomNav');
+          const buttons = Array.from(nav.querySelectorAll('.nav-btn'));
+          savedOrder.forEach(page => {
+              const button = buttons.find(btn => 
+                  btn.querySelector('.nav-btn-content').textContent.trim().toLowerCase() === page
+              );
+              if (button) nav.insertBefore(btn, nav.querySelector('#hideNavBtn'));
+          });
+      }
+    });
+    
+    // Setup handling
+    let currentStep = 1;
+    let selectedTheme = 'default';
+    
+    function showSetup() {
+      document.getElementById('setupOverlay').style.display = 'block';
+      document.getElementById('setupPopup').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('setupOverlay').style.opacity = '1';
+        document.getElementById('setupPopup').style.opacity = '1';
+        document.getElementById('step1').classList.add('active');
+      }, 100);
+    }
+    
+    function selectSetupTheme(theme) {
+      document.querySelectorAll('.theme-preview').forEach(preview => preview.classList.remove('selected'));
+      event.currentTarget.classList.add('selected');
+      selectedTheme = theme;
+    }
+    
+    function nextSetupStep() {
+      const username = document.getElementById('setupUsername').value;
+      
+      if(currentStep === 1 && !username) {
+        alert('Please enter a username');
+        return;
+      }
+      
+      if(currentStep === 5) {
+        // Save all preferences
+        localStorage.setItem('nexus_username', username);
+        localStorage.setItem('nexus_theme', selectedTheme);
+        localStorage.setItem('nexus_bio', document.getElementById('setupBio').value);
+        if(document.getElementById('setupProfilePreview').src) {
+          localStorage.setItem('nexus_profilepic', document.getElementById('setupProfilePreview').src);
+        }
+        localStorage.setItem('nexus_setup_complete', 'true');
+        
+        // Close setup
+        document.getElementById('setupOverlay').style.opacity = '0';
+        document.getElementById('setupPopup').style.opacity = '0';
+        setTimeout(() => {
+          document.getElementById('setupOverlay').style.display = 'none';
+          document.getElementById('setupPopup').style.display = 'none';
+        }, 300);
+        
+        applyTheme(selectedTheme);
+        return;
+      }
+      
+      document.querySelector('.setup-step.active').classList.remove('active');
+      currentStep++;
+      document.getElementById('step' + currentStep).classList.add('active');
+      
+      if(currentStep === 5) {
+        document.querySelector('button').textContent = 'Get Started';
+      }
+    }
+    
+    // Handle profile picture preview
+    document.getElementById('setupProfilePic').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if(file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const preview = document.getElementById('setupProfilePreview');
+          preview.src = evt.target.result;
+          preview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+    
+    // Check if setup is needed
+    document.addEventListener('DOMContentLoaded', function() {
+      if(!localStorage.getItem('nexus_setup_complete')) {
+        showSetup();
+      }
+    });
+
+    // Fade out navBtnGroup and show only "Back to Nexus" after a delay
+    window.addEventListener('DOMContentLoaded', function() {
+      setTimeout(() => {
+        const navBtnGroup = document.getElementById('navBtnGroup');
+        navBtnGroup.style.transition = 'opacity 0.5s';
+        navBtnGroup.style.opacity = '0';
+
+        setTimeout(() => {
+          navBtnGroup.innerHTML = `
+            <button class="nav-btn active" style="
+                min-width:120px;
+                padding-left:28px;
+                padding-right:28px;
+                border-radius:24px;
+                font-size:17px;
+                background: white;
+                color: #222;
+                font-family: 'Avenir','Segoe UI','Arial',sans-serif;
+                font-weight: 500;
+                box-shadow: 0 2px 8px rgba(60,60,60,0.10);
+                border: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+                cursor: pointer;
+            "
+            onmouseover="this.style.background='#f5f7fa';this.style.color='#1976d2';this.style.boxShadow='0 6px 16px -8px #2196f3';this.style.transform='scale(1.08)';"
+            onmouseout="this.style.background='white';this.style.color='#222';this.style.boxShadow='0 2px 8px rgba(60,60,60,0.10)';this.style.transform='none';"
+            onclick="window.open('../app.html','_top')">
+              <span class="nav-btn-content" style="display:flex;align-items:center;">
+                <img src="../nexuslogoapple.png" alt="Nexus Logo" class="nav-btn-icon" style="width:22px;height:22px;margin-right:10px;vertical-align:middle;object-fit:contain;" />
+                Back to Nexus
+              </span>
+            </button>
+          `;
+          navBtnGroup.style.opacity = '1';
+        }, 600);
+      }, 600);
+    });
+
+    // Theme handling
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      const logo = document.querySelector('.bottom-nav img[alt="Nexus Logo"]');
+      
+      if (theme === 'default' || !theme) {
+        logo.src = 'nexuslogoapple.png';
+      } else {
+        logo.src = `submenus/images/${theme}.png`;
+      }
+    }
+
+    // Listen for theme changes
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'nexus_theme') {
+        applyTheme(e.newValue);
+      }
+    });
+
+    // Apply theme on load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Apply theme
+      const currentTheme = localStorage.getItem('nexus_theme') || 'default';
+      applyTheme(currentTheme);
+
+      // Load default page if saved
+      const defaultPage = localStorage.getItem('nexus_default_page');
+      if (defaultPage) {
+        const navBtn = Array.from(document.querySelectorAll('.nav-btn')).find(btn => 
+            btn.querySelector('.nav-btn-content').textContent.trim().toLowerCase() === defaultPage
+        );
+        if (navBtn) {
+          const url = navBtn.getAttribute('onclick').match(/'([^']+)'/)[1];
+          changePage(url, navBtn);
+        }
+      }
+
+      // Apply saved button order
+      const savedOrder = JSON.parse(localStorage.getItem('nexus_button_order') || '[]');
+      if (savedOrder.length) {
+          const nav = document.getElementById('bottomNav');
+          const buttons = Array.from(nav.querySelectorAll('.nav-btn'));
+          savedOrder.forEach(page => {
+              const button = buttons.find(btn => 
+                  btn.querySelector('.nav-btn-content').textContent.trim().toLowerCase() === page
+              );
+              if (button) nav.insertBefore(btn, nav.querySelector('#hideNavBtn'));
+          });
+      }
+    });
+    
+    // Setup handling
+    let currentStep = 1;
+    let selectedTheme = 'default';
+    
+    function showSetup() {
+      document.getElementById('setupOverlay').style.display = 'block';
+      document.getElementById('setupPopup').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('setupOverlay').style.opacity = '1';
+        document.getElementById('setupPopup').style.opacity = '1';
+        document.getElementById('step1').classList.add('active');
+      }, 100);
+    }
+    
+    function selectSetupTheme(theme) {
+      document.querySelectorAll('.theme-preview').forEach(preview => preview.classList.remove('selected'));
+      event.currentTarget.classList.add('selected');
+      selectedTheme = theme;
+    }
+    
+    function nextSetupStep() {
+      const username = document.getElementById('setupUsername').value;
+      
+      if(currentStep === 1 && !username) {
+        alert('Please enter a username');
+        return;
+      }
+      
+      if(currentStep === 5) {
+        // Save all preferences
+        localStorage.setItem('nexus_username', username);
+        localStorage.setItem('nexus_theme', selectedTheme);
+        localStorage.setItem('nexus_bio', document.getElementById('setupBio').value);
+        if(document.getElementById('setupProfilePreview').src) {
+          localStorage.setItem('nexus_profilepic', document.getElementById('setupProfilePreview').src);
+        }
+        localStorage.setItem('nexus_setup_complete', 'true');
+        
+        // Close setup
+        document.getElementById('setupOverlay').style.opacity = '0';
+        document.getElementById('setupPopup').style.opacity = '0';
+        setTimeout(() => {
+          document.getElementById('setupOverlay').style.display = 'none';
+          document.getElementById('setupPopup').style.display = 'none';
+        }, 300);
+        
+        applyTheme(selectedTheme);
+        return;
+      }
+      
+      document.querySelector('.setup-step.active').classList.remove('active');
+      currentStep++;
+      document.getElementById('step' + currentStep).classList.add('active');
+      
+      if(currentStep === 5) {
+        document.querySelector('button').textContent = 'Get Started';
+      }
+    }
+    
+    // Handle profile picture preview
+    document.getElementById('setupProfilePic').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if(file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const preview = document.getElementById('setupProfilePreview');
+          preview.src = evt.target.result;
+          preview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+    
+    // Check if setup is needed
+    document.addEventListener('DOMContentLoaded', function() {
+      if(!localStorage.getItem('nexus_setup_complete')) {
+        showSetup();
+      }
+    });
+
+    function setDefaultPage(page) {
+        // First remove all selected states
+        document.querySelectorAll('.option-choice').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+        
+        // Find and select the correct button
+        const selectedBtn = document.querySelector(`.option-choice[onclick*="'${page}'"]`);
+        if (selectedBtn) {
+            selectedBtn.classList.add('selected');
+        }
+        
+        // Save the preference
+        localStorage.setItem('nexus_default_page', page);
+        
+        // Update the navigation
+        const navBtn = Array.from(document.querySelectorAll('.nav-btn')).find(btn => 
+            btn.querySelector('.nav-btn-content').textContent.trim().toLowerCase() === page
+        );
+        
+        if (navBtn) {
+            const url = navBtn.getAttribute('onclick').match(/'([^']+)'/)[1];
+            changePage(url, navBtn);
+        }
+    }
+    
+    function toggleCustomizeMode() {
+        let section = document.querySelector('.customize-section');
+        const overlay = document.querySelector('.edit-overlay');
+        
+        if (!section) {
+            // Create customize section if it doesn't exist
+            section = document.createElement('div');
+            section.className = 'customize-section';
+            section.innerHTML = `
+                <div class="option-group">
+                    <span class="option-label">Arrange Navigation Buttons</span>
+                    <div class="nav-preview" id="buttonList">
+                        <div class="button-preview" draggable="true" data-page="home">
+                            <img src="icons/home.png" alt="Home">Home
+                        </div>
+                        <div class="button-preview" draggable="true" data-page="games">
+                            <img src="icons/games.png" alt="Games">Games
+                        </div>
+                        <div class="button-preview" draggable="true" data-page="social">
+                            <img src="icons/social.png" alt="Social">Social
+                        </div>
+                        <div class="button-preview" draggable="true" data-page="settings">
+                            <img src="icons/preferences.png" alt="Settings">Settings
+                        </div>
+                    </div>
+                </div>
+                <div class="option-group">
+                    <span class="option-label">Choose Default Page</span>
+                    <div class="option-choices">
+                        <button class="option-choice selected" onclick="setDefaultPage('home')">Home</button>
+                        <button class="option-choice" onclick="setDefaultPage('games')">Games</button>
+                        <button class="option-choice" onclick="setDefaultPage('social')">Social</button>
+                        <button class="option-choice" onclick="setDefaultPage('settings')">Settings</button>
+                    </div>
+                </div>
+                <button class="done-button" onclick="toggleCustomizeMode()">Done</button>
+            `;
+            document.getElementById('bottomNav').appendChild(section);
+            
+            // Setup drag and drop
+            const buttonList = section.querySelector('#buttonList');
+            let draggedItem = null;
+            
+            buttonList.querySelectorAll('.button-preview').forEach(button => {
+                button.addEventListener('dragstart', function(e) {
+                    draggedItem = this;
+                    this.classList.add('dragging');
+                });
+                
+                button.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                });
+                
+                button.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    if (this !== draggedItem) {
+                        const rect = this.getBoundingClientRect();
+                        const midY = rect.top + rect.height / 2;
+                        if (e.clientY < midY && this.previousElementSibling !== draggedItem) {
+                            this.parentNode.insertBefore(draggedItem, this);
+                        } else if (e.clientY >= midY && this.nextElementSibling !== draggedItem) {
+                            this.parentNode.insertBefore(draggedItem, this.nextElementSibling);
+                        }
+                    }
+                });
+            });
+            
+            buttonList.addEventListener('dragover', e => {
+                e.preventDefault();
+                buttonList.classList.add('drag-over');
+            });
+            
+            buttonList.addEventListener('dragleave', () => {
+                buttonList.classList.remove('drag-over');
+            });
+            
+            buttonList.addEventListener('drop', e => {
+                e.preventDefault();
+                buttonList.classList.remove('drag-over');
+                
+                // Save new order
+                const newOrder = Array.from(buttonList.children).map(btn => btn.dataset.page);
+                localStorage.setItem('nexus_button_order', JSON.stringify(newOrder));
+                
+                // Reorder actual nav buttons
+                const nav = document.getElementById('bottomNav');
+                const buttons = Array.from(nav.querySelectorAll('.nav-btn'));
+                const orderedButtons = newOrder.map(page => 
+                    buttons.find(btn => btn.querySelector('.nav-btn-content').textContent.trim().toLowerCase() === page)
+                );
+                
+                orderedButtons.forEach(btn => {
+                    if (btn) nav.insertBefore(btn, nav.querySelector('#hideNavBtn'));
+                });
+            });
+            
+            // Set correct states
+            const defaultPage = localStorage.getItem('nexus_default_page') || 'home';
+            section.querySelector(`button[onclick="setDefaultPage('${defaultPage}')"]`)?.classList.add('selected');
+            
+            // Load saved button order
+            const savedOrder = JSON.parse(localStorage.getItem('nexus_button_order') || '[]');
+            if (savedOrder.length) {
+                const list = section.querySelector('#buttonList');
+                savedOrder.forEach(page => {
+                    const button = list.querySelector(`[data-page="${page}"]`);
+                    if (button) list.appendChild(button);
+                });
+            }
+            
+            requestAnimationFrame(() => {
+                section.classList.add('show');
+                overlay.classList.add('show');
+            });
+        } else {
+            section.classList.remove('show');
+            overlay.classList.remove('show');
+            setTimeout(() => section.remove(), 300);
+        }
+    }
+    
+    // Initialize button order on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Apply saved button order
+        const savedOrder = JSON.parse(localStorage.getItem('nexus_button_order') || '[]');
+        if (savedOrder.length) {
+            const nav = document.getElementById('bottomNav');
+            const buttons = Array.from(nav.querySelectorAll('.nav-btn'));
+            savedOrder.forEach(page => {
+                const button = buttons.find(btn => 
+                    btn.querySelector('.nav-btn-content').textContent.trim().toLowerCase() === page
+                );
+                if (button) nav.insertBefore(button, nav.querySelector('#hideNavBtn'));
+            });
+        }
+    });
+
+    // Cookie consent handling
+    function showCookiePopup() {
+        if (!localStorage.getItem('cookie_consent')) {
+            setTimeout(() => {
+                document.getElementById('cookiePopup').classList.add('show');
+            }, 1000);
+        }
+    }
+
+    function acceptCookies() {
+        localStorage.setItem('cookie_consent', 'accepted');
+        document.getElementById('cookiePopup').classList.remove('show');
+    }
+
+    function declineCookies() {
+        localStorage.setItem('cookie_consent', 'declined');
+        document.getElementById('cookiePopup').classList.remove('show');
+    }
+
+    // Check cookie consent on load
+    document.addEventListener('DOMContentLoaded', function() {
+        showCookiePopup();
+        // ...rest of existing DOMContentLoaded code...
+    });
+
+    // Add mouse tracking for lighting effects
+    document.addEventListener('mousemove', (e) => {
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+        document.documentElement.style.setProperty('--mouse-x', x);
+        document.documentElement.style.setProperty('--mouse-y', y);
+    });
+
+    // Initialize mouse position
+    document.addEventListener('DOMContentLoaded', () => {
+        document.documentElement.style.setProperty('--mouse-x', '0.5');
+        document.documentElement.style.setProperty('--mouse-y', '0.5');
+    });
+
+    function toggleFullscreen() {
+        const frame = document.getElementById('content-frame');
+        
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        } else {
+            frame.requestFullscreen().catch(err => {
+                console.log('Error attempting to enable fullscreen:', err.message);
+            });
+        }
+    }
+  </script>
+</body>
+</html>

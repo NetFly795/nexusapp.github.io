@@ -1,0 +1,167 @@
+/* settings slide-in. lazy-loaded iframe. trust issues with loading everything at once */
+#settingsPanelBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.32s ease;
+}
+#settingsPanelBackdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+#settingsPanel {
+  position: fixed;
+  top: 0; right: 0;
+  height: 100%;
+  width: min(540px, 92vw);
+  z-index: 601;
+  background: #f5f7fb;
+  border-radius: 18px 0 0 18px;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.12);
+  transform: translateX(100%);
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+#settingsPanel.open {
+  transform: translateX(0);
+}
+#settingsPanelFrame {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+/* Dark mode overrides for settings panel */
+[data-dark-mode="true"] #settingsPanel {
+  background: #1c1c1e;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.35);
+}
+[data-dark-mode="true"] #settingsPanelBackdrop {
+  background: rgba(0, 0, 0, 0.55);
+}
+@media screen and (max-width: 520px) {
+  #settingsPanel {
+    width: 100%;
+    border-radius: 0;
+  }
+}
+
+/* connected sidebar. messages without leaving the game. revolutionary in 2010 */
+#connectedSidebarBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.32s ease;
+}
+#connectedSidebarBackdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+#connectedSidebarPanel {
+  position: fixed;
+  top: 0; right: 0;
+  height: 100%;
+  width: min(420px, 94vw);
+  z-index: 601;
+  background: var(--theme-bg, #f0f4f9);
+  border-radius: 18px 0 0 18px;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.12);
+  transform: translateX(100%);
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+#connectedSidebarPanel.open {
+  transform: translateX(0);
+}
+#connectedSidebarFrame {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+[data-dark-mode="true"] #connectedSidebarPanel {
+  background: #1c1c1e;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.35);
+}
+[data-dark-mode="true"] #connectedSidebarBackdrop {
+  background: rgba(0, 0, 0, 0.55);
+}
+@media screen and (max-width: 520px) {
+  #connectedSidebarPanel {
+    width: 100%;
+    border-radius: 0;
+  }
+}
+
+/* Connected sidebar dock button (circular, where Nucleus was) */
+.connected-sidebar-btn {
+  flex: 0 0 auto !important;
+  width: 42px !important;
+  min-width: 42px !important;
+  height: 42px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  margin-left: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.connected-sidebar-btn img {
+  width: 18px;
+  height: 18px;
+  margin: 0 !important;
+  object-fit: contain;
+}
+.mobile .connected-sidebar-btn {
+  width: 42px !important;
+  min-width: 42px !important;
+  height: 42px !important;
+  margin-left: 4px !important;
+}
+.connected-sidebar-btn.sidebar-open {
+  background: rgba(162, 89, 247, 0.18) !important;
+}
+.connected-sidebar-btn {
+  position: relative;
+}
+.connected-sidebar-btn .cs-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #e53935;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(229, 57, 53, 0.45);
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1), transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.connected-sidebar-btn.has-unread .cs-badge {
+  opacity: 1;
+  transform: scale(1);
+}
+

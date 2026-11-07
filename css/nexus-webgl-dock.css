@@ -1,0 +1,37 @@
+/* webgl dock glows only. the bar itself stays css. trust the process */
+
+#nexus-webgl-dock {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+html.nexus-webgl-dock-active #bottomNav {
+  position: relative;
+}
+
+html.nexus-webgl-dock-active #bottomNav .bottom-nav-row {
+  position: relative;
+  z-index: 1;
+}
+
+html.nexus-webgl-dock-active #bottomNav .bottom-nav-row .nav-btn {
+  position: relative;
+  z-index: 2;
+}
+
+html.nexus-webgl-dock-active #lunaDockPanel {
+  position: relative;
+  z-index: 1;
+}
+
+/* GPU replaces ::before flame glow only */
+html.nexus-webgl-dock-active .nav-btn::before {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}

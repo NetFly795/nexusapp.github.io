@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nexus Home</title>
+  <script src="../js/nexus-perf.js"></script>
+  <link rel="stylesheet" href="../css/nexus-perf-lite.css" />
+  <script src="../theme-sync.js"></script>
+  <link rel="stylesheet" href="../css/nexus-video-bg.css" />
+  <link rel="stylesheet" href="../css/nexus-webgl-bg.css" />
+  <link rel="stylesheet" href="../css/nexus-webgl-glass.css" />
+  <link rel="stylesheet" href="../css/nexus-glass-quality.css" />
+  <link rel="stylesheet" href="../css/nexus-debug-rainbow-bg.css" />
+  <script src="../js/nexus-video-bg.js"></script>
+  <script src="../js/nexus-webgl-bg.js"></script>
+  <script src="../js/nexus-webgl-glass.js"></script>
+  <script src="../js/nexus-glass-quality.js"></script>
+  <script src="../js/nexus-debug-rainbow-bg.js"></script>
+  <script src="../js/nexus-ai.js"></script>
+  <link rel="stylesheet" href="../moderngame/css/quick-play.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: 'Avenir Next', 'Avenir', 'Inter', Arial, sans-serif;
+      background: var(--theme-bg, #f2f5f9);
+      color: var(--theme-text-primary, #1a1a2e);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── aurora orbs (they float. do not ask why. i forgot) ── */
+    .aurora-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(60px);
+      z-index: -1;
+      pointer-events: none;
+      will-change: transform;
+    }
+    .aurora-orb-1 {
+      width: clamp(300px, 50vw, 600px);
+      height: clamp(300px, 50vw, 600px);
+      background: var(--theme-ball-1);
+      bottom: -10%;
+      right: -8%;
+      animation: drift1 18s ease-in-out infinite;
+    }
+    .aurora-orb-2 {
+      width: clamp(320px, 55vw, 650px);
+      height: clamp(320px, 55vw, 650px);
+      background: var(--theme-ball-2);
+      top: -12%;
+      left: -8%;
+      animation: drift2 22s ease-in-out infinite;
+    }
+    .aurora-orb-3 {
+      width: clamp(250px, 40vw, 500px);
+      height: clamp(250px, 40vw, 500px);
+      background: var(--theme-ball-3);
+      top: 35%;
+      left: 28%;
+      animation: drift3 25s ease-in-out infinite;
+    }
+    @keyframes drift1 {
+      0%   { transform: translate(0,0) scale(1); }
+      35%  { transform: translate(40px, -60px) scale(1.08); }
+      70%  { transform: translate(-30px, 30px) scale(0.93); }
+      100% { transform: translate(0,0) scale(1); }
+    }
+    @keyframes drift2 {
+      0%   { transform: translate(0,0) scale(1); }
+      33%  { transform: translate(-50px, 55px) scale(1.06); }
+      66%  { transform: translate(35px, -40px) scale(0.94); }
+      100% { transform: translate(0,0) scale(1); }
+    }
+    @keyframes drift3 {
+      0%   { transform: translate(0,0) scale(1); }
+      40%  { transform: translate(55px, 25px) scale(0.9); }
+      75%  { transform: translate(-40px, -50px) scale(1.1); }
+      100% { transform: translate(0,0) scale(1); }
+    }
+
+    /* glass system. frosted lies over a gradient. chef kiss */
+    .glass {
+      background: var(--theme-glass-tint, rgba(255,255,255,0.42));
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--theme-glass-border, rgba(255,255,255,0.6));
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.55);
+      border-radius: 20px;
+    }
+    .glass-card {
+      background: var(--theme-glass-tint, rgba(255,255,255,0.4));
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--theme-glass-border, rgba(255,255,255,0.6));
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.55);
+      border-radius: 20px;
+      transition: transform 0.4s cubic-bezier(0.25,1,0.5,1), box-shadow 0.4s ease;
+    }
+    .glass-card:hover {
+      transform: translateY(-3px) scale(1.015);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.11), inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+
+    /* .page wrapper. everything lives here. do not escape */
+    .page {
+      --gap: clamp(10px, 2vw, 18px);
+      --pad: clamp(14px, 3vw, 24px);
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+      padding: var(--pad) var(--pad) calc(var(--pad) * 4);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* entry animations. cards fly in from the dock like they're summoned */
+    /* cards start invisible. js decides when they get to exist */
+    .rise { opacity: 0; }
+
+    /* default stagger when we don't know where the dock button is. still pretty */
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.97); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* dock burst: each card stores --dx/--dy so it looks like it came FROM the button. magic */
+    @keyframes dockBurst {
+      0%   {
+        opacity: 0;
+        transform: translate(var(--dx, 0px), var(--dy, 0px)) scale(0.06);
+      }
+      60%  { opacity: 1; }
+      100% {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* header. home, username. that's the whole brand */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 22px;
+      flex-wrap: wrap;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+    .header-logo {
+      width: clamp(34px, 5vw, 42px);
+      height: clamp(34px, 5vw, 42px);
+      flex-shrink: 0;
+      filter: drop-shadow(0 3px 8px rgba(0,0,0,0.14));
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .header-logo:hover { transform: scale(1.12) rotate(6deg); }
+    .header-greeting {
+      font-size: clamp(1.25rem, 3vw, 1.85rem);
+      font-weight: 600;
+      line-height: 1.1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .header-greeting span {
+      color: inherit;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .clock-pill {
+      font-size: clamp(0.8rem, 1.8vw, 0.95rem);
+      font-weight: 500;
+      color: var(--theme-text-primary, #1a1a2e);
+      background: var(--theme-glass-tint, rgba(255,255,255,0.5));
+      border: 1px solid var(--theme-glass-border, rgba(255,255,255,0.7));
+      padding: 6px 14px;
+      border-radius: 50px;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* stat chips. today, status, games, version. flex but make it glass */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: var(--gap);
+    }
+    .stat-chip {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stat-chip-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--theme-text-secondary, #4a4a6a);
+      opacity: 0.75;
+    }
+    .stat-chip-value {
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      font-weight: 700;
+      color: var(--theme-text-primary, #1a1a2e);
+      line-height: 1.2;
+    }
+    .stat-chip-sub {
+      font-size: 0.75rem;
+      color: var(--theme-text-secondary, #4a4a6a);
+    }
+    .status-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      margin-right: 5px;
+      vertical-align: middle;
+      animation: pulse-dot 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.55; transform: scale(0.8); }
+    }
+
+    /* two-column grid. featured games + notes. productivity??? */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--gap);
+    }
+    @media (max-width: 700px) {
+      .main-grid { grid-template-columns: 1fr; }
+    }
+
+    /* card guts. labels, titles, padding. the usual suspects */
+    .card-inner {
+      padding: var(--pad);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--theme-text-secondary, #4a4a6a);
+      opacity: 0.7;
+    }
+    .card-title {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      font-weight: 700;
+      color: var(--theme-text-primary, #1a1a2e);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title img {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    /* featured games iframe. yes it's an iframe. no i won't apologize */
+    .games-iframe {
+      flex: 1;
+      min-height: 200px;
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.15);
+      display: block;
+    }
+
+    /* notes textarea. localStorage autosave bc we're not running a server for sticky notes */
+    .notes-textarea {
+      flex: 1;
+      min-height: 160px;
+      width: 100%;
+      border: 1px solid var(--theme-glass-border, rgba(255,255,255,0.5));
+      background: rgba(255,255,255,0.18);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: var(--theme-text-primary, #1a1a2e);
+      resize: none;
+      outline: none;
+      transition: border-color 0.25s ease, background 0.25s ease;
+    }
+    .notes-textarea::placeholder { color: var(--theme-text-secondary, rgba(0,0,0,0.38)); }
+    .notes-textarea:focus {
+      border-color: var(--theme-accent, #6366f1);
+      background: rgba(255,255,255,0.28);
+    }
+    .notes-saved {
+      font-size: 0.72rem;
+      color: var(--theme-text-secondary, #4a4a6a);
+      opacity: 0;
+      text-align: right;
+      transition: opacity 0.4s ease;
+    }
+    .notes-saved.visible { opacity: 0.6; }
+
+    /* quote of the day. inspirational. Steve Jobs would be confused but proud */
+    .quote-card {
+      padding: var(--pad);
+    }
+    .quote-meta {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--theme-text-secondary, #4a4a6a);
+      opacity: 0.7;
+      margin-bottom: 10px;
+    }
+    .quote-text {
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      font-style: italic;
+      line-height: 1.65;
+      color: var(--theme-text-secondary, #2a2a4a);
+    }
+    .quote-text strong { color: var(--theme-text-primary, #1a1a2e); font-style: normal; }
+    .quote-refresh {
+      align-self: flex-end;
+      margin-top: 8px;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      opacity: 0.4;
+      transition: opacity 0.2s, transform 0.3s;
+      padding: 4px;
+      color: var(--theme-text-primary);
+    }
+    .quote-refresh:hover { opacity: 0.8; transform: rotate(180deg); }
+    .quote-inner {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* continue playing hero. shameless "you were mid-game" energy */
+    .recent-played-section {
+      display: block;
+    }
+    .recent-played-section[hidden] {
+      display: none !important;
+    }
+    .recent-played-card {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.35s ease;
+    }
+    .recent-played-card:hover {
+      transform: translateY(-3px) scale(1.008);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+    .recent-played-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
+    .recent-played-icon.placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+    .recent-played-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .recent-played-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--theme-text-secondary, #4a4a6a);
+      opacity: 0.75;
+      margin-bottom: 4px;
+    }
+    .recent-played-name {
+      font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+      font-weight: 700;
+      color: var(--theme-text-primary, #1a1a2e);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .recent-played-meta {
+      font-size: 0.78rem;
+      color: var(--theme-text-secondary, #4a4a6a);
+      margin-top: 4px;
+      opacity: 0.85;
+    }
+    .recent-played-play {
+      flex-shrink: 0;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 22px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #fff;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      box-shadow: 0 4px 16px rgba(102, 126, 234, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .recent-played-play:hover {
+      transform: scale(1.04);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.45);
+    }
+    @media (max-width: 560px) {
+      .recent-played-card {
+        flex-wrap: wrap;
+      }
+      .recent-played-play {
+        width: 100%;
+      }
+    }
+
+    /* quick play on home. stars only. favorites or bust */
+    .home-quickplay-section {
+      padding: var(--pad);
+    }
+    .home-quickplay-section[hidden] {
+      display: none !important;
+    }
+    .home-quickplay-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .home-quickplay-head h2 {
+      margin: 0;
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      font-weight: 700;
+      color: var(--theme-text-primary, #1a1a2e);
+    }
+    .home-quickplay-sub {
+      margin: 0;
+      font-size: 0.78rem;
+      color: var(--theme-text-secondary, #4a4a6a);
+      opacity: 0.85;
+    }
+    .home-quickplay-empty {
+      font-size: 0.85rem;
+      color: var(--theme-text-secondary, #4a4a6a);
+      opacity: 0.75;
+    }
+    .home-quickplay-section .quick-play-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .home-quickplay-section .qp-chip {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      padding: 8px 14px 8px 8px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      background: rgba(255, 255, 255, 0.35);
+      cursor: pointer;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+      font-family: inherit;
+      color: inherit;
+      text-align: left;
+    }
+    .home-quickplay-section .qp-chip:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.55);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+    .home-quickplay-section .qp-chip-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .home-quickplay-section .qp-chip-icon.placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .home-quickplay-section .qp-chip-name {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--theme-text-primary, #1a1a2e);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 160px;
+    }
+    .home-quickplay-section .qp-chip-cat {
+      display: block;
+      font-size: 0.68rem;
+      color: var(--theme-text-secondary, #4a4a6a);
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
+    /* info cards. games count, students built this, beta, privacy flex */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: var(--gap);
+    }
+    .info-card {
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .info-card-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+    .info-card-number {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 800;
+      color: var(--theme-text-primary, #1a1a2e);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .info-card-label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--theme-text-secondary, #4a4a6a);
+      line-height: 1.3;
+    }
+    .accent-pill {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 50px;
+      background: var(--theme-accent, #6366f1);
+      color: white;
+      align-self: flex-start;
+    }
+
+    /* version footer. nexus 9. version 9S. we skip numbers when we feel like it */
+    .version-strip {
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .version-text {
+      font-size: 0.85rem;
+      color: var(--theme-text-secondary, #4a4a6a);
+      font-weight: 500;
+    }
+    .version-logo {
+      width: 26px;
+      height: 26px;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.12));
+    }
+
+    /* count-up animation for the 400+ games stat. odometer brainrot */
+    @keyframes countUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .count-animate {
+      animation: countUp 0.7s cubic-bezier(0.25,1,0.5,1) both;
+      animation-delay: 0.6s;
+    }
+  </style>
+
+  <script>
+    /* quotes array. we kept the inspirational ones. lawyers said no on the unhinged ones */
+    const QUOTES = [
+      { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+      { text: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
+      { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+      { text: "In the middle of every difficulty lies opportunity.", author: "Albert Einstein" },
+      { text: "The journey of a thousand miles begins with one step.", author: "Lao Tzu" },
+      { text: "The mind is everything. What you think, you become.", author: "Buddha" },
+      { text: "It does not matter how slowly you go, as long as you do not stop.", author: "Confucius" },
+      { text: "The best way to predict the future is to invent it.", author: "Alan Kay" },
+      { text: "Your time is limited, so don't waste it living someone else's life.", author: "Steve Jobs" },
+      { text: "Simplicity is the ultimate sophistication.", author: "Leonardo da Vinci" },
+      { text: "Stay hungry. Stay foolish.", author: "Stewart Brand" },
+      { text: "Well done is better than well said.", author: "Benjamin Franklin" },
+      { text: "Quality is not an act, it is a habit.", author: "Aristotle" },
+      { text: "Knowledge is power.", author: "Francis Bacon" },
+      { text: "Creativity is intelligence having fun.", author: "Albert Einstein" }
+    ];
+
+    let quoteIndex = Math.floor(Math.random() * QUOTES.length);
+
+    function renderQuote() {
+      const q = QUOTES[quoteIndex % QUOTES.length];
+      const el = document.getElementById('quoteText');
+      if (!el) return;
+      el.style.opacity = 0;
+      setTimeout(() => {
+        el.innerHTML = `"${q.text}" - <strong>${q.author}</strong>`;
+        el.style.transition = 'opacity 0.45s ease';
+        el.style.opacity = 1;
+      }, 220);
+    }
+
+    function nextQuote() {
+      quoteIndex = (quoteIndex + 1) % QUOTES.length;
+      renderQuote();
+    }
+
+    /* clock pill. time and date. revolutionary */
+    function updateClock() {
+      const now = new Date();
+      const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+      const date = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+      const el = document.getElementById('clockPill');
+      if (el) el.textContent = `${time}  ·  ${date}`;
+
+      const dayEl = document.getElementById('statDay');
+      if (dayEl) dayEl.textContent = now.toLocaleDateString('en-US', { weekday: 'long' });
+      const dateEl = document.getElementById('statDate');
+      if (dateEl) dateEl.textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    }
+
+    /* notes debounce save. 600ms because i type like i'm being chased */
+    let saveTimer = null;
+    function initNotes() {
+      const ta = document.getElementById('notesArea');
+      const saved = localStorage.getItem('dashboardNotes');
+      if (saved) ta.value = saved;
+      ta.addEventListener('input', () => {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => {
+          localStorage.setItem('dashboardNotes', ta.value);
+          const msg = document.getElementById('savedMsg');
+          if (msg) { msg.classList.add('visible'); setTimeout(() => msg.classList.remove('visible'), 1800); }
+        }, 600);
+      });
+    }
+
+    /* home, username. simple. human. unlike me at 3am fixing iframe heights */
+    function initGreeting() {
+      const user = localStorage.getItem('nexus_username');
+      const el = document.getElementById('greetName');
+      if (el) el.textContent = user ? `, ${user}` : '';
+    }
+
+    /* animated 400+ counter. ease-out cubic because numbers deserve drama */
+    function animateCount(el, target, duration) {
+      const start = performance.now();
+      function tick(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(ease * target) + '+';
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    /* dock-origin card burst. re-triggerable bc users tap home like it's a fidget spinner */
+    let _animRafId = null;
+    let _animPlayed = false;
+
+    function fireAnimation(originX, originY, force) {
+      const isInitial = originX == null && originY == null;
+      if (isInitial && _animPlayed && !force) return;
+
+      if (_animRafId) { cancelAnimationFrame(_animRafId); _animRafId = null; }
+
+      const items = Array.from(document.querySelectorAll('.rise'));
+      if (!items.length) {
+        setTimeout(() => fireAnimation(originX, originY, force), 32);
+        return;
+      }
+
+      _animPlayed = true;
+
+      // yeet all animations so they can restart clean. reflow go brr
+      items.forEach(el => { el.style.animation = 'none'; el.style.opacity = '0'; });
+      void document.body.offsetHeight; // force reflow. the oldest trick in the book
+
+      // origin coords: dock button center, or screen center if we have no idea
+      const ox = (originX != null) ? originX : window.innerWidth  / 2;
+      const oy = (originY != null) ? originY : window.innerHeight / 2;
+      const isDock = (originX != null);
+
+      let applied = false;
+      function applyAnimation() {
+        if (applied) return;
+        applied = true;
+
+        items.forEach((el, i) => {
+          const r  = el.getBoundingClientRect();
+          const dx = ox - (r.left + r.width  / 2);
+          const dy = oy - (r.top  + r.height / 2);
+          el.style.setProperty('--dx', dx + 'px');
+          el.style.setProperty('--dy', dy + 'px');
+          const dur   = isDock ? 0.52 : 0.60;
+          const stagger = isDock ? 0.042 : 0.058;
+          const delay = 0.02 + i * stagger;
+          el.style.animation =
+            `dockBurst ${dur}s cubic-bezier(0.22,1,0.36,1) ${delay}s both`;
+        });
+
+        const countEl = document.getElementById('gameCount');
+        if (countEl) setTimeout(() => animateCount(countEl, 400, 1100), 280);
+      }
+
+      _animRafId = requestAnimationFrame(() => {
+        _animRafId = requestAnimationFrame(() => {
+          _animRafId = null;
+          applyAnimation();
+        });
+      });
+
+      // safety net when rAF gets throttled and cards stay invisible forever (classic)
+      setTimeout(applyAnimation, 150);
+    }
+
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'nexus-dock-origin') {
+        fireAnimation(e.data.x, e.data.y, e.data.force);
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateClock();
+      setInterval(updateClock, 1000);
+      renderQuote();
+      initNotes();
+      initGreeting();
+
+      document.getElementById('betaCard')?.addEventListener('click', () => {
+        alert('No new beta releases yet. Check back later.');
+      });
+
+      // tell app.html we're alive. it sends dock coords back like a good parent
+      try {
+        if (window.parent !== window) {
+          window.parent.postMessage({ type: 'nexus-dash-ready' }, '*');
+        }
+      } catch (_) {}
+
+      // fallback if postMessage got lost in the void (happens. a lot.)
+      setTimeout(() => {
+        if (!_animPlayed) fireAnimation(null, null);
+      }, 500);
+
+      if (window.NexusHomePlay) NexusHomePlay.init();
+    });
+  </script>
+  <script src="js/home-play.js"></script>
+</head>
+<body>
+  <!-- aurora orbs. decorative. do not eat -->
+  <div class="aurora-orb aurora-orb-1"></div>
+  <div class="aurora-orb aurora-orb-2"></div>
+  <div class="aurora-orb aurora-orb-3"></div>
+
+  <div class="page">
+
+    <!-- header: home, username, clock. the trinity -->
+    <header class="glass-card header rise d1">
+      <div class="header-left">
+        <img src="nexuslogoliquidglass.png" alt="Nexus" class="header-logo">
+        <div class="header-greeting">
+          <span id="greetingWord">Home</span><span id="greetName"></span>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="clock-pill" id="clockPill"></span>
+      </div>
+    </header>
+
+    <!-- stat chips strip. flex row of tiny glass lies -->
+    <div class="stats-strip">
+      <div class="glass-card stat-chip rise d2">
+        <div class="stat-chip-label">Today</div>
+        <div class="stat-chip-value" id="statDay">...</div>
+        <div class="stat-chip-sub" id="statDate">...</div>
+      </div>
+      <div class="glass-card stat-chip rise d2">
+        <div class="stat-chip-label">Status</div>
+        <div class="stat-chip-value"><span class="status-dot"></span>Online</div>
+        <div class="stat-chip-sub">Connected Center is online</div>
+      </div>
+      <div class="glass-card stat-chip rise d2">
+        <div class="stat-chip-label">Games</div>
+        <div class="stat-chip-value" id="gameCount">400+</div>
+        <div class="stat-chip-sub">available to play</div>
+      </div>
+      <div class="glass-card stat-chip rise d2">
+        <div class="stat-chip-label">Version</div>
+        <div class="stat-chip-value">Nexus 9</div>
+        <div class="stat-chip-sub"> </div>
+      </div>
+    </div>
+
+    <!-- shame banner: you were literally just playing this -->
+    <section class="recent-played-section rise d2" id="recentPlayedSection" hidden aria-label="Recently played">
+      <div class="glass-card recent-played-card" id="recentPlayedCard" role="button" tabindex="0">
+        <div id="recentPlayedIconWrap"></div>
+        <div class="recent-played-body">
+          <div class="recent-played-label">Continue playing</div>
+          <div class="recent-played-name" id="recentPlayedName">...</div>
+          <div class="recent-played-meta" id="recentPlayedMeta"></div>
+        </div>
+        <button type="button" class="recent-played-play" id="recentPlayedBtn">Play</button>
+      </div>
+    </section>
+
+    <!-- featured games + notes. the main grid. hold on to your blur -->
+    <div class="main-grid">
+
+      <!-- featured games iframe. curated chaos -->
+      <div class="glass-card rise d3" style="display:flex;flex-direction:column;">
+        <div class="card-inner">
+          <div class="card-label">Games</div>
+          <h2 class="card-title">
+            <img src="game.png" alt="">
+            Featured Games
+          </h2>
+          <iframe src="featuredgames.html" class="games-iframe" title="Featured Games"></iframe>
+        </div>
+      </div>
+
+      <!-- notes. localStorage diary. no judgment -->
+      <div class="glass-card rise d3" style="display:flex;flex-direction:column;">
+        <div class="card-inner">
+          <div class="card-label">Notepad</div>
+          <h2 class="card-title">Your Notes</h2>
+          <textarea class="notes-textarea" id="notesArea" placeholder="Jot something down..."></textarea>
+          <div class="notes-saved" id="savedMsg">Saved</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- quick play pins. star your favs or live with regret -->
+    <section class="glass-card home-quickplay-section rise d4" id="homeQuickPlaySection" aria-label="Quick Play">
+      <div class="home-quickplay-head">
+        <h2>Quick Play</h2>
+        <p class="home-quickplay-sub">Pinned games you've starred. Tap ★ on the Games page to add more.</p>
+      </div>
+      <div class="quick-play-strip" id="homeQuickPlayStrip"></div>
+      <p class="home-quickplay-empty" id="homeQuickPlayEmpty">Nothing pinned yet. Head to Games and tap ★ on a favorite.</p>
+    </section>
+
+    <!-- quote of the day. refresh for another dose of main character energy -->
+    <div class="glass-card quote-card rise d5">
+      <div class="quote-inner">
+        <div class="quote-meta">Quote of the day</div>
+        <div class="quote-text" id="quoteText"></div>
+        <button class="quote-refresh" onclick="nextQuote()" title="Next quote" aria-label="Next quote">↻</button>
+      </div>
+    </div>
+
+    <!-- info cards. stats flex + beta easter egg alert -->
+    <div class="info-grid">
+
+      <div class="glass-card info-card rise d6">
+        <div class="info-card-icon">🎮</div>
+        <div class="info-card-number count-animate" id="gameCountBig">400+</div>
+        <div class="info-card-label">Games on Nexus, from casual to multiplayer</div>
+      </div>
+
+      <div class="glass-card info-card rise d6">
+        <div class="info-card-icon">❤️</div>
+        <div class="info-card-number">100%</div>
+        <div class="info-card-label">Built by students, for students. That's the whole idea.</div>
+      </div>
+
+      <div class="glass-card info-card rise d7" id="betaCard" style="cursor:pointer;">
+        <div class="info-card-icon">🚀</div>
+        <div class="info-card-number">Beta</div>
+        <div class="info-card-label">Tap to check for a new beta release</div>
+        <span class="accent-pill">Check</span>
+      </div>
+
+      <div class="glass-card info-card rise d7">
+        <div class="info-card-icon">🔒</div>
+        <div class="info-card-number">Private</div>
+        <div class="info-card-label">No tracking. Your data stays on your device.</div>
+      </div>
+
+    </div>
+
+    <!-- version strip. nexus 9S. the S stands for something. probably -->
+    <div class="glass version-strip rise d8">
+      <span class="version-text">Nexus 9 · Version 9S </span>
+      <img src="nexuslogoliquidglass.png" alt="Nexus" class="version-logo">
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Featured Games</title>
+  <script src="../theme-sync.js" defer></script>
+  <style>
+    body {
+      font-family: 'Avenir', Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: transparent;
+      color: var(--theme-text-primary, #333);
+    }
+    .games-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .game-box {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      background-color: var(--theme-glass-tint, rgba(255, 255, 255, 0.9));
+      border: 1px solid var(--theme-glass-border, rgba(255, 255, 255, 0.4));
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease;
+      backdrop-filter: blur(20px) saturate(140%);
+      -webkit-backdrop-filter: blur(20px) saturate(140%);
+    }
+    .game-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .game-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      margin-right: 15px;
+    }
+    .game-info {
+      flex: 1;
+    }
+    .game-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--theme-text-primary, #333);
+      margin: 0 0 5px 0;
+    }
+    .game-description {
+      font-size: 0.9rem;
+      color: var(--theme-text-secondary, #666);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="games-container">
+    <div class="game-box">
+      <img src="../moderngame/projects/candy-crush-soda-saga/splash.jpg" alt="Candy Crush Soda Saga" class="game-logo">
+      <div class="game-info">
+        <h3 class="game-title">Candy Crush Soda Saga</h3>
+        <p class="game-description">Match candies and raise the soda in this classic King puzzle game</p>
+      </div>
+    </div>
+
+    <div class="game-box">
+      <img src="gamelogos/flappybird.png" alt="Flappy Bird" class="game-logo">
+      <div class="game-info">
+        <h3 class="game-title">Flappy Bird</h3>
+        <p class="game-description">Navigate through pipes in this classic arcade game</p>
+      </div>
+    </div>
+    
+    <div class="game-box">
+      <img src="gamelogos/tanukisunset.png" alt="Tanuki Sunset" class="game-logo">
+      <div class="game-info">
+        <h3 class="game-title">Tanuki Sunset</h3>
+        <p class="game-description">Skate through a vibrant sunset world</p>
+      </div>
+    </div>
+    
+    <div class="game-box">
+      <img src="gamelogos/snowrider.png" alt="Snow Rider" class="game-logo">
+      <div class="game-info">
+        <h3 class="game-title">Snow Rider</h3>
+        <p class="game-description">Race down snowy slopes in this thrilling adventure</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

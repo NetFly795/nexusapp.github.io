@@ -1,0 +1,38 @@
+#nexus-video-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  pointer-events: none;
+  touch-action: auto;
+  background: var(--theme-bg, #f2f5f9);
+}
+
+html.nexus-video-bg-active .blurred-blue-ball,
+html.nexus-video-bg-active .blurred-red-ball,
+html.nexus-video-bg-active .blurred-purple-ball,
+html.nexus-video-bg-active .aurora-orb {
+  display: none !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+html.nexus-video-bg-active #nexus-webgl-bg {
+  display: none !important;
+}
+
+html.nexus-video-bg-paused #nexus-video-bg {
+  visibility: hidden;
+}
+
+html.nexus-video-bg-active,
+html.nexus-video-bg-active body {
+  background: transparent !important;
+}
+
+html.nexus-debug-rainbow-bg #nexus-video-bg {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}

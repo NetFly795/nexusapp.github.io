@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Tiles</title>
+    <script src="../theme-sync.js"></script>
+    <style>
+        body {
+            font-family: 'Avenir', 'Segoe UI', 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--theme-bg, white);
+            color: var(--theme-text-primary, #1a1a2e);
+            position: relative;
+        }
+
+        .main {
+            font-size: 28px; /* Increased text to enable scrolling */
+            padding: 0px 10px;
+            font-family: inherit;
+        }
+
+        .content, .quote, .popup, .popup button, table, th, td, h1, p, div, a, span {
+            font-family: inherit !important;
+        }
+
+        .content {
+            padding-left: 0.4%;
+            padding-top: 1%;
+            display: flex;
+            align-items: center; /* Align items vertically */
+            justify-content: space-between; /* Space between logo, text, and quote */
+        }
+
+        .content img {
+            height: 50px; /* Adjust the height of the logo */
+            margin-right: 15px; /* Add spacing between the logo and the text */
+        }
+
+        .quote {
+            font-style: italic;
+            color: var(--theme-text-secondary, gray);
+            font-size: 16px;
+            text-align: right;
+            margin-left: 20px;
+        }
+
+        /* Tile Styles */
+        .tile {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            height: 300px;
+            width: 300px;
+            border-radius: 40px;
+            opacity: 0; /* Start invisible */
+            transform: scale(0.8); /* Start scaled down */
+            animation: fadeInScale 0.45s ease forwards; /* Animation duration updated to 0.45s */
+        }
+
+        /* Animation Keyframes */
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Delay for each tile */
+        .tile:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .tile:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .tile:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        /* Update table styles */
+        table {
+            border-spacing: 14px;
+            margin: 0 auto; /* Center the table */
+            width: fit-content; /* Make table only as wide as content */
+        }
+
+        /* Add container for tables to maintain centering */
+        .tiles-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        :root {
+            --theme-tint: rgba(255, 255, 255, 0.85);
+            --theme-shadow: rgba(60,60,60,0.18);
+            --theme-hover: #f5f7fa;
+            --theme-accent: #2196f3;
+        }
+        
+        [data-theme="deepblue"] {
+            --theme-tint: rgba(211, 214, 255, 0.92);
+            --theme-shadow: rgba(26, 35, 126, 0.25);
+            --theme-hover: rgba(255, 255, 255, 0.92);
+            --theme-accent: #3f51b5;
+        }
+        
+        [data-theme="cherryred"] {
+            --theme-tint: rgba(255, 209, 209, 0.92);
+            --theme-shadow: rgba(211, 47, 47, 0.25);
+            --theme-hover: rgba(255, 255, 255, 0.92);
+            --theme-accent: #d32f2f;
+        }
+        
+        [data-theme="gold"] {
+            --theme-tint: rgba(255, 241, 206, 0.92);
+            --theme-shadow: rgba(251, 192, 45, 0.25);
+            --theme-hover: rgba(255, 255, 255, 0.92);
+            --theme-accent: #ffa000;
+        }
+        
+        [data-theme="purple"] {
+            --theme-tint: rgba(233, 213, 255, 0.92);
+            --theme-shadow: rgba(241, 228, 255, 0.25);
+            --theme-hover: rgba(255, 255, 255, 0.92);
+            --theme-accent: #7b1fa2;
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--theme-tint);
+            padding: 24px;
+            box-shadow: 0 4px 24px var(--theme-shadow);
+            border-radius: 20px;
+            text-align: center;
+            z-index: 1000;
+            display: none;
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(200, 200, 200, 0.25);
+            min-width: 280px;
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .popup button {
+            margin-top: 16px;
+            padding: 12px 24px;
+            border: none;
+            background: var(--theme-accent);
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+
+        .popup button:hover {
+            transform: scale(1.02);
+        }
+
+        .popup p {
+            margin: 8px 0;
+            color: var(--theme-text-secondary, #333);
+        }
+
+        .welcome-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0;
+            padding-left: 0.4%;
+        }
+
+        .profile-picture {
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
+            object-fit: cover;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+
+        .welcome-text {
+            font-size: 20px;
+            color: var(--theme-text-primary, #333);
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="content">
+            <div style="display: flex; align-items: center;">
+                <img src="../nexuslogoapple.png" alt="Nexus Logo">
+                <h1 style="font-size: 200%; font-weight: normal;">Home:</h1>
+            </div>
+            <p class="quote" id="quoteText"></p>
+        </div>
+        <div class="welcome-section">
+            <img src="../submenus/images/defaultprofile.png" alt="Profile" class="profile-picture" id="profilePic">
+            <h2 class="welcome-text" id="welcomeText">Welcome!</h2>
+        </div>
+        <div class="tiles-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="tile">
+                                <a href=""><img src="images/dogenexustile.png" style="width: 100%; height: 100%; border-radius: 40px;"></a>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="tile">
+                                <a href="../tour/index.html"><img src="images/nexustips.png" style="width: 100%; height: 100%; border-radius: 40px;"></a>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="tile" onclick="showPopup()">
+                                <img src="images/betatile.png" style="width: 100%; height: 100%; border-radius: 40px;">
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <p style="size: 70%;"> </p>
+        <div class="tiles-container">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="tile">
+                                <img src="images/featuredtile.png" style="width: 100%; height: 100%; border-radius: 40px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="tile">
+                                <a href=""><img src="images/nexachat.png" style="width: 100%; height: 100%; border-radius: 40px;"></a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="tile">
+                                <img src="images/announcements.png" style="width: 100%; height: 100%; border-radius: 40px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- New row of 3 tiles -->
+                    <tr>
+                        <td>
+                            <div class="tile">
+                                <img src="images/addfeaturetile.png" style="width: 100%; height: 100%; border-radius: 40px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="tile">
+                                <img src="images/addgametile.png" style="width: 100%; height: 100%; border-radius: 40px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="tile">
+                                <img src="images/reporttile.png" style="width: 100%; height: 100%; border-radius: 40px;">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pop-up elements -->
+    <div class="popup-overlay" id="popupOverlay"></div>
+    <div class="popup" id="popup">
+        <p>No new beta versions available!</p>
+        <p>Check back later.</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <script>
+        const quotes = [
+            "The only limit to our realization of tomorrow is our doubts of today. - Franklin D. Roosevelt",
+            "In the middle of every difficulty lies opportunity. - Albert Einstein",
+            "Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill",
+            "What you get by achieving your goals is not as important as what you become by achieving your goals. - Zig Ziglar",
+            "Believe you can and you’re halfway there. - Theodore Roosevelt",
+            "Do what you can, with what you have, where you are. - Theodore Roosevelt",
+            "It always seems impossible until it’s done. - Nelson Mandela",
+            "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
+            "You miss 100% of the shots you don’t take. - Wayne Gretzky",
+        ];
+
+        const quoteText = document.getElementById("quoteText");
+
+        function displayRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            quoteText.textContent = quotes[randomIndex];
+        }
+
+        // Display a random quote on page load
+        displayRandomQuote();
+
+        // Show the pop-up with animation
+        function showPopup() {
+            const overlay = document.getElementById("popupOverlay");
+            overlay.style.display = "block";
+            setTimeout(() => overlay.style.opacity = "1", 10);
+            document.getElementById("popup").style.display = "block";
+        }
+
+        // Close the pop-up with animation
+        function closePopup() {
+            const overlay = document.getElementById("popupOverlay");
+            overlay.style.opacity = "0";
+            setTimeout(() => {
+                overlay.style.display = "none";
+                document.getElementById("popup").style.display = "none";
+            }, 300);
+        }
+
+        // Load user profile data
+        document.addEventListener('DOMContentLoaded', function() {
+            const username = localStorage.getItem('nexus_username');
+            const profilePic = localStorage.getItem('nexus_profilepic');
+            const defaultIcon = '../icons/user.png'; // Generic user icon
+            
+            if (username) {
+                document.getElementById('welcomeText').textContent = `Welcome, ${username}!`;
+            }
+            
+            const profileImage = document.getElementById('profilePic');
+            if (profilePic) {
+                profileImage.src = profilePic;
+            } else {
+                profileImage.src = defaultIcon;
+            }
+
+            // Handle profile image load errors
+            profileImage.onerror = function() {
+                this.src = defaultIcon;
+            };
+        });
+    </script>
+    <h1>&nbsp;</h1>
+</body>
+</html>

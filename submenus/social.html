@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social - Nexus</title>
+  <script src="../theme-sync.js"></script>
+    <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, input, button, select, textarea, div, p, span, a, table, th, td {
+      font-family: 'Avenir Next Regular', 'Avenir Next', 'Avenir', sans-serif;
+      font-weight: 400;
+    }
+    h1, h2, h3, h4, h5, h6, strong, b, th, .bold, .nav-tab, .badge {
+      font-family: 'Avenir Next Medium', 'Avenir Next', 'Avenir', sans-serif !important;
+      font-weight: 500 !important;
+    }
+    body {
+      background: var(--theme-bg, #f2f5f9);
+      color: var(--theme-text-primary, #1a1a2e);
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 24px);
+      max-width: 800px;
+      height: 56px;
+      background: var(--theme-glass-tint, rgba(255, 255, 255, 0.45));
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border: 1px solid var(--theme-glass-border, rgba(255, 255, 255, 0.6));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      padding: 0 20px;
+    }
+
+    .nav-tab {
+      padding: 8px 18px;
+      border: none;
+      background: transparent;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--theme-text-secondary, #4a4a6a);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-tab:hover {
+      color: var(--theme-text-primary, #1a1a2e);
+      transform: scale(1.04);
+      background: var(--theme-glass-tint, rgba(255, 255, 255, 0.25));
+      filter: brightness(0.95);
+    }
+
+    .nav-tab.active {
+      background: var(--theme-gradient);
+      color: white;
+      box-shadow: 0 4px 12px rgba(21, 101, 192, 0.25);
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .nav-tab span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .iframe-container {
+      position: fixed;
+      top: 80px;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      overflow: hidden;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+      border: 1px solid var(--theme-glass-border, rgba(255, 255, 255, 0.4));
+    }
+
+    .social-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: var(--theme-bg, white);
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .social-iframe.transition-out {
+      opacity: 0;
+      transform: scale(0.96) translateY(20px);
+    }
+
+    .social-iframe.transition-in {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    /* Loading indicator */
+    .loading-indicator {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(102, 126, 234, 0.2);
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .loading-indicator.show {
+      opacity: 1;
+    }
+
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* Animated Aurora Background Orbs */
+    @keyframes float1 {
+        0% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(40px, -60px) scale(1.1); }
+        66% { transform: translate(-30px, 30px) scale(0.9); }
+        100% { transform: translate(0, 0) scale(1); }
+    }
+    @keyframes float2 {
+        0% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(-50px, 50px) scale(1.05); }
+        66% { transform: translate(30px, -40px) scale(0.95); }
+        100% { transform: translate(0, 0) scale(1); }
+    }
+    @keyframes float3 {
+        0% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(60px, 30px) scale(0.9); }
+        66% { transform: translate(-40px, -50px) scale(1.1); }
+        100% { transform: translate(0, 0) scale(1); }
+    }
+
+    .blurred-blue-ball {
+        position: fixed;
+        bottom: -150px;
+        right: -100px;
+        width: 600px;
+        height: 600px;
+        background: var(--theme-ball-1);
+        border-radius: 50%;
+        filter: blur(40px);
+        z-index: -1;
+        pointer-events: none;
+        animation: float1 15s ease-in-out infinite;
+    }
+    .blurred-red-ball {
+        position: fixed;
+        top: -150px;
+        left: -100px;
+        width: 650px;
+        height: 650px;
+        background: var(--theme-ball-2);
+        border-radius: 50%;
+        filter: blur(40px);
+        z-index: -1;
+        pointer-events: none;
+        animation: float2 18s ease-in-out infinite;
+    }
+    .blurred-purple-ball {
+        position: fixed;
+        top: 20%;
+        left: 20%;
+        width: 500px;
+        height: 500px;
+        background: var(--theme-ball-3);
+        border-radius: 50%;
+        filter: blur(40px);
+        z-index: -1;
+        pointer-events: none;
+        animation: float3 20s ease-in-out infinite;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .top-bar {
+        top: 8px;
+        height: 48px;
+        width: calc(100% - 16px);
+        border-radius: 16px;
+      }
+      
+      .iframe-container {
+        top: 64px;
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+        border-radius: 16px;
+      }
+      
+      .nav-tabs {
+        gap: 4px;
+        padding: 0 10px;
+      }
+      
+      .nav-tab {
+        padding: 6px 12px;
+        font-size: 13px;
+        border-radius: 10px;
+      }
+    }
+  </style>
+
+</head>
+<body>
+  <div class="blurred-blue-ball"></div>
+  <div class="blurred-red-ball"></div>
+  <div class="blurred-purple-ball"></div>
+  <div class="top-bar">
+      <div class="nav-tabs">
+        <button class="nav-tab active" onclick="changeSocialPage('https://www.buttonstinks.cc/newbankpage/index.php', this)">
+          <span>Nexus Pay</span>
+        </button>
+        <button class="nav-tab" onclick="changeSocialPage('https://www.buttonstinks.cc/newbankpage/chat/index.php', this)">
+          <span>Nexus Chat</span>
+        </button>
+        <button class="nav-tab" onclick="changeSocialPage('https://www.buttonstinks.cc/nexussocial', this)">
+          <span>Nexus Social</span>
+        </button>
+        <button class="nav-tab" onclick="changeSocialPage('https://www.buttonstinks.cc/newbankpage/customize.php', this)">
+          <span>Account Settings</span>
+        </button>
+      </div>
+    </div>
+
+  <div class="iframe-container">
+    <div class="loading-indicator" id="loadingIndicator"></div>
+    <iframe 
+      id="socialFrame" 
+      class="social-iframe transition-in" 
+      src="https://www.buttonstinks.cc/newbankpage/index.php"
+      allow="fullscreen"
+    ></iframe>
+  </div>
+
+  <script>
+    let currentTab = 'nexus-pay';
+    const iframe = document.getElementById('socialFrame');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+
+    function changeSocialPage(url, tabElement) {
+      // Don't reload if it's the same page
+      if (iframe.src === url) return;
+
+      // Update active tab
+      document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+      tabElement.classList.add('active');
+
+      // Start transition out
+      iframe.classList.remove('transition-in');
+      iframe.classList.add('transition-out');
+      loadingIndicator.classList.add('show');
+
+      // Wait for transition out to complete, then change URL
+      setTimeout(() => {
+        iframe.src = url;
+        
+        // Listen for iframe load
+        iframe.onload = () => {
+          // Start transition in
+          setTimeout(() => {
+            iframe.classList.remove('transition-out');
+            iframe.classList.add('transition-in');
+            loadingIndicator.classList.remove('show');
+          }, 100);
+        };
+      }, 250);
+    }
+
+    // Handle iframe load events
+    iframe.addEventListener('load', () => {
+      // Hide loading indicator after a short delay to ensure smooth transition
+      setTimeout(() => {
+        loadingIndicator.classList.remove('show');
+      }, 300);
+    });
+
+    // Handle iframe errors
+    iframe.addEventListener('error', () => {
+      loadingIndicator.classList.remove('show');
+      console.error('Failed to load iframe content');
+    });
+
+    // Add keyboard shortcuts for navigation
+    document.addEventListener('keydown', (e) => {
+      const tabs = document.querySelectorAll('.nav-tab');
+      const currentIndex = Array.from(tabs).findIndex(tab => tab.classList.contains('active'));
+      
+      switch(e.key) {
+        case 'ArrowLeft':
+          e.preventDefault();
+          if (currentIndex > 0) {
+            tabs[currentIndex - 1].click();
+          }
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          if (currentIndex < tabs.length - 1) {
+            tabs[currentIndex + 1].click();
+          }
+          break;
+      }
+    });
+
+    // Add touch/swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      const tabs = document.querySelectorAll('.nav-tab');
+      const currentIndex = Array.from(tabs).findIndex(tab => tab.classList.contains('active'));
+      const swipeThreshold = 50;
+      
+      if (touchEndX < touchStartX - swipeThreshold) {
+        // Swipe left - next tab
+        if (currentIndex < tabs.length - 1) {
+          tabs[currentIndex + 1].click();
+        }
+      } else if (touchEndX > touchStartX + swipeThreshold) {
+        // Swipe right - previous tab
+        if (currentIndex > 0) {
+          tabs[currentIndex - 1].click();
+        }
+      }
+    }
+  </script>
+</body>
+</html>

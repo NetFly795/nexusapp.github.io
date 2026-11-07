@@ -1,0 +1,15 @@
+/* Light default aurora / loader for low-end devices */
+.loader {
+  backdrop-filter: blur(8px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(120%) !important;
+  background: rgba(255, 255, 255, 0.82) !important;
+}
+.blurred-blue-ball,
+.blurred-red-ball,
+.blurred-purple-ball {
+  animation: none !important;
+  will-change: auto !important;
+  filter: blur(28px) !important;
+  -webkit-filter: blur(28px) !important;
+  opacity: 0.7;
+}

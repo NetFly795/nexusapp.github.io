@@ -1,0 +1,116 @@
+/**
+ * lite tier: for when safari looks at your backdrop-filter and starts sweating
+ */
+
+/* fixed backdrop-filter + scroll on ios = crime scene. this fixes it. allegedly. */
+[data-nexus-perf="lite"] .nexus-frost-plate,
+[data-nexus-perf="lite"] #nexus-home-frost,
+[data-nexus-perf="lite"] #nexus-games-frost,
+[data-nexus-perf="lite"] .nexus-glass-frost {
+  display: none !important;
+}
+
+/* never animate filter during scroll. webkit will composite you into oblivion */
+[data-nexus-perf="lite"] .blurred-blue-ball,
+[data-nexus-perf="lite"] .blurred-red-ball,
+[data-nexus-perf="lite"] .blurred-purple-ball {
+  filter: blur(40px) !important;
+  -webkit-filter: blur(40px) !important;
+}
+
+/* Pause work in hidden frames */
+html.nexus-perf-paused .aurora-orb,
+html.nexus-perf-paused .blurred-blue-ball,
+html.nexus-perf-paused .blurred-red-ball,
+html.nexus-perf-paused .blurred-purple-ball,
+html.nexus-perf-paused .rise {
+  animation-play-state: paused !important;
+}
+
+/* no content-visibility on iframes. webkit crashes. ask me how i know */
+#dash-preload-frame.dash-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-nexus-perf="lite"] #content-frame.page-transition-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Compositor hygiene */
+[data-nexus-perf="lite"] .game-tile,
+[data-nexus-perf="lite"] .game-icon,
+[data-nexus-perf="lite"] .blurred-blue-ball,
+[data-nexus-perf="lite"] .blurred-red-ball,
+[data-nexus-perf="lite"] .blurred-purple-ball,
+[data-nexus-perf="lite"] .aurora-orb,
+[data-nexus-perf="lite"] .game-launch-splash-icon,
+[data-nexus-perf="lite"] .game-launch-morph {
+  will-change: auto !important;
+}
+
+[data-nexus-perf="lite"] .sticky-header {
+  will-change: auto !important;
+}
+
+[data-nexus-perf="lite"] .game-launch-splash-bg {
+  filter: saturate(1.25) brightness(0.58) !important;
+  -webkit-filter: saturate(1.25) brightness(0.58) !important;
+  transform: scale(2);
+}
+
+[data-nexus-perf="lite"] html.nexus-games-scroll-root.nexus-webgl-active #nexus-webgl-bg,
+[data-nexus-perf="lite"] html.nexus-games-scroll-root.nexus-video-bg-active #nexus-video-bg {
+  filter: none !important;
+  -webkit-filter: none !important;
+  transform: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  left: 0 !important;
+  top: 0 !important;
+}
+
+/* Reliable touch scrolling inside iframes on iPad */
+[data-nexus-perf="lite"] html {
+  -webkit-overflow-scrolling: touch;
+}
+
+[data-nexus-perf="lite"] html.nexus-games-scroll-root {
+  overflow: visible;
+  -webkit-overflow-scrolling: touch;
+}
+
+[data-nexus-perf="lite"] html.nexus-games-scroll-root body {
+  overflow-x: hidden;
+  overflow-y: visible;
+  touch-action: auto;
+  overscroll-behavior-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+[data-nexus-perf="lite"] html:not(.nexus-games-scroll-root) body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+/* Default materials are already light; lite tier keeps aurora fully static */
+[data-nexus-perf="lite"] .blurred-blue-ball,
+[data-nexus-perf="lite"] .blurred-red-ball,
+[data-nexus-perf="lite"] .blurred-purple-ball,
+[data-nexus-perf="lite"] .setup-orb {
+  animation: none !important;
+  filter: blur(24px) !important;
+  -webkit-filter: blur(24px) !important;
+}
+
+[data-nexus-perf="lite"] .bottom-nav,
+[data-nexus-perf="lite"] .customize-section,
+[data-nexus-perf="lite"] #cookiePopup,
+[data-nexus-perf="lite"] #gameInviteNotif {
+  backdrop-filter: blur(4px) saturate(110%) !important;
+  -webkit-backdrop-filter: blur(4px) saturate(110%) !important;
+}

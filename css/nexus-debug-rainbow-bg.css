@@ -1,0 +1,26 @@
+/* rainbow plate for glass debugging. very professional. very me at 2am */
+
+#nexus-debug-rainbow-plate {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  touch-action: none;
+  background: var(--nexus-debug-rainbow);
+}
+
+html.nexus-debug-rainbow-bg body {
+  background: transparent !important;
+}
+
+html.nexus-debug-rainbow-bg #nexus-webgl-bg {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+html.nexus-debug-rainbow-bg .blurred-blue-ball,
+html.nexus-debug-rainbow-bg .blurred-red-ball,
+html.nexus-debug-rainbow-bg .blurred-purple-ball,
+html.nexus-debug-rainbow-bg .aurora-orb {
+  display: none !important;
+}

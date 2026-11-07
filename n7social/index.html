@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nexus 7 Social</title>
+  <link rel="stylesheet" href="../n7legacy/css/shell.css">
+  <script src="../n7legacy/js/theme.js"></script>
+  <script>
+    window.N7_CONFIG = {
+      edition: 'n7social',
+      setupSteps: 3,
+      homePage: '../../dash/index.html',
+      socialPage: '../submenus/social.html',
+      socialLabel: 'Connected',
+      settingsPage: '../../submenus/settings.html'
+    };
+  </script>
+</head>
+<body>
+  <div class="n7-badge">Nexus 7 Social</div>
+  <div id="loadingBar"></div>
+
+  <button id="backBtn" type="button">&#8592; Back</button>
+  <button id="gamesBackBtn" type="button">Back to Games</button>
+
+  <iframe id="content-frame" src="../../dash/index.html" title="Nexus content"></iframe>
+
+  <button id="fullscreenBtn" type="button" title="Fullscreen games" aria-label="Fullscreen">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="#1976d2"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+  </button>
+
+  <nav class="bottom-nav show-anim" id="bottomNav">
+    <img src="../nexuslogoapple.png" alt="Nexus Logo" data-n7-logo style="height:32px;width:auto;margin-right:12px;margin-left:4px;" />
+
+    <button class="nav-btn active" type="button" data-page="home">
+      <span class="nav-btn-content">
+        <img src="../icons/home.png" alt="" class="nav-btn-icon" />
+        Home
+      </span>
+    </button>
+    <button class="nav-btn" type="button" data-page="games" data-glow="orange">
+      <span class="nav-btn-content">
+        <img src="../icons/games.png" alt="" class="nav-btn-icon" />
+        Games
+      </span>
+    </button>
+    <button class="nav-btn" type="button" data-page="social" data-glow="purple">
+      <span class="nav-btn-content">
+        <img src="../icons/social.png" alt="" class="nav-btn-icon" />
+        Connected
+      </span>
+    </button>
+    <button class="nav-btn" type="button" data-page="settings" data-glow="red">
+      <span class="nav-btn-content">
+        <img src="../icons/preferences.png" alt="" class="nav-btn-icon" />
+        Settings
+      </span>
+    </button>
+    <button class="nav-btn applets-btn" type="button" data-glow="green" title="Applets">
+      <img src="../icons/applets.png" alt="Applets" class="nav-btn-icon" />
+    </button>
+
+    <button class="nav-btn dock-util-btn" type="button" id="customizeBtn" title="Customize dock" onclick="toggleCustomizeMode()">
+      <svg viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97 0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1 0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66z"/></svg>
+    </button>
+    <button class="nav-btn dock-util-btn" type="button" id="hideNavBtn" title="Hide dock">
+      <svg viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+    </button>
+
+    <span id="navReorderAnchor" hidden aria-hidden="true"></span>
+
+    <div class="customize-section">
+      <div class="option-group">
+        <span class="option-label">Choose Default Page</span>
+        <div class="option-choices">
+          <button class="option-choice selected" type="button" data-page="home" onclick="setDefaultPage('home')">Home</button>
+          <button class="option-choice" type="button" data-page="games" onclick="setDefaultPage('games')">Games</button>
+          <button class="option-choice" type="button" data-page="social" onclick="setDefaultPage('social')">Connected</button>
+          <button class="option-choice" type="button" data-page="settings" onclick="setDefaultPage('settings')">Settings</button>
+        </div>
+      </div>
+      <button class="done-button" type="button" onclick="toggleCustomizeMode()">Done</button>
+    </div>
+  </nav>
+
+  <button id="showNavBtn" type="button" title="Show dock">
+    <svg class="tray-arrow" viewBox="0 0 24 24" width="20" height="20"><path d="M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z" fill="#555"/></svg>
+  </button>
+
+  <div id="setupOverlay"></div>
+  <div id="setupPopup">
+    <div class="setup-step" id="step1">
+      <h2>Welcome to Nexus</h2>
+      <p>Let's get you set up! First, tell us your name.</p>
+      <input type="text" id="setupUsername" placeholder="Username" style="width:100%;padding:12px;margin:16px 0;border-radius:8px;border:1px solid #ddd;">
+    </div>
+    <div class="setup-step" id="step2">
+      <h2>Choose Your Theme</h2>
+      <p>Pick a color scheme that suits you</p>
+      <div class="theme-preview-row">
+        <div class="theme-preview" onclick="selectSetupTheme('default')" style="background:linear-gradient(135deg,#fff,#f0f4f8)"></div>
+        <div class="theme-preview" onclick="selectSetupTheme('deepblue')" style="background:linear-gradient(135deg,#7986cb,#3f51b5)"></div>
+        <div class="theme-preview" onclick="selectSetupTheme('cherryred')" style="background:linear-gradient(135deg,#ef5350,#d32f2f)"></div>
+        <div class="theme-preview" onclick="selectSetupTheme('purple')" style="background:linear-gradient(135deg,#ab47bc,#7b1fa2)"></div>
+      </div>
+    </div>
+    <div class="setup-step" id="step3">
+      <h2>Welcome to Nexus! 🎉</h2>
+      <p>You're ready to explore Connected, games, and your dashboard.</p>
+    </div>
+    <button id="setupNextBtn" type="button" onclick="nextSetupStep()" style="width:100%;padding:12px;background:#1976d2;color:white;border:none;border-radius:8px;margin-top:16px;cursor:pointer;">Next</button>
+  </div>
+
+  <div class="edit-overlay" onclick="toggleCustomizeMode()"></div>
+
+  <div id="cookiePopup">
+    <p>We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
+    <div class="cookie-buttons">
+      <button class="cookie-btn accept" type="button" onclick="acceptCookies()">Accept</button>
+      <button class="cookie-btn decline" type="button" onclick="declineCookies()">Decline</button>
+    </div>
+  </div>
+
+  <script src="../n7legacy/js/shell.js"></script>
+</body>
+</html>

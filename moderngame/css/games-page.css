@@ -1,0 +1,887 @@
+      .loader {
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(8px) saturate(130%);
+        -webkit-backdrop-filter: blur(8px) saturate(130%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    
+      .loader > img {
+        width: 100px;
+        filter: drop-shadow(0 8px 24px rgba(0,0,0,0.1));
+      }
+    
+      .loader.hidden {
+        pointer-events: none;
+        animation: fadeOut 1s cubic-bezier(0.25, 1, 0.5, 1);
+        animation-fill-mode: forwards;
+      }
+    
+      @keyframes fadeOut {
+        100% {
+            opacity: 0;
+            visibility: hidden;
+        }
+      }
+    
+      .thumb {
+        height: 100px;
+        border: 1px solid rgba(255,255,255,0.4);
+        margin: 10px;
+      }
+
+      /* Animated Aurora Orbs. they drift. i drift. we drift together */
+      @keyframes float1 {
+          0% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(40px, -60px) scale(1.1); }
+          66% { transform: translate(-30px, 30px) scale(0.9); }
+          100% { transform: translate(0, 0) scale(1); }
+      }
+      @keyframes float2 {
+          0% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(-50px, 50px) scale(1.05); }
+          66% { transform: translate(30px, -40px) scale(0.95); }
+          100% { transform: translate(0, 0) scale(1); }
+      }
+      @keyframes float3 {
+          0% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(60px, 30px) scale(0.9); }
+          66% { transform: translate(-40px, -50px) scale(1.1); }
+          100% { transform: translate(0, 0) scale(1); }
+      }
+
+      .blurred-blue-ball {
+          position: fixed;
+          bottom: -150px;
+          right: -100px;
+          width: 600px;
+          height: 600px;
+          background: var(--theme-ball-1);
+          border-radius: 50%;
+          filter: blur(28px);
+          z-index: -1;
+          pointer-events: none;
+          animation: none;
+            will-change: auto;
+      }
+      .blurred-red-ball {
+          position: fixed;
+          top: -150px;
+          left: -100px;
+          width: 650px;
+          height: 650px;
+          background: var(--theme-ball-2);
+          border-radius: 50%;
+          filter: blur(28px);
+          z-index: -1;
+          pointer-events: none;
+          animation: none;
+            will-change: auto;
+      }
+      .blurred-purple-ball {
+          position: fixed;
+          top: 20%;
+          left: 20%;
+          width: 500px;
+          height: 500px;
+          background: var(--theme-ball-3);
+          border-radius: 50%;
+          filter: blur(28px);
+          z-index: -1;
+          pointer-events: none;
+          animation: none;
+            will-change: auto;
+      }
+
+    #mySearch {
+        width: 80%; /* Make the search bar wider */
+        height: 3rem; /* Increase height */
+        border-radius: 50px; /* Make it pill-shaped */
+        padding: 0 20px; /* Add padding for better appearance */
+        font-size: 1.2rem; /* Increase font size */
+        border: 1px solid lightgray; /* Add a subtle border */
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Add a slight shadow */
+    }
+
+    #mySearch:focus {
+        outline: none; /* Remove default outline */
+        border-color: #007aff; /* Highlight border on focus */
+        box-shadow: 0 0 8px rgba(0, 122, 255, 0.5); /* Add focus shadow */
+    }
+
+      .topnotify {
+
+        color: white;
+        text-align: center;
+        padding: 10px;
+        top: 0;
+        width: 100%;
+        height: 2%;
+        z-index: 1;
+        align-items: left;
+      }
+      /* full-screen game overlay. you are now IN the game. no takebacks */
+      #gameOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #0b0b0b;
+        display: none;
+        flex-direction: column;
+        z-index: 1000;
+        transform-origin: center center;
+        transform: scale(1);
+        opacity: 1;
+        border-radius: 0;
+        will-change: transform, opacity;
+        transition: opacity 360ms cubic-bezier(0.22, 0.01, 0.36, 1), transform 360ms cubic-bezier(0.22, 0.01, 0.36, 1), border-radius 360ms ease;
+        overflow: hidden;
+      }
+      #gameOverlay.visible {
+        display: flex;
+      }
+      #gameOverlay.closing {
+        opacity: 0;
+        transform: scale(0.92);
+        border-radius: 12px;
+        pointer-events: none;
+      }
+      /* Glassmorphic Game Controls Bar */
+      .game-controls-bar {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        gap: 12px;
+        z-index: 10002;
+        padding: 8px 12px;
+        background: rgba(15, 23, 42, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        backdrop-filter: blur(5px) saturate(100%);
+        -webkit-backdrop-filter: blur(5px) saturate(100%);
+        border-radius: 40px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 0, 0, 0.15);
+        align-items: center;
+        transition: transform 0.3s cubic-bezier(0.25, 1, 0.2, 1), opacity 0.3s ease;
+      }
+      
+      .game-control-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.25s cubic-bezier(0.25, 1, 0.25, 1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      }
+      
+      /* Leave Game: Red button with glassmorphism */
+      .game-control-btn.btn-leave {
+        background: rgba(239, 68, 68, 0.4);
+        border: 1px solid rgba(239, 68, 68, 0.55);
+        color: #ffffff;
+      }
+      .game-control-btn.btn-leave:hover {
+        background: rgba(239, 68, 68, 0.55);
+        transform: scale(1.08);
+        box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+      }
+      .game-control-btn.btn-leave:active {
+        transform: scale(0.92);
+      }
+      
+      /* Invite: Blue button with glassmorphism */
+      .game-control-btn.btn-invite {
+        background: rgba(59, 130, 246, 0.4);
+        border: 1px solid rgba(59, 130, 246, 0.55);
+        color: #ffffff;
+      }
+      .game-control-btn.btn-invite:hover {
+        background: rgba(59, 130, 246, 0.55);
+        transform: scale(1.08);
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+      }
+      .game-control-btn.btn-invite:active {
+        transform: scale(0.92);
+      }
+      
+      /* Settings: Same color as legacy bar with glassmorphism */
+      .game-control-btn.btn-settings {
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+      }
+      .game-control-btn.btn-settings:hover {
+        background: rgba(15, 23, 42, 0.95);
+        border-color: rgba(255, 255, 255, 0.35);
+        transform: scale(1.08);
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.25);
+      }
+      .game-control-btn.btn-settings:active {
+        transform: scale(0.92);
+      }
+
+      .game-control-btn.btn-luna {
+        background: rgba(124, 108, 255, 0.42);
+        border: 1px solid rgba(140, 120, 255, 0.55);
+        color: #ffffff;
+        padding: 0;
+      }
+      .game-control-btn.btn-luna img {
+        width: 22px;
+        height: 22px;
+        object-fit: contain;
+        pointer-events: none;
+      }
+      .game-control-btn.btn-luna:hover {
+        background: rgba(124, 108, 255, 0.58);
+        transform: scale(1.08);
+        box-shadow: 0 0 15px rgba(124, 108, 255, 0.45);
+      }
+      .game-control-btn.btn-luna:active {
+        transform: scale(0.92);
+      }
+
+      /* performance mode. turns off fancy stuff when device is having an existential crisis */
+      body.performance-mode {
+        background: #0b0b0b !important;
+      }
+      body.performance-mode .blurred-blue-ball,
+      body.performance-mode .blurred-red-ball,
+      body.performance-mode .blurred-purple-ball {
+        display: none !important;
+        animation: none !important;
+      }
+      /* Disable heavy filters, blurs, and shadows on the background dashboard */
+      body.performance-mode #categoryFilters,
+      body.performance-mode .sticky-header,
+      body.performance-mode .grid-container,
+      body.performance-mode .game-tile,
+      body.performance-mode .card,
+      body.performance-mode .sidebar,
+      body.performance-mode #searchWrapper {
+        animation: none !important;
+        transition: none !important;
+        filter: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+      /* Make background elements simple, low-power solid HTML rendering styles */
+      body.performance-mode .game-tile {
+        background: #111827 !important; /* solid slate-900 color */
+        border: 1px solid #1f2937 !important;
+        box-shadow: none !important;
+      }
+      body.performance-mode .game-tile img {
+        filter: none !important;
+        transition: none !important;
+      }
+      body.performance-mode .sticky-header {
+        background: #111827 !important;
+        border-bottom: 1px solid #1f2937 !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+
+      /* Glassmorphic Popups */
+      .glass-popup {
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        width: 350px;
+        background: rgba(17, 24, 39, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(7px) saturate(130%);
+        -webkit-backdrop-filter: blur(7px) saturate(130%);
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+        z-index: 10003;
+        color: #f3f4f6;
+        padding: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", sans-serif;
+        box-sizing: border-box;
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        pointer-events: none;
+      }
+      .glass-popup.active {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+      }
+      
+      .glass-popup-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding-bottom: 12px;
+        margin-bottom: 16px;
+      }
+      .glass-popup-header h2 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .close-glass-popup {
+        background: transparent;
+        border: none;
+        color: #9ca3af;
+        font-size: 24px;
+        cursor: pointer;
+        transition: color 0.2s ease;
+      }
+      .close-glass-popup:hover {
+        color: #ffffff;
+      }
+      
+      .game-info-compact {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .compact-game-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+      .compact-game-name {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #ffffff;
+        max-width: 220px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      
+      .setting-item {
+        margin-bottom: 20px;
+      }
+      .setting-item:last-child {
+        margin-bottom: 0;
+      }
+      .setting-label-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .setting-label {
+        font-size: 13px;
+        color: #9ca3af;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .setting-value {
+        font-size: 13px;
+        color: #ffffff;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 2px 8px;
+        border-radius: 6px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      
+      /* Glass sliders */
+      .glass-slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 6px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.12);
+        outline: none;
+        margin: 8px 0;
+      }
+      .glass-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #ffffff;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        transition: transform 0.1s ease;
+      }
+      .glass-slider::-webkit-slider-thumb:hover {
+        transform: scale(1.2);
+      }
+      
+      .slider-marks {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        color: #6b7280;
+        padding: 0 2px;
+      }
+      
+      /* Invite Modal Specifics */
+      .invite-subtitle {
+        font-size: 12px;
+        color: #9ca3af;
+        margin-top: 0;
+        margin-bottom: 16px;
+      }
+      .friends-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-height: 180px;
+        overflow-y: auto;
+        margin-bottom: 16px;
+        padding-right: 4px;
+      }
+      .friends-list::-webkit-scrollbar {
+        width: 4px;
+      }
+      .friends-list::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.1);
+        border-radius: 2px;
+      }
+      .friend-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.04);
+        padding: 8px 12px;
+        border-radius: 12px;
+      }
+      .friend-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .friend-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .friend-name {
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .friend-status {
+        font-size: 11px;
+      }
+      .friend-status.online { color: #10b981; }
+      
+      .invite-action-btn {
+        background: rgba(59, 130, 246, 0.2);
+        border: 1px solid rgba(59, 130, 246, 0.35);
+        color: #93c5fd;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .invite-action-btn:hover {
+        background: rgba(59, 130, 246, 0.4);
+        color: #ffffff;
+      }
+      .invite-action-btn.invited {
+        background: rgba(16, 185, 129, 0.2);
+        border-color: rgba(16, 185, 129, 0.35);
+        color: #a7f3d0;
+        cursor: default;
+      }
+      
+      .invite-link-row {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 16px;
+      }
+      .invite-link-label {
+        font-size: 12px;
+        color: #9ca3af;
+        display: block;
+        margin-bottom: 8px;
+      }
+      .invite-link-input-container {
+        display: flex;
+        gap: 8px;
+      }
+      .glass-input {
+        flex-grow: 1;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+        padding: 6px 10px;
+        color: #ffffff;
+        font-size: 12px;
+        outline: none;
+      }
+      .glass-btn-primary {
+        background: #3b82f6;
+        border: none;
+        color: #ffffff;
+        padding: 6px 14px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+      .glass-btn-primary:hover {
+        background: #2563eb;
+      }
+      
+      /* Invited Players in Settings popup */
+      .invited-players-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 8px;
+        max-height: 120px;
+        overflow-y: auto;
+      }
+      .no-players-msg {
+        font-size: 12px;
+        color: #6b7280;
+        text-align: center;
+        padding: 10px 0;
+        font-style: italic;
+      }
+      .invited-player-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.04);
+        padding: 6px 10px;
+        border-radius: 10px;
+      }
+      .invited-player-left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .invited-player-status {
+        font-size: 11px;
+        color: #9ca3af;
+      }
+      .invited-player-status.joined {
+        color: #10b981;
+        font-weight: 600;
+      }
+      .invited-player-status.pending {
+        color: #f59e0b;
+      }
+
+      /* Dynamic Glass Alert system */
+      .glass-alert {
+        position: fixed;
+        top: 24px;
+        left: 50%;
+        transform: translate(-50%, -40px);
+        background: rgba(17, 24, 39, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        padding: 10px 24px;
+        border-radius: 999px;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 600;
+        z-index: 11000;
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        pointer-events: none;
+      }
+      .glass-alert.show {
+        transform: translate(-50%, 0);
+        opacity: 1;
+      }
+
+      #gameFrame {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: #0b0b0b;
+        z-index: 1000;
+        transition: transform 0.3s cubic-bezier(0.25, 1, 0.2, 1);
+      }
+      /* iOS-style active app press scale effect */
+      .game-link {
+        perspective: 1000px;
+      }
+      .game-tile {
+        transition: transform 0.22s cubic-bezier(0.25, 1, 0.2, 1), background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease !important;
+      }
+      .game-tile:active {
+        transform: scale(0.92) !important;
+        filter: brightness(0.85);
+      }
+
+      /* iOS-style app opening fluid animation helper */
+      .ios-open-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 99999;
+        overflow: hidden;
+        transition: clip-path 400ms cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: clip-path;
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+      }
+      
+      .ios-face {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: opacity 400ms cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity;
+      }
+      
+      .ios-face.ios-face-front {
+        z-index: 2;
+        opacity: 1;
+      }
+      
+      .ios-face.ios-face-back {
+        z-index: 1;
+        opacity: 0;
+        background: #0b0b0b;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+      }
+      
+      /* Active open transition cross-fade state */
+      .ios-open-container.toFullscreen .ios-face.ios-face-front {
+        opacity: 0;
+      }
+      
+      .ios-open-container.toFullscreen .ios-face.ios-face-back {
+        opacity: 1;
+      }
+      
+      /* iOS splash screen loader content */
+      .ios-splash-loader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", sans-serif;
+      }
+      
+      .ios-splash-loader .loader-title {
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        opacity: 0;
+        transform: scale(0.95);
+        animation: iosFadeScaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.1s;
+      }
+      
+      @keyframes iosFadeScaleIn {
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      
+      /* Fluid circular spinner for iOS look */
+      .ios-spinner {
+        width: 36px;
+        height: 36px;
+        border: 3px solid rgba(255, 255, 255, 0.15);
+        border-top-color: #ffffff;
+        border-radius: 50%;
+        animation: ios-spin 0.8s linear infinite;
+      }
+      
+      @keyframes ios-spin {
+        to { transform: rotate(360deg); }
+      }
+      /* Fade the overlay content in slightly after the morph */
+      #gameOverlay.contentHidden { opacity: 0; }
+      #gameOverlay { transition: opacity 180ms ease; }
+
+
+      /* Merge behavior styles */
+      .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 999;
+        background: transparent;
+        text-align: center;
+      }
+      .sticky-header .top-bar {
+        width: min(100%, 760px);
+        margin: 2px auto 0;
+        position: relative;
+        transform-origin: center top;
+        will-change: transform, height, padding, border-radius, box-shadow, background;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .sticky-header .category-filters {
+        display: inline-flex;
+        width: auto;
+        margin: 15px auto 0;
+        padding: 0;
+        overflow: hidden;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        opacity: calc(1 - var(--merge-progress));
+        transform: translateY(calc(-18px * var(--merge-progress)));
+        max-height: calc(120px * (1 - var(--merge-progress)));
+      }
+
+      :root {
+        --merge-progress: 0;
+      }
+
+      /* Merged top-bar animation is driven entirely by scroll progress */
+      .sticky-header .top-bar {
+        position: relative !important;
+        width: 100% !important;
+        max-width: 760px !important;
+        margin: 2px auto 0;
+        transform-origin: center top;
+        transform: translateY(calc(-10px * var(--merge-progress))) scale(calc(1 - 0.05 * var(--merge-progress))) !important;
+        height: auto !important;
+        padding: calc(10px - 4px * var(--merge-progress)) calc(16px - 4px * var(--merge-progress)) !important;
+        border-radius: calc(24px + 880px * var(--merge-progress)) !important;
+        background: rgba(255,255,255, calc(0.55 + 0.25 * var(--merge-progress))) !important;
+        backdrop-filter: blur(4px) !important;
+        -webkit-backdrop-filter: blur(4px) !important;
+        box-shadow: 0 calc(8px + 10px * var(--merge-progress)) calc(22px + 10px * var(--merge-progress)) rgba(0,0,0, calc(0.04 + 0.05 * var(--merge-progress))) !important;
+      }
+
+      /* Ensure search expands and account button is centered in its column */
+      .top-bar .search-container {
+        display: flex;
+        align-items: center;
+        flex: 1 1 0;
+        min-width: 220px;
+      }
+      .sticky-header .user-account {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 12px;
+        flex: 0 0 180px;
+      }
+
+      .sticky-header .top-bar::before {
+        content: '';
+        position: absolute;
+        inset: 6px;
+        border-radius: inherit;
+        background: radial-gradient(circle at 16% 22%, rgba(255,255,255, calc(0.18 * var(--merge-progress))), transparent 45%);
+        opacity: calc(0.35 * var(--merge-progress));
+        pointer-events: none;
+        transform: translateY(calc(10px * (1 - var(--merge-progress)))) scale(calc(0.96 + 0.03 * var(--merge-progress)));
+      }
+
+      /* shimmer layer position tied to progress */
+      .sticky-header .top-bar::after {
+        content: '';
+        position: absolute;
+        left: 0; top: 0;
+        width: 220%; height: 100%;
+        background: linear-gradient(120deg, transparent 10%, rgba(255,255,255,0.65) 50%, transparent 90%);
+        transform: translateX(calc(-140% + 260% * var(--merge-progress))) scaleX(calc(0.92 + 0.18 * var(--merge-progress)));
+        pointer-events: none;
+        opacity: calc(0.28 + 0.72 * var(--merge-progress));
+      }
+
+      @keyframes shimmer { 0% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+
+      /* orb intensity scales with progress — scale only (filter anim is costly) */
+      .blurred-blue-ball,
+      .blurred-red-ball,
+      .blurred-purple-ball {
+        transform: scale(calc(1 + 0.06 * var(--merge-progress))) translateY(calc(-8px * var(--merge-progress)));
+      }
+
+      /* Animate category filters out of view smoothly */
+      .category-filters.hidden-during-merge {
+        opacity: calc(1 - var(--merge-progress));
+        transform: translateY(calc(-26px * var(--merge-progress))) scale(calc(1 - 0.04 * var(--merge-progress)));
+        max-height: calc(130px * (1 - var(--merge-progress)));
+        overflow: hidden;
+        pointer-events: none;
+        transition: opacity 360ms ease, transform 360ms ease, max-height 360ms ease;
+      }
+
+      /* account button appearance and merged/unmerged consistency */
+      .account-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 999px;
+        background: #2b7cff;
+        color: white;
+        font-weight: 600;
+        font-size: 0.95rem;
+        line-height: 1;
+        min-height: 40px;
+        cursor: pointer;
+        box-shadow: 0 4px 18px rgba(43,124,255,0.18);
+        transform: translateX(calc(18px * (1 - var(--merge-progress))));
+        transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+      }
+
+      .account-pill i {
+        font-size: 16px;
+      }
+
+      .user-profile,
+      .user-name {
+        display: none;
+      }
+
+      .sticky-header.merged .user-profile,
+      .sticky-header.merged .user-name {
+        pointer-events: none;
+      }
+      /* When category filters are moved into the top-bar */
+      .top-bar .category-filters.in-topbar { display: flex; flex-wrap: nowrap; gap: 8px; margin-left: 12px; align-items: center; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .top-bar .category-filters.in-topbar .category-btn { flex: 0 0 auto; padding: 6px 10px; font-size: 0.9rem; }
+

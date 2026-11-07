@@ -1,0 +1,117 @@
+/* frost blur layer. NOT per-panel. we have trauma from doing it the other way */
+
+#nexus-home-frost,
+.nexus-glass-frost:not(.nexus-frost-plate) {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  transform: translateZ(0);
+}
+
+@supports (-webkit-touch-callout: none) {
+  #nexus-home-frost,
+  .nexus-glass-frost:not(.nexus-frost-plate) {
+    position: absolute;
+    inset: auto;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+}
+
+html.nexus-webgl-glass-active body {
+  background: transparent !important;
+}
+
+/* ── Home ─────────────────────────────────────────────────────── */
+
+html.nexus-webgl-glass-active[data-nexus-glass-page="home"] .page {
+  position: relative;
+  z-index: 1;
+}
+
+html.nexus-webgl-glass-active[data-nexus-glass-page="home"] .glass-card,
+html.nexus-webgl-glass-active[data-nexus-glass-page="home"] .glass {
+  background: var(--theme-glass-tint, rgba(255, 255, 255, 0.4)) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html.nexus-webgl-glass-active[data-nexus-glass-page="home"] .clock-pill {
+  background: var(--theme-glass-tint, rgba(255, 255, 255, 0.5)) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html.nexus-webgl-glass-active[data-nexus-glass-page="home"] .qp-tile {
+  background: rgba(255, 255, 255, 0.42) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html.nexus-webgl-glass-active[data-nexus-glass-page="home"] .qp-tile-btn:hover .qp-tile {
+  background: rgba(255, 255, 255, 0.58) !important;
+}
+
+/* games page: no frost plate. scroll-safe. blur lives in projects.css instead */
+
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .games-page-main,
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .games-section-strip,
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .luna-rec-strip {
+  position: relative;
+}
+
+/* search bar stays pinned. do NOT touch sticky-header position. i mean it */
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .game-tile,
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .category-filters,
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .search-dropdown,
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .user-menu,
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .games-section-box,
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .luna-rec-box,
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .qp-tile,
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .qp-pin-btn {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .qp-tile {
+  background: rgba(255, 255, 255, 0.42) !important;
+}
+
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .qp-tile-btn:hover .qp-tile {
+  background: rgba(255, 255, 255, 0.58) !important;
+}
+
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .games-section-box {
+  background: var(--theme-glass-tint, rgba(255, 255, 255, 0.42)) !important;
+}
+
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .quick-play-strip .games-section-box {
+  background: linear-gradient(135deg, rgba(255, 200, 87, 0.12) 0%, rgba(255, 255, 255, 0.38) 100%) !important;
+}
+
+html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .luna-rec-box {
+  background: linear-gradient(135deg, rgba(72, 145, 255, 0.14) 0%, rgba(124, 108, 255, 0.1) 55%, rgba(255, 107, 203, 0.08) 100%) !important;
+}
+
+[data-dark-mode="true"] html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .games-section-box,
+[data-dark-mode="true"] html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .quick-play-strip .games-section-box,
+[data-dark-mode="true"] html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .luna-rec-box {
+  background: var(--theme-glass-tint, rgba(14, 22, 32, 0.75)) !important;
+}
+
+[data-dark-mode="true"] html.nexus-webgl-glass-active[data-nexus-glass-page="games"] .qp-tile {
+  background: var(--theme-glass-tint, rgba(14, 22, 32, 0.75)) !important;
+}

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nexus</title>
+  <link rel="manifest" href="./manifest.json">
+  <script src="js/nexus-perf.js"></script>
+  <link rel="stylesheet" href="css/nexus-perf-lite.css">
+  <link rel="stylesheet" href="css/nexus-glass-quality.css">
+  <link rel="stylesheet" href="css/nexus-debug-rainbow-bg.css">
+  <script src="js/nexus-glass-quality.js"></script>
+  <script src="js/nexus-debug-rainbow-bg.js"></script>
+  <link rel="stylesheet" href="css/nexus-webgl-dock.css">
+  <link rel="stylesheet" href="luna/luna-copilot.css">
+  <script src="theme-sync.js" defer></script>
+  <script src="js/nexus-webgl-dock.js" defer></script>
+  <script src="js/nexus-ai.js"></script>
+  <script src="luna/luna-copilot.js" defer></script>
+  <link rel="stylesheet" href="css/app-shell.css">
+  <link rel="stylesheet" href="css/app-panels.css">
+  <link rel="stylesheet" href="css/app-dock.css">
+  <link rel="stylesheet" href="css/app-setup.css">
+  <link rel="stylesheet" href="css/app-overlays.css">
+</head>
+<body>
+  <div id="loadingBar"></div>
+
+  <!-- Game invite notification banner -->
+  <div id="gameInviteNotif">
+    <div class="notif-top">
+      <div class="notif-icon" id="inviteNotifIcon">🎮</div>
+      <div>
+        <div class="notif-label">Game Invite</div>
+        <div class="notif-body" id="inviteNotifBody">
+          <strong id="inviteNotifSender">Someone</strong> invited you to play <strong id="inviteNotifGame">a game</strong>
+        </div>
+      </div>
+    </div>
+    <div class="notif-actions">
+      <button class="notif-btn notif-btn-play" id="inviteNotifPlay">Play Now</button>
+      <button class="notif-btn notif-btn-ignore" id="inviteNotifIgnore">Ignore</button>
+    </div>
+  </div>
+
+  <button id="backBtn" style="display:none;position:absolute;top:18px;left:18px;z-index:200;background:#fff;border-radius:16px;border:1px solid #ddd;box-shadow:0 2px 8px rgba(60,60,60,0.10);padding:8px 18px;font-size:16px;font-family:'Avenir','Segoe UI','Arial',sans-serif;cursor:pointer;">
+    &#8592; Back
+  </button>
+  <button id="gamesBackBtn">Back to Games</button>
+  <!-- iframes stay in memory. instant page swaps. ram is free right??? -->
+  <iframe id="dash-preload-frame" src="dash/index.html" scrolling="yes"></iframe>
+  <iframe id="content-frame" src="about:blank" scrolling="yes"></iframe>
+
+  <!-- Settings slide-in panel (preloaded, hidden until opened) -->
+  <div id="settingsPanelBackdrop" onclick="hideSettingsPanel()"></div>
+  <div id="settingsPanel">
+    <iframe id="settingsPanelFrame" src="about:blank" data-lazy-src="submenus/settings.html"></iframe>
+  </div>
+
+  <!-- Connected messages sidebar -->
+  <div id="connectedSidebarBackdrop" onclick="hideConnectedSidebar()"></div>
+  <div id="connectedSidebarPanel">
+    <iframe id="connectedSidebarFrame" src="about:blank" data-lazy-src="/connectedcenternew/sidebar.php" title="Connected Messages"></iframe>
+  </div>
+  
+  <!-- luna copilot. in-game assistant. streams opinions disguised as help -->
+  <div id="lunaCopilotBackdrop" aria-hidden="true"></div>
+  <div id="lunaCopilotPanel" aria-label="Luna Copilot" aria-hidden="true">
+    <div class="luna-copilot-head">
+      <img src="luna/lunaicon.png" alt="" decoding="async">
+      <div class="luna-copilot-head-text">
+        <div class="luna-copilot-title">Luna Copilot</div>
+        <div class="luna-copilot-sub" id="lunaCopilotSubtitle">Stuck? Ask Luna about this game.</div>
+      </div>
+      <button id="lunaCopilotClose" type="button" aria-label="Close Luna Copilot">&times;</button>
+    </div>
+    <div id="lunaCopilotSignin">
+      Sign in to Connected Center to use Luna Copilot.
+      <button id="lunaCopilotSigninBtn" type="button">Sign In</button>
+    </div>
+    <div id="lunaCopilotMessages"></div>
+    <div class="luna-copilot-foot">
+      <div class="luna-copilot-input-row">
+        <textarea id="lunaCopilotInput" rows="1" placeholder="Ask Luna about this game..." autocomplete="off"></textarea>
+        <button id="lunaCopilotSend" type="button" title="Send" aria-label="Send">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        </button>
+      </div>
+      <div id="lunaCopilotStatus"></div>
+    </div>
+  </div>
+
+  <div id="lunaDockBackdrop" onclick="closeLunaDock()" aria-hidden="true"></div>
+  <div id="dockCluster" class="show-anim">
+  <div id="dockWrap">
+  <nav class="bottom-nav" id="bottomNav">
+    <div id="lunaDockPanel" aria-hidden="true">
+      <iframe id="lunaFrame" src="about:blank" title="Luna AI"></iframe>
+    </div>
+    <div class="bottom-nav-row">
+    <!-- water lens canvas is dead. long live water lens canvas -->
+    <!-- Removed: <canvas id="waterLensCanvas"></canvas> -->
+    <img src="nexuslogoapple.png" alt="Nexus Logo" loading="lazy" decoding="async" style="height:32px; width:auto; margin-right:16px; margin-left:4px; display:block;" />
+    <button class="nav-btn active" onclick="changePage('dash/index.html', this)">
+      <span class="nav-btn-content">
+        <img src="icons/home.png" alt="Home" class="nav-btn-icon" />
+        Home
+      </span>
+    </button>
+    <button class="nav-btn" data-glow="orange" onclick="changePage('./moderngame/index.html', this)">
+      <span class="nav-btn-content">
+        <img src="icons/games.png" alt="Games" class="nav-btn-icon" />
+        Games
+      </span>
+    </button>
+    <button class="nav-btn" data-glow="purple" onclick="changePage('/connectedcenternew/dashboard.php', this)">
+      <span class="nav-btn-content">
+        <img src="icons/social.png" alt="Social" class="nav-btn-icon" />
+        Connected
+      </span>
+    </button>
+    <button class="nav-btn" data-glow="red" id="settingsBtn" type="button" onclick="showSettingsPanel(this)">
+      <span class="nav-btn-content">
+        <img src="icons/preferences.png" alt="Profile" class="nav-btn-icon" />
+        Settings
+      </span>
+    </button>
+    <!-- Connected Sidebar quick-messages button -->
+    <button class="nav-btn connected-sidebar-btn" data-glow="purple" id="connectedSidebarBtn" type="button" onclick="toggleConnectedSidebar(this)" title="Connected Messages">
+      <img src="icons/social.png" alt="Messages" class="nav-btn-icon" style="margin:0;" />
+      <span class="cs-badge" id="connectedSidebarBadge" aria-hidden="true"></span>
+    </button>
+    <button class="nav-btn luna-dock-btn" id="lunaAiBtn" type="button" title="Luna AI" onclick="toggleLunaDock(event)" aria-expanded="false" aria-label="Luna AI">
+      <img src="luna/lunaicon.png" alt="" class="luna-dock-icon" aria-hidden="true" decoding="async">
+    </button>
+    <span id="navReorderAnchor" aria-hidden="true" hidden></span>
+    <div class="customize-section">
+        <div class="option-group">
+            <span class="option-label">Choose Default Page</span>
+            <div class="option-choices">
+                <button class="option-choice selected" onclick="setDefaultPage('home')">Home</button>
+                <button class="option-choice" onclick="setDefaultPage('games')">Games</button>
+                <button class="option-choice" onclick="setDefaultPage('social')">Social</button>
+                <button class="option-choice" onclick="setDefaultPage('settings')">Settings</button>
+            </div>
+        </div>
+    </div>
+    
+    </div>
+  </nav>
+  </div>
+    <button id="hideNavBtn" class="nav-btn dock-toggle-btn" type="button" title="Hide dock" aria-label="Hide dock">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+    </svg>
+  </button>
+  </div>
+  
+  <button id="showNavBtn" class="nav-btn dock-toggle-btn" title="Show dock" aria-label="Show dock">
+    <svg class="tray-arrow" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+    </svg>
+  </button>
+  <!-- iOS-style settings popup -->
+  <div id="setupOverlay"></div>
+  <div id="setupPopup">
+
+    <!-- Aurora background orbs -->
+    <div class="setup-orb orb-1"></div>
+    <div class="setup-orb orb-2"></div>
+    <div class="setup-orb orb-3"></div>
+    <div class="setup-orb orb-4"></div>
+
+    <div class="setup-steps-container">
+
+      <!-- Step 1: Welcome -->
+      <div class="setup-step" id="step1">
+        <div class="welcome-layout">
+          <img src="nexuslogoapple.png" alt="Nexus" class="welcome-logo-img">
+          <div class="welcome-text-side">
+            <h1 class="setup-title">Welcome to<br>Nexus</h1>
+            <p class="setup-subtitle">Just a quick setup and you're in</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Username -->
+      <div class="setup-step" id="step2">
+        <h2>What's your name?</h2>
+        <p class="setup-desc">This is what we'll show around Nexus.</p>
+        <input type="text" id="setupUsername" placeholder="Username" required
+          style="width:100%;padding:14px 16px;border-radius:12px;border:1.5px solid #dde;font-size:1rem;font-family:inherit;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.06);outline:none;">
+      </div>
+
+      <!-- Step 3: Theme -->
+      <div class="setup-step" id="step3">
+        <h2>Choose Your Theme</h2>
+        <p class="setup-desc">Pick something that feels right.</p>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:4px 0;">
+          <div class="theme-preview" onclick="selectSetupTheme('default')"   style="background:linear-gradient(135deg,#fff 0%,#f0f4f8 100%)"></div>
+          <div class="theme-preview" onclick="selectSetupTheme('deepblue')"  style="background:linear-gradient(135deg,#7986cb 0%,#3f51b5 100%)"></div>
+          <div class="theme-preview" onclick="selectSetupTheme('cherryred')" style="background:linear-gradient(135deg,#ef5350 0%,#d32f2f 100%)"></div>
+          <div class="theme-preview" onclick="selectSetupTheme('purple')"    style="background:linear-gradient(135deg,#ab47bc 0%,#7b1fa2 100%)"></div>
+        </div>
+      </div>
+
+      <!-- Step 4: All set -->
+      <div class="setup-step" id="step4">
+        <h2>You're all set! 🎉</h2>
+        <p class="setup-desc">A few things you can do here:</p>
+        <ul style="text-align:left;margin:0;padding-left:20px;line-height:2;color:#444;font-size:1rem;">
+          <li>Play games and check out educational stuff</li>
+          <li>Hang out with classmates on Connected Center</li>
+          <li>Keep up with school news</li>
+          <li>Make Nexus look and feel like yours</li>
+        </ul>
+      </div>
+
+    </div><!-- /.setup-steps-container -->
+
+    <button class="setup-btn" onclick="handleSetupButton()">Go</button>
+  </div>
+  <div class="edit-overlay"></div>
+  <div id="cookiePopup">
+        <p>We use cookies to keep Nexus running smoothly. By continuing, you're good with that.</p>
+        <div class="cookie-buttons">
+            <button class="cookie-btn accept" onclick="acceptCookies()">Accept</button>
+            <button class="cookie-btn decline" onclick="declineCookies()">Decline</button>
+        </div>
+    </div>
+    
+  <script src="js/app-shell.js"></script>
+  <script src="js/app-panels.js"></script>
+  <script src="js/app-play.js"></script>
+  <script src="js/app-invites.js"></script>
+  <script src="js/app-setup.js"></script>
+  <script src="js/app-debug.js"></script>
+
+  <!-- Debug Console Panel -->
+  <div id="debugConsole" role="dialog" aria-label="Debug Console">
+    <div id="debugConsoleHeader">
+      <span>&#x1F6E0; Nexus Debug Console</span>
+      <button id="debugConsoleClose" title="Close (Esc)">&#x2715;</button>
+    </div>
+    <div id="debugQuickActions">
+      <span style="font-size:11px;color:#555;align-self:center;margin-right:4px;">Quick:</span>
+      <button class="debug-quick-btn" id="debugLiteToggle" onclick="_debug_toggleLiteMode()">Lite Mode: OFF</button>
+      <button class="debug-quick-btn" id="debugRainbowBgToggle" onclick="_debug_toggleRainbowBg()">Rainbow BG: OFF</button>
+      <button class="debug-quick-btn deprecated" onclick="_debug_toggleCustomize()" title="Deprecated">Edit Mode (toggleCustomizeMode)</button>
+      <button class="debug-quick-btn deprecated" onclick="_debug_toggleDarkMode()" title="Deprecated">Dark Mode</button>
+      <button class="debug-quick-btn deprecated" onclick="_debug_toggleNexus9Dark()" title="Deprecated">Dark Mode (Nexus 9)</button>
+      <button class="debug-quick-btn" onclick="showSetup()">Setup Wizard</button>
+      <button class="debug-quick-btn" onclick="_debug_clearConsole()" style="margin-left:auto;color:#888;border-color:rgba(255,255,255,0.1);">Clear</button>
+      <div id="debugGlassQualityRow">
+        <label for="debugGlassQuality">Glass Quality</label>
+      <input type="range" id="debugGlassQuality" min="0" max="100" value="0" step="1" title="0 = flat logical panel color, 100 = full live glass" />
+      <span id="debugGlassQualityVal">0 / flat fill</span>
+      <span id="debugGlassQualityHint">Panels use one logical color (tint × theme bg). No frost/blur.</span>
+      </div>
+    </div>
+    <div id="debugOutput"></div>
+    <div id="debugInputRow">
+      <span>&gt;</span>
+      <input id="debugInput" type="text" placeholder="Type JS and press Enter&hellip;" autocomplete="off" spellcheck="false" />
+      <button id="debugRunBtn">Run</button>
+    </div>
+  </div>
+</body>
+</html>
+

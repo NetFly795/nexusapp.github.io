@@ -1,0 +1,28 @@
+#nexus-webgl-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+  touch-action: auto;
+  background: var(--theme-bg, #f2f5f9);
+}
+
+html.nexus-webgl-active .blurred-blue-ball,
+html.nexus-webgl-active .blurred-red-ball,
+html.nexus-webgl-active .blurred-purple-ball,
+html.nexus-webgl-active .aurora-orb {
+  display: none !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+html.nexus-webgl-active.nexus-webgl-paused #nexus-webgl-bg {
+  visibility: hidden;
+}
+
+html.nexus-webgl-active,
+html.nexus-webgl-active body {
+  background: transparent !important;
+}

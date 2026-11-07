@@ -1,0 +1,22 @@
+{
+  "light": [
+    "cherryred",
+    "deepblue",
+    "default",
+    "gold",
+    "purple"
+  ],
+  "dark": [
+    "amber",
+    "nord",
+    "synthwave"
+  ],
+  "version": 3,
+  "source": "nexus9-css-capture",
+  "capture": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 24,
+    "duration": 15
+  }
+}

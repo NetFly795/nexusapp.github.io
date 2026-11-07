@@ -1,0 +1,77 @@
+/* Luna game recommendation strips on the Games page */
+.luna-rec-strip {
+  width: 100%;
+  flex: 0 0 100%;
+  margin: 8px 0 14px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+
+.luna-rec-cluster {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.luna-rec-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding: 0;
+}
+
+.luna-rec-logo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.luna-rec-label {
+  font-size: 0.9rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  color: var(--theme-text-accent, #1a3a7a);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+[data-dark-mode="true"] .luna-rec-label {
+  color: var(--theme-text-primary, #f1f5f9);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+}
+
+.luna-rec-box {
+  padding: 12px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(72, 145, 255, 0.14) 0%, rgba(124, 108, 255, 0.1) 55%, rgba(255, 107, 203, 0.08) 100%);
+  border: 1px solid rgba(100, 170, 255, 0.28);
+  box-shadow:
+    0 8px 28px rgba(30, 100, 220, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: 100%;
+}
+
+[data-dark-mode="true"] .luna-rec-box {
+  background: var(--theme-glass-tint, rgba(14, 22, 32, 0.75));
+  border-color: var(--theme-glass-border, rgba(255, 255, 255, 0.08));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.luna-rec-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: var(--game-grid-gap, 20px);
+}
+
+.luna-rec-row .game-link {
+  flex: 0 0 var(--game-tile-width, 300px);
+  max-width: 100%;
+}
