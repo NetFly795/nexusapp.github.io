@@ -317,8 +317,8 @@
       mapLen: parameters.resourcesMap ? parameters.resourcesMap.length : 0,
     });
 
-    // Prefer object flashvars (resourcesMap no longer contains raw '=' cache busters).
-    // Also put a short critical set on the SWF URL for LoaderInfo.parameters.
+    // Pass flashvars as a Ruffle parameters object. Do NOT put resourcesMap on the
+    // SWF URL — GitHub Pages / CDNs reject those multi‑kilobyte query strings.
     var encodedParams = buildQuery(parameters);
     var critical = buildQuery({
       abTestCases: parameters.abTestCases || "",
@@ -331,8 +331,7 @@
       firstSignInTime: parameters.firstSignInTime || "1",
       forceSoftware: parameters.forceSoftware || "",
       fName: parameters.fName || "",
-      fId: parameters.fId || "",
-      resourcesMap: parameters.resourcesMap || ""
+      fId: parameters.fId || ""
     });
     log("flashvars bytes", encodedParams.length, "ab", !!(parameters && parameters.abTestCases), "map", !!(parameters && parameters.resourcesMap));
     if (critical) {
