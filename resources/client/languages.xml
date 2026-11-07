@@ -1,0 +1,19 @@
+<Languages>
+	<Language languageCode="en" localizationFileEnding="en"/>
+	<Language languageCode="ko" localizationFileEnding="ko"/>
+	<Language languageCode="ja" localizationFileEnding="ja"/>
+
+	<Language languageCode="zh-Hans" localizationFileEnding="zh_CN" />
+
+	<Language languageCode="de" localizationFileEnding="de"/>
+	<Language languageCode="it" localizationFileEnding="it"/>
+	<Language languageCode="tr" localizationFileEnding="tr"/>
+	<Language languageCode="pt" localizationFileEnding="pt_BR"/>
+	<Language languageCode="nb" localizationFileEnding="no"/>
+	<Language languageCode="fi" localizationFileEnding="fi"/>
+	<Language languageCode="sv" localizationFileEnding="sv"/>
+	<Language languageCode="fr" localizationFileEnding="fr"/>
+	<Language languageCode="es" localizationFileEnding="es"/>
+	<Language languageCode="nl" localizationFileEnding="nl"/>
+	<Language languageCode="da" localizationFileEnding="da"/>
+</Languages>

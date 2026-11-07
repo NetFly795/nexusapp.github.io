@@ -1,0 +1,131 @@
+
+<content>
+  <group name="init">
+    
+    
+    <binary filename="init.zip" size="4478816" /></group>
+  <group name="preloader">
+    <binary filename="preloader.zip" size="320284" /></group>
+  <group name="localization">
+    <binary filename="localization.zip" size="624587" /></group>
+  <group name="bootstrap">
+    <binary filename="bootstrap.zip" size="2359657" /></group>
+  <group name="diorama_common">
+    <binary filename="diorama_common.zip" size="5771217" /></group>
+  <group name="diorama1">
+    <binary filename="diorama1.zip" size="925820" /></group>
+  <group name="diorama2">
+    <binary filename="diorama2.zip" size="963921" /></group>
+  <group name="diorama3">
+    <binary filename="diorama3.zip" size="1090176" /></group>
+  <group name="diorama4">
+    <binary filename="diorama4.zip" size="1001933" /></group>
+  <group name="diorama5">
+    <binary filename="diorama5.zip" size="996874" /></group>
+  <group name="diorama6">
+    <binary filename="diorama6.zip" size="833834" /></group>
+  <group name="diorama7">
+    <binary filename="diorama7.zip" size="1023150" /></group>
+  <group name="diorama8">
+    <binary filename="diorama8.zip" size="1143284" /></group>
+  <group name="diorama9">
+    <binary filename="diorama9.zip" size="1040105" /></group>
+  <group name="diorama10">
+    <binary filename="diorama10.zip" size="967529" /></group>
+  <group name="diorama11">
+    <binary filename="diorama11.zip" size="1047817" /></group>
+  <group name="diorama12">
+    <binary filename="diorama12.zip" size="1232871" /></group>
+  <group name="diorama13">
+    <binary filename="diorama13.zip" size="1320686" /></group>
+  <group name="diorama14">
+    <binary filename="diorama14.zip" size="1150367" /></group>
+  <group name="diorama15">
+    <binary filename="diorama15.zip" size="1239587" /></group>
+  <group name="diorama16">
+    <binary filename="diorama16.zip" size="1117978" /></group>
+  <group name="diorama17">
+    <binary filename="diorama17.zip" size="970658" /></group>
+  <group name="diorama18">
+    <binary filename="diorama18.zip" size="1175623" /></group>
+  <group name="diorama19">
+    <binary filename="diorama19.zip" size="1217392" /></group>
+  <group name="diorama20">
+    <binary filename="diorama20.zip" size="1583733" /></group>
+  <group name="diorama21">
+    <binary filename="diorama21.zip" size="1740665" /></group>
+  <group name="diorama22">
+    <binary filename="diorama22.zip" size="1045184" /></group>
+  <group name="diorama23">
+    <binary filename="diorama23.zip" size="1453208" /></group>
+  <group name="diorama24">
+    <binary filename="diorama24.zip" size="1097412" /></group>
+  <group name="diorama25">
+    <binary filename="diorama25.zip" size="928410" /></group>
+  <group name="diorama26">
+    <binary filename="diorama26.zip" size="1016913" /></group>
+  <group name="diorama27">
+    <binary filename="diorama27.zip" size="930433" /></group>
+  <group name="game_common">
+    <binary filename="game_common.zip" size="11066091" /></group>
+  <group name="game1">
+    <binary filename="game1.zip" size="359431" /></group>
+  <group name="game2">
+    <binary filename="game2.zip" size="320948" /></group>
+  <group name="game3">
+    <binary filename="game3.zip" size="362690" /></group>
+  <group name="game4">
+    <binary filename="game4.zip" size="304208" /></group>
+  <group name="game5">
+    <binary filename="game5.zip" size="347291" /></group>
+  <group name="game6">
+    <binary filename="game6.zip" size="272649" /></group>
+  <group name="game7">
+    <binary filename="game7.zip" size="330965" /></group>
+  <group name="game8">
+    <binary filename="game8.zip" size="380008" /></group>
+  <group name="game9">
+    <binary filename="game9.zip" size="312536" /></group>
+  <group name="game10">
+    <binary filename="game10.zip" size="235406" /></group>
+  <group name="game11">
+    <binary filename="game11.zip" size="342114" /></group>
+  <group name="game12">
+    <binary filename="game12.zip" size="398039" /></group>
+  <group name="game13">
+    <binary filename="game13.zip" size="412352" /></group>
+  <group name="game14">
+    <binary filename="game14.zip" size="319356" /></group>
+  <group name="game15">
+    <binary filename="game15.zip" size="381230" /></group>
+  <group name="game16">
+    <binary filename="game16.zip" size="384719" /></group>
+  <group name="game17">
+    <binary filename="game17.zip" size="288638" /></group>
+  <group name="game18">
+    <binary filename="game18.zip" size="364363" /></group>
+  <group name="game19">
+    <binary filename="game19.zip" size="364589" /></group>
+  <group name="game20">
+    <binary filename="game20.zip" size="407987" /></group>
+  <group name="game21">
+    <binary filename="game21.zip" size="294542" /></group>
+  <group name="game22">
+    <binary filename="game22.zip" size="341657" /></group>
+  <group name="game23">
+    <binary filename="game23.zip" size="347977" /></group>
+  <group name="game24">
+    <binary filename="game24.zip" size="334251" /></group>
+  <group name="game25">
+    <binary filename="game25.zip" size="338135" /></group>
+  <group name="game26">
+    <binary filename="game26.zip" size="299913" /></group>
+  <group name="game27">
+    <binary filename="game27.zip" size="353970" /></group>
+  <group name="memories">
+    <binary filename="memories.zip" size="712154" /></group>
+  <group name="treasure_hunt">
+    <binary filename="treasure_hunt.zip" size="460791" /></group>
+  <group name="editor">
+  <binary filename="editor.zip" size="22" /></group>
+</content>

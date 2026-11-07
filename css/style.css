@@ -1,0 +1,96 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#game {
+    visibility: visible !important;
+}
+
+#pause {
+    display: none;
+    position: relative;
+}
+
+#pause .image {
+
+}
+
+#pause .text {
+    position: absolute;
+}
+
+.fluidWidth {
+    margin: 0 auto;
+}
+
+a, a:visited, a:active {
+    color: #ff8200;
+}
+
+#gameContainer {
+    position: relative;
+    width: 800px;
+    height: 600px;
+}
+
+#topBanner {
+    width: 800px;
+    height: 80px;
+}
+
+#bottomBanner {
+    margin-top: 5px;
+    width: 800px;
+}
+
+#bottomBanner img {
+    width: 800px;
+}
+
+#footer {
+    width: 800px;
+    color: #333333;
+    font-family: "Trebuchet MS",Tahoma,Geneva,Arial,Helvetica,sans-serif;
+    font-size: 11px;
+}
+
+#footer-right {
+    float: right;
+}
+
+#canvasCampaignBanner {
+    display: none;
+    width: 800px;
+    height: 90px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#canvasCampaignBanner p{
+    margin-top: -62px;
+}
+
+#canvasCampaignBanner a{
+    text-decoration: none;
+    color: white;
+    font-family: "Trebuchet MS",Tahoma,Geneva,Arial,Helvetica,sans-serif;
+    font-size: 20px;
+}
+
+.facebookLike {
+    height: 24px;
+    float: left;
+}
+
+.socialButtons {
+    height: 24px;
+    position: relative;
+    margin-top: 5px;
+    width: 800px;
+}
+
+.twitterFollow {
+    height: 24px;
+    float: right;
+}

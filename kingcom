@@ -1,0 +1,251 @@
+<?php
+function generateRandomString($length = 10) {
+	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_';
+	$charactersLength = strlen($characters);
+	$randomString = '';
+	for ($i = 0; $i < $length; $i++) {
+		$randomString .= $characters[random_int(0, $charactersLength - 1)];
+	}
+	return $randomString;
+}
+
+function listFilesRecursive($dir) {
+    $files = [];
+
+    if (is_dir($dir)) {
+        $items = scandir($dir);
+
+        foreach ($items as $item) {
+            if ($item == '.' || $item == '..') {
+                continue;
+            }
+
+            $path = $dir . DIRECTORY_SEPARATOR . $item;
+
+            if (is_dir($path)) {
+                $files = array_merge($files, listFilesRecursive($path));
+            } else {
+                $files[] = $path;
+            }
+        }
+    }
+	
+	return $files;
+}
+
+/*function getResourceMap($files) {
+	$resourceStr = "";
+
+    foreach ($files as $fileinfo) {
+		$resourceStr .= str_replace('\\', '/', "/".$fileinfo.";http://candycrushsoda.dev.midasplayer.com/".$fileinfo."?_v=".generateRandomString(rand(6,7)).",");
+	}
+	
+	return substr($resourceStr, 0, -1);
+}*/
+function getResourceMap($files) {
+	$resourceStr = "";
+
+    foreach ($files as $fileinfo) {
+		$resourceStr .= str_replace('\\', '/', "/".$fileinfo.";http://candycrushsoda.dev.midasplayer.com/".$fileinfo."?_v=".generateRandomString(rand(6,7)).",");
+	}
+	
+	return substr($resourceStr, 0, -1);
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="http://candycrushsoda.dev.midasplayer.com/plataforma/js/jquery-1.7.1.min.js?_v=<?php echo generateRandomString(rand(6,7)) ?>"></script>
+	<script type="text/javascript" src="http://candycrushsoda.dev.midasplayer.com/plataforma/pack/king-kingdom.js?_v=<?php echo generateRandomString(rand(6,7)) ?>"></script>
+	<script type="text/javascript" src="http://candycrushsoda.dev.midasplayer.com/js/Stritz.js?_v=<?php echo generateRandomString(rand(6,7)) ?>"></script>
+	<script type="text/javascript" src="http://candycrushsoda.dev.midasplayer.com/swfobject.js?_v=<?php echo generateRandomString(rand(6,7)) ?>"></script>
+    <script type="text/javascript" src="http://candycrushsoda.dev.midasplayer.com/plataforma/js/ExternalInterfaceRpc.js?_v=<?php echo generateRandomString(rand(6,7)) ?>"></script>
+	
+    <script type="text/javascript" src="http://candycrushsoda.dev.midasplayer.com/kingdom/js/core.min.js?_v=<?php echo generateRandomString(rand(6,7)) ?>"></script>
+	<link rel="stylesheet" href="http://candycrushsoda.dev.midasplayer.com/css/style.css?_v=<?php echo generateRandomString(rand(6,7)) ?>"/>
+	<script src="http://candycrushsoda.dev.midasplayer.com/productPackages.js?_v=<?php echo generateRandomString(rand(6,7)) ?>"></script>
+	<script src="http://candycrushsoda.dev.midasplayer.com/applicationSettings.js?_v=<?php echo generateRandomString(rand(6,7)) ?>"></script>
+	<script src="http://candycrushsoda.dev.midasplayer.com/boosterTypeIds.js?_v=<?php echo generateRandomString(rand(6,7)) ?>"></script>
+	<script src="http://candycrushsoda.dev.midasplayer.com/FPMockRequest.js?_v=<?php echo generateRandomString(rand(6,7)) ?>"></script>
+	<style type="text/css">
+		.backgroundCover {
+			background-image: url("http://candycrushsoda.dev.midasplayer.com/images/ccss_backdrop.jpg?_v=<?php echo generateRandomString(rand(6,7)) ?>");
+			background-position: center top;
+			background-repeat: no-repeat;
+		}
+	</style>
+</head>
+<body class="backgroundCover">
+<div id="fb-root"></div>
+<script type="text/javascript">
+	$(document).ready(function () {
+		king.debugMode = false;
+		king.init({
+			facebook: {
+				appId: '336512696486951',
+				appUrl: 'https://apps.facebook.com/candycrushsoda',
+				useFloating: true,
+				useUserCurrencySystem: false
+			},
+            kingdom: {
+                appId: '33',
+                appUrl: 'https://king.com',
+                useFloating: false,
+                sessionKey: "izWQJpv7IwenmdYyqSk1eA.2",
+                canvasSize: {width: 800, height: 600}
+            },
+			gameId: 'game',
+			userId: '6377372128',
+			sessionKey: 'izWQJpv7IwenmdYyqSk1eA.2',
+			cdn: 'http://candycrushsoda.dev.midasplayer.com',
+			storage: 27 * 1024 * 1024
+		});
+
+		king.rpc.remoteCall("GuiTracking.CustomFunnel", ["OldLoad", "2.HTMLPageLoaded", "1481077882135"], function () {
+		}, function () {
+		});
+
+		king.stritz.init();
+
+        
+
+		showGame();
+	});
+
+	var sendBrowserInfo = function (renderMode) {
+		var flashVersionObject = swfobject.getFlashPlayerVersion();
+		var flashVersion = flashVersionObject.major + "." + flashVersionObject.minor + "." + flashVersionObject.release;
+		var canvasElement = document.createElement('canvas');
+		var isCanvasSupported = !!(canvasElement.getContext && canvasElement.getContext('2d'));
+		var glContext = null;
+		if (isCanvasSupported) {
+			var canvasElement3d = document.createElement('canvas');
+			var names = ["webgl", "experimental-webgl", "webkit-3d", "moz-webgl"];
+			for (var i = 0; i < names.length && !glContext; ++i) {
+				try {
+					glContext = canvasElement3d.getContext(names[i]);
+				} catch (e) {
+				}
+			}
+			$(canvasElement).remove();
+		}
+		var isWebGLSupported = !!glContext;
+		var appCache = window.applicationCache;
+		var hasAppCache = !!appCache;
+		var viewportWidth = $(window).width();
+		var viewportHeight = $(window).height();
+
+		king.rpc.remoteCall("StritzApi.reportBrowserPlatform", [flashVersion, viewportWidth, viewportHeight, isCanvasSupported ? 1 : 0, isWebGLSupported ? 1 : 0, hasAppCache ? 1 : 0, renderMode], function () {
+		}, function () {
+		});
+
+		$(canvasElement3d).remove();
+	};
+
+    function initKingBling() {
+        var myKingBling = new KingBling();
+        myKingBling.init({"dataStructureVersion":2,"kingAppShortName":"stritz","countryCode":"IN","language":"en","kingBlingHostname":"bling.king.com","protocol":"https://","sex":"u","coreUserId":6377372128,"kingAppId":33,"signInSourceId":20,"age":-1,"ageRange":{"from":0,"to":0},"installedKingAppsIdLastVisitMap":{},"videoAdPlacements":{"dataStructureVersion":0,"placements":{}},"userMetrics":{"topLevel":0,"ab":{"exc":false}}});
+
+        myKingBling.open(KingBlingModuleTypeMap.CROSSPROMO_BANNER_BOTTOM, "bottomBanner", {
+            debug:false, width:800
+        });
+
+        myKingBling.open(KingBlingModuleTypeMap.CROSSPROMO_BANNER_TOP, "topBanner", {
+            debug:false, width:805
+        });
+    }
+
+	function showGame() {
+		var flashvars = {
+			remoteRpcServiceUrl: "http://candycrushsoda.dev.midasplayer.com/rpc/ClientApi",
+			sessionKey: "izWQJpv7IwenmdYyqSk1eA.2",
+			serverHost: "candycrushsoda.dev.midasplayer.com",
+			CDN: "http://candycrushsoda.dev.midasplayer.com",
+			resourceBase: '/resources/',
+			clientVersionUrl: 'http://candycrushsoda.dev.midasplayer.com/version.txt?_v=<?php echo generateRandomString(rand(6,7)) ?>',
+			abTestCases: 'high_popular_goldbar_pkg;1,illegal_switch_enabled;1,hard_level_pin_enabled;1,illegal_switch_prices;0,booster_bundling_mode;2,new_goldbar_shop;1,striped_lollipop_enabled;1,goldbar_shop_special_offer;0,levels;0,hard_levels_labeling;3',
+			fName: "OldLoad",
+			fId: "1481077882135",
+			resourcesMap: "<?php echo getResourceMap(listFilesRecursive("resources")) ?>",
+			//resourcesMap: "/resources/game1.zip;http://candycrushsoda.dev.midasplayer.com/resources/game1.zip?_v=9ydzaz,/resources/game26.zip;http://candycrushsoda.dev.midasplayer.com/resources/game26.zip?_v=13q1bup,/resources/diorama19.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama19.zip?_v=11fqn4q,/resources/diorama8.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama8.zip?_v=8foddv,/resources/diorama10.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama10.zip?_v=1alk9wh,/resources/game27.zip;http://candycrushsoda.dev.midasplayer.com/resources/game27.zip?_v=1lg71sn,/resources/game18.zip;http://candycrushsoda.dev.midasplayer.com/resources/game18.zip?_v=jr9t6i,/resources/diorama27.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama27.zip?_v=10jmq9p,/resources/game19.zip;http://candycrushsoda.dev.midasplayer.com/resources/game19.zip?_v=1xqho2f,/resources/client/content.xml;http://candycrushsoda.dev.midasplayer.com/resources/client/content.xml?_v=9c6z12,/resources/treasure_hunt.zip;http://candycrushsoda.dev.midasplayer.com/resources/treasure_hunt.zip?_v=1yy316c,/resources/diorama6.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama6.zip?_v=euzl3p,/resources/layers.xml;http://candycrushsoda.dev.midasplayer.com/resources/layers.xml?_v=1h9qo7o,/resources/preloader.zip;http://candycrushsoda.dev.midasplayer.com/resources/preloader.zip?_v=1t6qljt,/resources/diorama7.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama7.zip?_v=13h8si3,/resources/game28.zip;http://candycrushsoda.dev.midasplayer.com/resources/game28.zip?_v=8r5t2x,/resources/diorama28.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama28.zip?_v=8znp9u,/resources/diorama11.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama11.zip?_v=kgviok,/resources/localization.zip;http://candycrushsoda.dev.midasplayer.com/resources/localization.zip?_v=ywcg7f,/resources/editor.zip;http://candycrushsoda.dev.midasplayer.com/resources/editor.zip?_v=s6wq6s,/resources/diorama17.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama17.zip?_v=lwii1s,/resources/diorama20.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama20.zip?_v=1eypxrv,/resources/diorama_common.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama_common.zip?_v=1ppjq3x,/resources/game23.zip;http://candycrushsoda.dev.midasplayer.com/resources/game23.zip?_v=1y014w5,/resources/diorama21.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama21.zip?_v=d45p6h,/resources/game10.zip;http://candycrushsoda.dev.midasplayer.com/resources/game10.zip?_v=uokdf1,/resources/diorama1.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama1.zip?_v=1i27y4c,/resources/diorama16.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama16.zip?_v=1h2vwck,/resources/game16.zip;http://candycrushsoda.dev.midasplayer.com/resources/game16.zip?_v=1rtrxxn,/resources/cameras.xml;http://candycrushsoda.dev.midasplayer.com/resources/cameras.xml?_v=58z7w8,/resources/game7.zip;http://candycrushsoda.dev.midasplayer.com/resources/game7.zip?_v=16523nf,/resources/diorama18.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama18.zip?_v=1kf8l7y,/resources/diorama9.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama9.zip?_v=og6nfj,/resources/game_common.zip;http://candycrushsoda.dev.midasplayer.com/resources/game_common.zip?_v=usp22r,/resources/game22.zip;http://candycrushsoda.dev.midasplayer.com/resources/game22.zip?_v=ti9q5k,/resources/diorama22.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama22.zip?_v=cpz28z,/resources/bootstrap.zip;http://candycrushsoda.dev.midasplayer.com/resources/bootstrap.zip?_v=8rdno9,/resources/game6.zip;http://candycrushsoda.dev.midasplayer.com/resources/game6.zip?_v=11p7lwv,/resources/game17.zip;http://candycrushsoda.dev.midasplayer.com/resources/game17.zip?_v=gm12a3,/resources/game13.zip;http://candycrushsoda.dev.midasplayer.com/resources/game13.zip?_v=1p7xw8y,/resources/diorama23.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama23.zip?_v=de01br,/resources/diorama3.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama3.zip?_v=rme8qx,/resources/game21.zip;http://candycrushsoda.dev.midasplayer.com/resources/game21.zip?_v=1hnym6u,/resources/game5.zip;http://candycrushsoda.dev.midasplayer.com/resources/game5.zip?_v=1klrjt5,/resources/game12.zip;http://candycrushsoda.dev.midasplayer.com/resources/game12.zip?_v=5qtq0s,/resources/diorama14.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama14.zip?_v=q6g12u,/resources/diorama24.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama24.zip?_v=11cchmb,/resources/game20.zip;http://candycrushsoda.dev.midasplayer.com/resources/game20.zip?_v=w8d8my,/resources/game14.zip;http://candycrushsoda.dev.midasplayer.com/resources/game14.zip?_v=bcdxtx,/resources/init.zip;http://candycrushsoda.dev.midasplayer.com/resources/init.zip?_v=1o3sq3b,/resources/diorama2.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama2.zip?_v=17qtr3w,/resources/render_targets.xml;http://candycrushsoda.dev.midasplayer.com/resources/render_targets.xml?_v=1wgbre0,/resources/game11.zip;http://candycrushsoda.dev.midasplayer.com/resources/game11.zip?_v=140uwne,/resources/diorama15.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama15.zip?_v=54rcf1,/resources/game4.zip;http://candycrushsoda.dev.midasplayer.com/resources/game4.zip?_v=9h1bd6,/resources/game15.zip;http://candycrushsoda.dev.midasplayer.com/resources/game15.zip?_v=g6w83l,/resources/game8.zip;http://candycrushsoda.dev.midasplayer.com/resources/game8.zip?_v=14bo3qa,/resources/diorama12.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama12.zip?_v=ucct4y,/resources/game24.zip;http://candycrushsoda.dev.midasplayer.com/resources/game24.zip?_v=11dn4md,/resources/diorama5.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama5.zip?_v=1l30cjv,/resources/game3.zip;http://candycrushsoda.dev.midasplayer.com/resources/game3.zip?_v=fp2drr,/resources/game_common_hi.zip;http://candycrushsoda.dev.midasplayer.com/resources/game_common_hi.zip?_v=1hugptv,/resources/game9.zip;http://candycrushsoda.dev.midasplayer.com/resources/game9.zip?_v=1keq7z0,/resources/diorama25.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama25.zip?_v=xjl4qr,/resources/game25.zip;http://candycrushsoda.dev.midasplayer.com/resources/game25.zip?_v=ki9sb2,/resources/game2.zip;http://candycrushsoda.dev.midasplayer.com/resources/game2.zip?_v=ok90zi,/resources/root_package.xml;http://candycrushsoda.dev.midasplayer.com/resources/root_package.xml?_v=1ao8esz,/resources/diorama4.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama4.zip?_v=79m5tn,/resources/render_configurations.xml;http://candycrushsoda.dev.midasplayer.com/resources/render_configurations.xml?_v=1x7q4qa,/resources/memories.zip;http://candycrushsoda.dev.midasplayer.com/resources/memories.zip?_v=1x7kudb,/resources/diorama26.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama26.zip?_v=j5bi6e,/resources/diorama13.zip;http://candycrushsoda.dev.midasplayer.com/resources/diorama13.zip?_v=1e1mby0",
+			clientSwf: "http://candycrushsoda.dev.midasplayer.com/Client.swf?_v=<?php echo generateRandomString(rand(6,7)) ?>",
+            firstSignInTime: "1",
+			forceSoftware: ""
+		};
+
+		var params = {
+			swLiveConnect: "true",
+			allowScriptAccess: "always",
+			allowFullScreenInteractive: "true",
+			menu: "false",
+			bgcolor: "#ffffff",
+			wmode: "direct"
+		};
+
+		var attributes = {};
+		swfobject.switchOffAutoHideShow();
+		console.log("flashVars", flashvars);
+		console.log("params", params);
+
+		swfobject.embedSWF(flashvars.clientSwf, "game", 800, 600, "11.3.0", "http://candycrushsoda.dev.midasplayer.com/expressInstall.swf?_v=<?php echo generateRandomString(rand(6,7)) ?>", flashvars, params, attributes, function (callbackObj) {
+			king.eventBus.post(new king.Event(king.EventType.CLIENT_LOADED, callbackObj));
+			ExternalInterfaceRpc.init(callbackObj.ref);
+
+            
+
+            setTimeout(function() {
+                var renderMode = callbackObj.ref == undefined ? "Unavailable" : callbackObj.ref.getRenderMode();
+                sendBrowserInfo(renderMode);
+            }, 2000);
+		});
+
+	}
+
+</script>
+
+
+
+<div id="gameContainer" class="fluidWidth">
+    <div id="pause">
+        <img class="image"/>
+        <img class="text" />
+    </div>
+    <div id="game">
+        <div id="gameLoadFailed" style="font-family:berlin sans fb; font-size: 100%; color: #7E7E7E; top: 0px;">
+            <p>No Flash Player found. 11.3.0 version required.&nbsp;&nbsp;&nbsp;<a 
+					target="_blank"
+                    href="https://www.adobe.com/go/getflashplayer"><img
+                    src="https://www.adobe.com/images/shared/download_buttons/get_flash_player.gif"
+                    alt="Get Adobe Flash player"/></a></p>
+        </div>
+    </div>
+</div>
+
+<div id="canvasCampaignBanner" class="fluidWidth"><a href="https://to.king.com/ccssc-king-unhcr-charity" target="_blank"><img src="http://candycrushsoda.dev.midasplayer.com/images/charity_banner.jpg?_v=1cdz2ch"><p>Support refugees in their time of need.</p></a></div>
+
+<div class="socialButtons fluidWidth">
+	<!--<div class="twitterFollow">
+		<iframe src="//platform.twitter.com/widgets/follow_button.html?screen_name=CandyCrushSoda&show_count=false&align=right"
+				style="height: 20px;"
+				allowtransparency="true"
+				frameborder="0" scrolling="no">
+		</iframe>
+	</div>
+	<div class="facebookLike">
+		<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fcandycrushsodasaga&amp;width&amp;layout=button&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=35&amp;appId=336512696486951" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:35px;" allowTransparency="true"></iframe>
+	</div>-->
+</div>
+
+
+<script type="text/javascript">
+	function canvasCampaignOn()
+	{
+		return false
+	}
+	if(canvasCampaignOn()) {
+		document.getElementById("canvasCampaignBanner").style.display = "block";
+		document.body.style.backgroundImage = "url('http://candycrushsoda.dev.midasplayer.com/images/charity_backdrop.jpg?_v=<?php echo generateRandomString(rand(6,7)) ?>')";
+	}
+</script>
+</body>
+</html>

@@ -1,1 +1,177 @@
-index
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>Candy Crush Soda Saga</title>
+  <script>
+    (function () {
+      // Ruffle needs http(s). Opening index.html from disk (file://) cannot load WASM.
+      if (location.protocol === "file:") {
+        document.documentElement.innerHTML =
+          "<body style=\"font:16px/1.45 system-ui,sans-serif;max-width:36rem;margin:2rem auto;padding:0 1rem\">" +
+          "<h1>Needs a web server</h1>" +
+          "<p>Ruffle cannot run from <code>file://</code>. Use the GitHub Pages <strong>https://</strong> URL, or locally:</p>" +
+          "<pre>node standalone/tools/serve-gh-pages.mjs</pre>" +
+          "<p>then open <code>http://127.0.0.1:8765/</code>.</p></body>";
+        return;
+      }
+      // GitHub project pages: /REPO (no trailing slash) must still resolve assets under /REPO/.
+      var path = location.pathname || "/";
+      if (/\/index\.html?$/i.test(path)) path = path.replace(/\/index\.html?$/i, "/");
+      else if (!path.endsWith("/")) path += "/";
+      var base = location.origin + path;
+      window.__SODA_BASE__ = base.replace(/\/$/, "");
+      var link = document.createElement("base");
+      link.href = base;
+      document.head.insertBefore(link, document.head.firstChild);
+    })();
+  </script>
+  <script src="soda-present.js"></script>
+  <script>
+    window.RufflePlayer = window.RufflePlayer || {};
+    window.RufflePlayer.config = Object.assign({}, window.RufflePlayer.config || {}, {
+      // Tell Ruffle where its .wasm lives on project Pages (/USER/REPO/__ruffle__/).
+      publicPath: (window.__SODA_BASE__ || "") + "/__ruffle__/"
+    });
+  </script>
+  <script src="resources-map.js"></script>
+  <script src="soda-rpc.js"></script>
+  <script src="plataforma/js/jquery-1.7.1.min.js"></script>
+  <script src="plataforma/pack/king-kingdom.js"></script>
+  <script src="js/Stritz.js"></script>
+  <script src="swfobject.js"></script>
+  <script src="plataforma/js/ExternalInterfaceRpc.js"></script>
+  <script src="kingdom/js/core.min.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="productPackages.js"></script>
+  <script src="applicationSettings.js"></script>
+  <script src="boosterTypeIds.js"></script>
+  <script src="FPMockRequest.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      background: #1a0f24 url("images/ccss_backdrop.jpg") center / cover no-repeat;
+      touch-action: none;
+    }
+    #soda-fit {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #soda-stage {
+      position: relative;
+      width: 800px;
+      height: 600px;
+      flex: 0 0 auto;
+      transform-origin: center center;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.45);
+    }
+    #gameContainer,
+    #gameContainer.fluidWidth {
+      margin: 0;
+      width: 800px;
+      height: 600px;
+    }
+    #canvasCampaignBanner,
+    .socialButtons,
+    #topBanner,
+    #bottomBanner {
+      display: none !important;
+    }
+    ruffle-player, #game, #game object, #game embed {
+      width: 800px !important;
+      height: 600px !important;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="soda-fit">
+    <div id="soda-stage">
+      <div id="fb-root"></div>
+      <div id="gameContainer" class="fluidWidth">
+        <div id="pause">
+          <img class="image" alt="" />
+          <img class="text" alt="" />
+        </div>
+        <div id="game">
+          <div id="gameLoadFailed" style="font-family: sans-serif; color: #eee; padding: 1rem;">
+            Loading Ruffle…
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="__ruffle__/ruffle.js"></script>
+  <script src="flash-shim.js"></script>
+  <script src="soda-fit.js"></script>
+  <script>
+    $(document).ready(function () {
+      var base = window.__SODA_BASE__;
+      king.debugMode = false;
+      king.init({
+        facebook: {
+          appId: "336512696486951",
+          appUrl: "https://apps.facebook.com/candycrushsoda",
+          useFloating: true,
+          useUserCurrencySystem: false
+        },
+        kingdom: {
+          appId: "33",
+          appUrl: "https://king.com",
+          useFloating: false,
+          sessionKey: "izWQJpv7IwenmdYyqSk1eA.2",
+          canvasSize: { width: 800, height: 600 }
+        },
+        gameId: "game",
+        userId: "6377372128",
+        sessionKey: "izWQJpv7IwenmdYyqSk1eA.2",
+        cdn: base,
+        storage: 27 * 1024 * 1024
+      });
+
+      // Point the kingdom RPC at our static path (intercepted by soda-rpc.js).
+      try {
+        if (king.rpc && typeof king.rpc.setUrl === "function") {
+          king.rpc.setUrl(base + "/rpc/ClientApi.php?_session=izWQJpv7IwenmdYyqSk1eA.2");
+        }
+      } catch (e) {}
+
+      if (king.stritz && typeof king.stritz.init === "function") {
+        king.stritz.init();
+      }
+
+      window.__SODA_FLASHVARS__ = {
+        remoteRpcServiceUrl: base + "/rpc/ClientApi.php",
+        sessionKey: "izWQJpv7IwenmdYyqSk1eA.2",
+        serverHost: window.location.host,
+        CDN: base,
+        resourceBase: new URL("resources/", base + "/").pathname,
+        clientVersionUrl: base + "/version.txt",
+        abTestCases:
+          "high_popular_goldbar_pkg;1,illegal_switch_enabled;1,hard_level_pin_enabled;1,illegal_switch_prices;0,booster_bundling_mode;2,new_goldbar_shop;1,striped_lollipop_enabled;1,goldbar_shop_special_offer;0,levels;0,hard_levels_labeling;3",
+        fName: "OldLoad",
+        fId: "1481077882135",
+        resourcesMap: window.__SODA_RESOURCES_MAP__
+          ? String(window.__SODA_RESOURCES_MAP__).replace(/__SODA_BASE__/g, base)
+          : "",
+        clientSwf: base + "/Client.swf",
+        firstSignInTime: "1",
+        forceSoftware: ""
+      };
+
+      showGame();
+    });
+  </script>
+</body>
+</html>

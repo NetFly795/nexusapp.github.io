@@ -1,0 +1,1974 @@
+window.productPackages = [
+  {
+    "type": 33451,
+    "products": [
+      {
+        "itemType": 12702,
+        "prices": [
+          {
+            "cents": 3900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 3900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"items\":[{\"itemType\":{\"id\":12702,\"name\":\"StritzPremiumMysteryBox1\",\"shortName\":\"StritzPremiumMysteryBox1\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 3900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 3900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33110,
+    "products": [
+      {
+        "itemType": 12261,
+        "prices": [
+          {
+            "cents": 1500,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 1500,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 1500,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 1500,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33117,
+    "products": [
+      {
+        "itemType": 12268,
+        "prices": [
+          {
+            "cents": 4400,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 4400,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12501,\"name\":\"StritzStripedCandy\",\"shortName\":\"StritzStripedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12505,\"name\":\"StritzFishCandy\",\"shortName\":\"StritzFishCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":2}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 4400,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 4400,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33030,
+    "products": [
+      {
+        "itemType": 12001,
+        "prices": [
+          {
+            "cents": 900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"lives\":5,\"transientItemType\":{\"id\":12001,\"name\":\"StritzFullLife\",\"shortName\":\"StritzFullLife\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"}}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33404,
+    "products": [
+      {
+        "itemType": 12604,
+        "prices": [
+          {
+            "cents": 500,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 500,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"paidDays\":5}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 500,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 500,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33106,
+    "products": [
+      {
+        "itemType": 12257,
+        "prices": [
+          {
+            "cents": 3800,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 3800,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12043,\"name\":\"StritzExtraMoves50\",\"shortName\":\"StritzExtraMoves50\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12503,\"name\":\"StritzColorBombCandy\",\"shortName\":\"StritzColorBombCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12501,\"name\":\"StritzStripedCandy\",\"shortName\":\"StritzStripedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12502,\"name\":\"StritzWrappedCandy\",\"shortName\":\"StritzWrappedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12505,\"name\":\"StritzFishCandy\",\"shortName\":\"StritzFishCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":3}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 3800,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 3800,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33407,
+    "products": [
+      {
+        "itemType": 12607,
+        "prices": [
+          {
+            "cents": 800,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 800,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"paidDays\":8}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 800,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 800,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33021,
+    "products": [
+      {
+        "itemType": 12021,
+        "prices": [
+          {
+            "cents": 1900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 1900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"booster\":{\"id\":12021,\"name\":\"StritzColoringCandyPregameBooster\",\"shortName\":\"StritzColoringCandyPregameBooster\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":3}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 1900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 1900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33102,
+    "products": [
+      {
+        "itemType": 12253,
+        "prices": [
+          {
+            "cents": 2300,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 2300,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12040,\"name\":\"StritzExtraMoves\",\"shortName\":\"StritzExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12501,\"name\":\"StritzStripedCandy\",\"shortName\":\"StritzStripedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12504,\"name\":\"StritzColoringCandy\",\"shortName\":\"StritzColoringCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 2300,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 2300,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33114,
+    "products": [
+      {
+        "itemType": 12265,
+        "prices": [
+          {
+            "cents": 2900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 2900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12501,\"name\":\"StritzStripedCandy\",\"shortName\":\"StritzStripedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12504,\"name\":\"StritzColoringCandy\",\"shortName\":\"StritzColoringCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 2900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 2900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33103,
+    "products": [
+      {
+        "itemType": 12254,
+        "prices": [
+          {
+            "cents": 2800,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 2800,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12040,\"name\":\"StritzExtraMoves\",\"shortName\":\"StritzExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12503,\"name\":\"StritzColorBombCandy\",\"shortName\":\"StritzColorBombCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12505,\"name\":\"StritzFishCandy\",\"shortName\":\"StritzFishCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 2800,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 2800,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33100,
+    "products": [
+      {
+        "itemType": 12251,
+        "prices": [
+          {
+            "cents": 1200,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 1200,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12040,\"name\":\"StritzExtraMoves\",\"shortName\":\"StritzExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12501,\"name\":\"StritzStripedCandy\",\"shortName\":\"StritzStripedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 1200,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 1200,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33401,
+    "products": [
+      {
+        "itemType": 12601,
+        "prices": [
+          {
+            "cents": 200,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 200,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"paidDays\":2}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 200,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 200,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33000,
+    "products": [
+      {
+        "itemType": 12007,
+        "prices": [
+          {
+            "cents": 1900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 1900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"booster\":{\"id\":12002,\"name\":\"StritzLollipopHammer\",\"shortName\":\"StritzLollipopHammer\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":3}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 1900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 1900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33010,
+    "products": [
+      {
+        "itemType": 12014,
+        "prices": [
+          {
+            "cents": 1400,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 1400,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"booster\":{\"id\":12005,\"name\":\"StritzIllegalSwitch\",\"shortName\":\"StritzIllegalSwitch\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":1}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 1400,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 1400,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33007,
+    "products": [
+      {
+        "itemType": 12010,
+        "prices": [
+          {
+            "cents": 1900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 1900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"booster\":{\"id\":12003,\"name\":\"StritzStripedLollipopHammer\",\"shortName\":\"StritzStripedLollipopHammer\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":1}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 1900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 1900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33113,
+    "products": [
+      {
+        "itemType": 12264,
+        "prices": [
+          {
+            "cents": 2900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 2900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"items\":[{\"itemType\":{\"id\":12002,\"name\":\"StritzLollipopHammer\",\"shortName\":\"StritzLollipopHammer\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":1}],\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12502,\"name\":\"StritzWrappedCandy\",\"shortName\":\"StritzWrappedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 2900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 2900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33111,
+    "products": [
+      {
+        "itemType": 12262,
+        "prices": [
+          {
+            "cents": 1200,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 1200,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 1200,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 1200,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33104,
+    "products": [
+      {
+        "itemType": 12255,
+        "prices": [
+          {
+            "cents": 3300,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 3300,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12040,\"name\":\"StritzExtraMoves\",\"shortName\":\"StritzExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12501,\"name\":\"StritzStripedCandy\",\"shortName\":\"StritzStripedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12502,\"name\":\"StritzWrappedCandy\",\"shortName\":\"StritzWrappedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12504,\"name\":\"StritzColoringCandy\",\"shortName\":\"StritzColoringCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 3300,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 3300,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33121,
+    "products": [
+      {
+        "itemType": 12272,
+        "prices": [
+          {
+            "cents": 600,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 600,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 600,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 600,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33041,
+    "products": [
+      {
+        "itemType": 12041,
+        "prices": [
+          {
+            "cents": 600,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 600,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12041,\"name\":\"StritzExtraMovesDiscount\",\"shortName\":\"StritzExtraMovesDiscount\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 600,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 600,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33004,
+    "products": [
+      {
+        "itemType": 12006,
+        "prices": [
+          {
+            "cents": 900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"booster\":{\"id\":12002,\"name\":\"StritzLollipopHammer\",\"shortName\":\"StritzLollipopHammer\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":1}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33040,
+    "products": [
+      {
+        "itemType": 12040,
+        "prices": [
+          {
+            "cents": 900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12040,\"name\":\"StritzExtraMoves\",\"shortName\":\"StritzExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33126,
+    "products": [
+      {
+        "itemType": 12277,
+        "prices": [
+          {
+            "cents": 3300,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 3300,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12501,\"name\":\"StritzStripedCandy\",\"shortName\":\"StritzStripedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12502,\"name\":\"StritzWrappedCandy\",\"shortName\":\"StritzWrappedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12504,\"name\":\"StritzColoringCandy\",\"shortName\":\"StritzColoringCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 3300,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 3300,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33406,
+    "products": [
+      {
+        "itemType": 12606,
+        "prices": [
+          {
+            "cents": 700,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 700,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"paidDays\":7}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 700,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 700,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33101,
+    "products": [
+      {
+        "itemType": 12252,
+        "prices": [
+          {
+            "cents": 2300,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 2300,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"items\":[{\"itemType\":{\"id\":12002,\"name\":\"StritzLollipopHammer\",\"shortName\":\"StritzLollipopHammer\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":1}],\"transients\":[{\"itemType\":{\"id\":12040,\"name\":\"StritzExtraMoves\",\"shortName\":\"StritzExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12502,\"name\":\"StritzWrappedCandy\",\"shortName\":\"StritzWrappedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 2300,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 2300,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33128,
+    "products": [
+      {
+        "itemType": 12279,
+        "prices": [
+          {
+            "cents": 3800,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 3800,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12503,\"name\":\"StritzColorBombCandy\",\"shortName\":\"StritzColorBombCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12501,\"name\":\"StritzStripedCandy\",\"shortName\":\"StritzStripedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12502,\"name\":\"StritzWrappedCandy\",\"shortName\":\"StritzWrappedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12505,\"name\":\"StritzFishCandy\",\"shortName\":\"StritzFishCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":3}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 3800,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 3800,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33127,
+    "products": [
+      {
+        "itemType": 12278,
+        "prices": [
+          {
+            "cents": 3800,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 3800,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12501,\"name\":\"StritzStripedCandy\",\"shortName\":\"StritzStripedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12505,\"name\":\"StritzFishCandy\",\"shortName\":\"StritzFishCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":2}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 3800,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 3800,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33124,
+    "products": [
+      {
+        "itemType": 12275,
+        "prices": [
+          {
+            "cents": 2300,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 2300,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12501,\"name\":\"StritzStripedCandy\",\"shortName\":\"StritzStripedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12504,\"name\":\"StritzColoringCandy\",\"shortName\":\"StritzColoringCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 2300,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 2300,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33402,
+    "products": [
+      {
+        "itemType": 12602,
+        "prices": [
+          {
+            "cents": 300,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 300,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"paidDays\":3}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 300,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 300,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33116,
+    "products": [
+      {
+        "itemType": 12267,
+        "prices": [
+          {
+            "cents": 3900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 3900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12501,\"name\":\"StritzStripedCandy\",\"shortName\":\"StritzStripedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12502,\"name\":\"StritzWrappedCandy\",\"shortName\":\"StritzWrappedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12504,\"name\":\"StritzColoringCandy\",\"shortName\":\"StritzColoringCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 3900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 3900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33408,
+    "products": [
+      {
+        "itemType": 12608,
+        "prices": [
+          {
+            "cents": 900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"paidDays\":2147483647}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33022,
+    "products": [
+      {
+        "itemType": 12022,
+        "prices": [
+          {
+            "cents": 1900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 1900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"booster\":{\"id\":12022,\"name\":\"StritzDoubleDelishFishPregameBooster\",\"shortName\":\"StritzDoubleDelishFishPregameBooster\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":3}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 1900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 1900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33112,
+    "products": [
+      {
+        "itemType": 12263,
+        "prices": [
+          {
+            "cents": 1800,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 1800,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12501,\"name\":\"StritzStripedCandy\",\"shortName\":\"StritzStripedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 1800,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 1800,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33020,
+    "products": [
+      {
+        "itemType": 12020,
+        "prices": [
+          {
+            "cents": 1900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 1900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"booster\":{\"id\":12020,\"name\":\"StritzColorbombPregameBooster\",\"shortName\":\"StritzColorbombPregameBooster\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":3}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 1900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 1900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33302,
+    "products": [
+      {
+        "itemType": 12007,
+        "prices": [
+          {
+            "cents": 0,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 1900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 0,
+        "deliverData": "{\"booster\":{\"id\":12002,\"name\":\"StritzLollipopHammer\",\"shortName\":\"StritzLollipopHammer\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":3}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 0,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 1900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33405,
+    "products": [
+      {
+        "itemType": 12605,
+        "prices": [
+          {
+            "cents": 600,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 600,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"paidDays\":6}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 600,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 600,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33005,
+    "products": [
+      {
+        "itemType": 12008,
+        "prices": [
+          {
+            "cents": 4900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 4900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"booster\":{\"id\":12002,\"name\":\"StritzLollipopHammer\",\"shortName\":\"StritzLollipopHammer\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":9}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 4900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 4900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33001,
+    "products": [
+      {
+        "itemType": 12011,
+        "prices": [
+          {
+            "cents": 3900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 3900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"booster\":{\"id\":12003,\"name\":\"StritzStripedLollipopHammer\",\"shortName\":\"StritzStripedLollipopHammer\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":3}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 3900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 3900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33012,
+    "products": [
+      {
+        "itemType": 12017,
+        "prices": [
+          {
+            "cents": 12900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 12900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"booster\":{\"id\":12005,\"name\":\"StritzIllegalSwitch\",\"shortName\":\"StritzIllegalSwitch\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":18}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 12900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 12900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33008,
+    "products": [
+      {
+        "itemType": 12012,
+        "prices": [
+          {
+            "cents": 9900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 9900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"booster\":{\"id\":12003,\"name\":\"StritzStripedLollipopHammer\",\"shortName\":\"StritzStripedLollipopHammer\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":9}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 9900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 9900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33301,
+    "products": [
+      {
+        "itemType": 12011,
+        "prices": [
+          {
+            "cents": 0,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 3900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 0,
+        "deliverData": "{\"booster\":{\"id\":12003,\"name\":\"StritzStripedLollipopHammer\",\"shortName\":\"StritzStripedLollipopHammer\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":3}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 0,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 3900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33105,
+    "products": [
+      {
+        "itemType": 12256,
+        "prices": [
+          {
+            "cents": 3800,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 3800,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12042,\"name\":\"StritzExtraMoves15\",\"shortName\":\"StritzExtraMoves15\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12501,\"name\":\"StritzStripedCandy\",\"shortName\":\"StritzStripedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12505,\"name\":\"StritzFishCandy\",\"shortName\":\"StritzFishCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":2}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 3800,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 3800,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33099,
+    "products": [
+      {
+        "itemType": 12250,
+        "prices": [
+          {
+            "cents": 700,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 700,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12040,\"name\":\"StritzExtraMoves\",\"shortName\":\"StritzExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 700,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 700,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33091,
+    "products": [
+      {
+        "itemType": 12201,
+        "prices": [
+          {
+            "cents": 600,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 600,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"numberOfSlots\":2,\"collaborationContainerId\":-1,\"transientItemType\":{\"id\":12201,\"name\":\"StritzCollaborationSlotTwoFriends\",\"shortName\":\"StritzCollaborationSlotTwoFriends\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"}}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 600,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 600,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33115,
+    "products": [
+      {
+        "itemType": 12266,
+        "prices": [
+          {
+            "cents": 3400,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 3400,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12503,\"name\":\"StritzColorBombCandy\",\"shortName\":\"StritzColorBombCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12505,\"name\":\"StritzFishCandy\",\"shortName\":\"StritzFishCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 3400,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 3400,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33123,
+    "products": [
+      {
+        "itemType": 12274,
+        "prices": [
+          {
+            "cents": 2300,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 2300,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"items\":[{\"itemType\":{\"id\":12002,\"name\":\"StritzLollipopHammer\",\"shortName\":\"StritzLollipopHammer\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":1}],\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12502,\"name\":\"StritzWrappedCandy\",\"shortName\":\"StritzWrappedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 2300,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 2300,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33092,
+    "products": [
+      {
+        "itemType": 12202,
+        "prices": [
+          {
+            "cents": 900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"numberOfSlots\":3,\"collaborationContainerId\":-1,\"transientItemType\":{\"id\":12202,\"name\":\"StritzCollaborationSlotThreeFriends\",\"shortName\":\"StritzCollaborationSlotThreeFriends\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"}}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33118,
+    "products": [
+      {
+        "itemType": 12269,
+        "prices": [
+          {
+            "cents": 4400,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 4400,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12503,\"name\":\"StritzColorBombCandy\",\"shortName\":\"StritzColorBombCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12501,\"name\":\"StritzStripedCandy\",\"shortName\":\"StritzStripedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12502,\"name\":\"StritzWrappedCandy\",\"shortName\":\"StritzWrappedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12505,\"name\":\"StritzFishCandy\",\"shortName\":\"StritzFishCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":3}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 4400,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 4400,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33120,
+    "products": [
+      {
+        "itemType": 12271,
+        "prices": [
+          {
+            "cents": 900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33122,
+    "products": [
+      {
+        "itemType": 12273,
+        "prices": [
+          {
+            "cents": 1200,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 1200,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12501,\"name\":\"StritzStripedCandy\",\"shortName\":\"StritzStripedCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 1200,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 1200,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33090,
+    "products": [
+      {
+        "itemType": 12200,
+        "prices": [
+          {
+            "cents": 300,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 300,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"numberOfSlots\":1,\"collaborationContainerId\":-1,\"transientItemType\":{\"id\":12200,\"name\":\"StritzCollaborationSlotOneFriend\",\"shortName\":\"StritzCollaborationSlotOneFriend\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"}}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 300,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 300,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33006,
+    "products": [
+      {
+        "itemType": 12009,
+        "prices": [
+          {
+            "cents": 8900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 8900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"booster\":{\"id\":12002,\"name\":\"StritzLollipopHammer\",\"shortName\":\"StritzLollipopHammer\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":18}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 8900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 8900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33009,
+    "products": [
+      {
+        "itemType": 12013,
+        "prices": [
+          {
+            "cents": 17900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 17900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"booster\":{\"id\":12003,\"name\":\"StritzStripedLollipopHammer\",\"shortName\":\"StritzStripedLollipopHammer\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":18}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 17900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 17900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33403,
+    "products": [
+      {
+        "itemType": 12603,
+        "prices": [
+          {
+            "cents": 400,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 400,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"paidDays\":4}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 400,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 400,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33003,
+    "products": [
+      {
+        "itemType": 12015,
+        "prices": [
+          {
+            "cents": 2900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 2900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"booster\":{\"id\":12005,\"name\":\"StritzIllegalSwitch\",\"shortName\":\"StritzIllegalSwitch\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":3}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 2900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 2900,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33125,
+    "products": [
+      {
+        "itemType": 12276,
+        "prices": [
+          {
+            "cents": 2800,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 2800,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"transients\":[{\"itemType\":{\"id\":12550,\"name\":\"StritzPersistentExtraMoves\",\"shortName\":\"StritzPersistentExtraMoves\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12503,\"name\":\"StritzColorBombCandy\",\"shortName\":\"StritzColorBombCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1},{\"itemType\":{\"id\":12505,\"name\":\"StritzFishCandy\",\"shortName\":\"StritzFishCandy\",\"description\":\"\",\"category\":\"none\",\"itemTypeFamily\":\"None\"},\"amount\":1}]}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 2800,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 2800,
+        "currency": "KHC"
+      }
+    ]
+  },
+  {
+    "type": 33011,
+    "products": [
+      {
+        "itemType": 12016,
+        "prices": [
+          {
+            "cents": 7900,
+            "currency": "KHC"
+          }
+        ],
+        "listPrices": [
+          {
+            "cents": 7900,
+            "currency": "KHC"
+          }
+        ],
+        "discountFactorPercent": 100,
+        "deliverData": "{\"booster\":{\"id\":12005,\"name\":\"StritzIllegalSwitch\",\"shortName\":\"StritzIllegalSwitch\",\"description\":\"\",\"category\":\"stritzBooster\",\"itemTypeFamily\":\"None\"},\"amount\":9}"
+      }
+    ],
+    "prices": [
+      {
+        "cents": 7900,
+        "currency": "KHC"
+      }
+    ],
+    "listPrices": [
+      {
+        "cents": 7900,
+        "currency": "KHC"
+      }
+    ]
+  }
+]
